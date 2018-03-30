@@ -2868,6 +2868,15 @@
         <name>$PROJ_DIR$\..\snmpConnect_manager.h</name>
       </file>
     </group>
+    <group>
+      <name>task</name>
+      <file>
+        <name>$PROJ_DIR$\..\user_task.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\user_task.h</name>
+      </file>
+    </group>
     <file>
       <name>$PROJ_DIR$\..\tcp stack\common\debug.c</name>
     </file>
