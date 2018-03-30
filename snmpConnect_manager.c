@@ -38,7 +38,7 @@ void snmpConnectManagerTask (void *param)
     bool pingRequested = false;
     char ipaddrStr[24];
     
-    ipStringToAddr(sMenu_Variable.ucSIP, &ipaddr); 
+    ipStringToAddr((const char*)sMenu_Variable.ucSIP, &ipaddr); 
     for (;;)  {
         if (snmpConnectManager.pingTick > PING_SEND_PERIOD)
         {

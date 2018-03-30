@@ -2475,7 +2475,16 @@
   <group>
     <name>sources</name>
     <group>
-      <name>external drivers</name>
+      <name>AccessControl</name>
+      <file>
+        <name>$PROJ_DIR$\..\access_control.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\access_control.h</name>
+      </file>
+    </group>
+    <group>
+      <name>ExternalDrivers</name>
       <file>
         <name>$PROJ_DIR$\..\eeprom_rtc.c</name>
       </file>

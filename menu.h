@@ -138,9 +138,6 @@ void Display_Setting_Confirm(void);
 void Display_User_ID_Setting(void);
 void Display_AirCon_Setting(void);
 
-void Save_User_ID (uint16_t EEPROM_Addr, uint8_t* UserID);
-void Delete_User_ID (uint16_t EEPROM_Addr, uint8_t* UserID);
-
 void Ajust_Variable_Value (uint8_t inc_dec, uint16_t* mVariable, uint8_t	variableIndex);
 void Write_Default_All_Variable (void);
 void Init_All_Variable (void);
