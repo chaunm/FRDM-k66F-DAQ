@@ -161,7 +161,7 @@
 //SW TIMER user-defined
 #define USERDEF_SW_TIMER ENABLED
 //ADC Task user-defined
-#define USERDEF_ADC_TASK DISABLED
+#define USERDEF_ADC_TASK ENABLED
 //USER INTERFACE user-defined
 #define USERDEF_USER_INTERFACE ENABLED
 //IO INTERFACE user-defined

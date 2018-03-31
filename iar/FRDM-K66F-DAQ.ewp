@@ -2505,6 +2505,18 @@
       </file>
     </group>
     <group>
+      <name>initialization</name>
+      <file>
+        <name>$PROJ_DIR$\..\adc_config.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\app_init.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\app_init.h</name>
+      </file>
+    </group>
+    <group>
       <name>menu</name>
       <file>
         <name>$PROJ_DIR$\..\menu.c</name>
@@ -2544,6 +2556,12 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\private_mib_module.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\snmp_client.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\snmp_client.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\snmpConnect_manager.c</name>

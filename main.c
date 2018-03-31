@@ -26,6 +26,7 @@
 #include "fsl_debug_console.h"
 #include "variables.h"
 #include "user_task.h"
+#include "app_init.h"
 
 #if (USERDEF_CLIENT_FTP == ENABLED)
 #include "ftp/ftp_client.h"
@@ -42,10 +43,6 @@
 #include "oid.h"
 #include "private_mib_module.h"
 #include "private_mib_impl.h"
-#endif
-
-#if (USERDEF_ADC_TASK == ENABLED)
-#include "fsl_adc16.h"
 #endif
 
 #if (USERDEF_USER_INTERFACE == ENABLED)
@@ -96,37 +93,6 @@
 #define APP_SNMP_ENTERPRISE_OID "1.3.6.1.4.1.45796.1.16"//"1.3.6.1.4.1.8072.9999.9998"//
 #define APP_SNMP_CONTEXT_ENGINE "\x80\x00\x00\x00\x01\x02\x03\x04"
 #define APP_SNMP_TRAP_DEST_IP_ADDR "192.168.100.25"//"117.6.55.97"//
-#endif
-
-#if (USERDEF_ADC_TASK == ENABLED)
-#define BOARD_ADC16_0_BASE ADC0
-#define BOARD_ADC16_0_CHANNEL_GROUP 0U
-#define BOARD_ADC16_1_BASE ADC1
-#define BOARD_ADC16_1_CHANNEL_GROUP 0U
-
-#define BOARD_ADC16_0_USER_CHANNEL1 22U
-#define BOARD_ADC16_0_USER_CHANNEL2 21U
-#define BOARD_ADC16_0_USER_CHANNEL3 23U
-#define BOARD_ADC16_1_USER_CHANNEL1 18U
-#define BOARD_ADC16_1_USER_CHANNEL2 23U
-#endif
-
-#if (USERDEF_SW_TIMER == ENABLED)
-/* The software timer period. */
-#define SW_TIMER_PERIOD_MS (1000 / portTICK_PERIOD_MS)
-#endif
-
-//Global variables
-
-
-#if (USERDEF_ADC_TASK == ENABLED)
-adc16_config_t adc16ConfigStruct;
-adc16_channel_config_t adc16ChannelConfigStruct;
-uint32_t adcValue[10];
-#endif
-
-#if (USERDEF_SW_TIMER == ENABLED)
-TimerHandle_t SwTimerHandle = NULL;
 #endif
 
 #if (APP_USE_DHCP == ENABLED)
@@ -207,15 +173,7 @@ int_t main(void)
 #if (USERDEF_CLIENT_SNMP == ENABLED)
     size_t oidLen;
     uint8_t oid[SNMP_MAX_OID_SIZE];
-#endif
-    /* Define the init structure */
-    gpio_pin_config_t out_config = {
-        kGPIO_DigitalOutput, 0,
-    };
-    gpio_pin_config_t in_config = {
-        kGPIO_DigitalInput, 0,
-    };
-    
+#endif    
     BOARD_BootClockHSRUN();
     //Update system core clock
     //   SystemCoreClockUpdate();
@@ -236,66 +194,17 @@ int_t main(void)
     BOARD_InitDebugConsole();
 #endif
 #endif
-    LED_STATUS_INIT(1);
-    LED_RUN_INIT(1);
-    LED_CON_GPRS_INIT(1);
-    LED_CON_ETH_INIT(1);
-    LED_ALARM_INIT(1);
-    
-    IO_MUX_S1_INIT(0);
-    IO_MUX_S2_INIT(0);
-    IO_MUX_S3_INIT(0);
-    IO_MUX_S0_INIT(0);
-    
-    IO_WAITMCU_1_INIT(0);
-    IO_WAITMCU_2_INIT(0);
-    IO_WAITMCU_3_INIT(0);
-    IO_WAITMCU_4_INIT(0);
-    IO_WAITMCU_5_INIT(0);
-    IO_OPENDOOR_MCU_INIT(0);
-    IO_ALARM_LIGHT_INIT(0);
-    IO_ALARM_SPEAKER_INIT(0);
-    
+    AppLedInit();
+    AppIoInit();
 #if (USERDEF_GPRS == ENABLED)
     gprs_init();
 #endif
     
-#if (USERDEF_USER_INTERFACE == ENABLED)
-    
-    /* Init output */
-    //GLCD
-    GPIO_PinInit(GPIOC, 4u, &out_config);
-    GPIO_PinInit(LCD_BL_PORT, LCD_BL_PIN, &out_config);
-    GPIO_PinInit(LCD_RES_PORT, LCD_RES_PIN, &out_config);
-    GPIO_PinInit(LCD_A0_PORT, LCD_A0_PIN, &out_config);
-    GPIO_PinInit(LCD_CS_PORT, LCD_CS_PIN, &out_config);
-    GPIO_PinInit(LCD_RD_PORT, LCD_RD_PIN, &out_config);
-    GPIO_PinInit(LCD_WR_PORT, LCD_WR_PIN, &out_config);
-    GPIO_PinInit(LCD_DB0_PORT, LCD_DB0_PIN, &out_config);
-    GPIO_PinInit(LCD_DB1_PORT, LCD_DB1_PIN, &out_config);
-    GPIO_PinInit(LCD_DB2_PORT, LCD_DB2_PIN, &out_config);
-    GPIO_PinInit(LCD_DB3_PORT, LCD_DB3_PIN, &out_config);
-    GPIO_PinInit(LCD_DB4_PORT, LCD_DB4_PIN, &out_config);
-    GPIO_PinInit(LCD_DB5_PORT, LCD_DB5_PIN, &out_config);
-    GPIO_PinInit(LCD_DB6_PORT, LCD_DB6_PIN, &out_config);
-    GPIO_PinInit(LCD_DB7_PORT, LCD_DB7_PIN, &out_config);
-    //EEPROM-RTC
-    GPIO_PinInit(SDA_PORT, SDA_PIN, &out_config);
-    GPIO_PinInit(SCL_PORT, SCL_PIN, &out_config);
-    /* Init input */
-    //KEY BOARD
-    GPIO_PinInit(KEY_1_PORT, KEY_1_PIN, &in_config);
-    GPIO_PinInit(KEY_2_PORT, KEY_2_PIN, &in_config);
-    GPIO_PinInit(KEY_3_PORT, KEY_3_PIN, &in_config);
-    GPIO_PinInit(KEY_4_PORT, KEY_4_PIN, &in_config);
-    Init_I2CE();
-    Init_All_Variable();
-    Init_RS485_UART();
-#endif
-    
+#if (USERDEF_USER_INTERFACE == ENABLED)  
+    AppInitUserInterface();
+#endif  
     //Initialize kernel
     osInitKernel();
-    
     //Start-up message
     TRACE_INFO("\r\n");
     TRACE_INFO("**********************************\r\n");
@@ -304,54 +213,7 @@ int_t main(void)
     TRACE_INFO("\r\n");
     //ADC initialization
 #if (USERDEF_ADC_TASK == ENABLED)
-    /*
-    * adc16ConfigStruct.referenceVoltageSource = kADC16_ReferenceVoltageSourceVref;
-    * adc16ConfigStruct.clockSource = kADC16_ClockSourceAsynchronousClock;
-    * adc16ConfigStruct.enableAsynchronousClock = true;
-    * adc16ConfigStruct.clockDivider = kADC16_ClockDivider8;
-    * adc16ConfigStruct.resolution = kADC16_ResolutionSE12Bit;
-    * adc16ConfigStruct.longSampleMode = kADC16_LongSampleDisabled;
-    * adc16ConfigStruct.enableHighSpeed = false;
-    * adc16ConfigStruct.enableLowPower = false;
-    * adc16ConfigStruct.enableContinuousConversion = false;
-    */
-    ADC16_GetDefaultConfig(&adc16ConfigStruct);
-    
-    adc16ConfigStruct.enableHighSpeed = true;
-    adc16ConfigStruct.enableContinuousConversion = true;
-    //========================= ADC0 Initialization ================================//
-    ADC16_Init(BOARD_ADC16_0_BASE, &adc16ConfigStruct);
-    ADC16_EnableHardwareTrigger(BOARD_ADC16_0_BASE, false); /* Make sure the software trigger is used. */
-#if defined(FSL_FEATURE_ADC16_HAS_CALIBRATION) && FSL_FEATURE_ADC16_HAS_CALIBRATION
-    if (kStatus_Success == ADC16_DoAutoCalibration(BOARD_ADC16_0_BASE))
-    {
-        PRINTF("ADC16_DoAutoCalibration() Done.\r\n");
-    }
-    else
-    {
-        PRINTF("ADC16_DoAutoCalibration() Failed.\r\n");
-    }
-#endif /* FSL_FEATURE_ADC16_HAS_CALIBRATION */
-    //========================= ADC1 Initialization ================================//
-    
-    ADC16_Init(BOARD_ADC16_1_BASE, &adc16ConfigStruct);
-    ADC16_EnableHardwareTrigger(BOARD_ADC16_1_BASE, false); /* Make sure the software trigger is used. */
-#if defined(FSL_FEATURE_ADC16_HAS_CALIBRATION) && FSL_FEATURE_ADC16_HAS_CALIBRATION
-    if (kStatus_Success == ADC16_DoAutoCalibration(BOARD_ADC16_1_BASE))
-    {
-        PRINTF("ADC16_DoAutoCalibration() Done.\r\n");
-    }
-    else
-    {
-        PRINTF("ADC16_DoAutoCalibration() Failed.\r\n");
-    }
-#endif /* FSL_FEATURE_ADC16_HAS_CALIBRATION */
-    
-    adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_1_USER_CHANNEL1;
-    adc16ChannelConfigStruct.enableInterruptOnConversionCompleted = false;
-#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
-    adc16ChannelConfigStruct.enableDifferentialConversion = false;
-#endif /* FSL_FEATURE_ADC16_HAS_DIFF_MODE */
+    AppInitAdc();
 #endif
     
 #if (USERDEF_USER_INTERFACE == ENABLED)

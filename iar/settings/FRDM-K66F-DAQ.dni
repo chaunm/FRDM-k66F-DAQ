@@ -8,6 +8,9 @@ UseTrigger=1
 TriggerName=main
 LimitSize=0
 ByteLimit=50
+[JLinkDriver]
+CStepIntDis=_ 0
+LeaveTargetRunning=_ 0
 [Disassemble mode]
 mode=0
 [Breakpoints2]
@@ -16,6 +19,3 @@ Count=0
 A0=_ "D:\PROJECT\DAQ-V2\Code\FRDM-K66F-DAQ_211216\FRDM-K66F-DAQ\main.c" ""
 Count=1
 SuppressDialog=0
-[JLinkDriver]
-CStepIntDis=_ 0
-LeaveTargetRunning=_ 0

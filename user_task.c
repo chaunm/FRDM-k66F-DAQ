@@ -17,6 +17,13 @@
 #include "private_mib_impl.h"
 #endif
 
+#if (USERDEF_ADC_TASK == ENABLED)
+#include "fsl_adc16.h"
+#include "adc_config.h"
+#endif
+
+/******************* DEFINITIONS *************************/
+
 /******************* LOCAL VARIABLES *************************/
 #if (USERDEF_USER_INTERFACE == ENABLED)
 uint32_t sysCountTest = 0;
@@ -25,6 +32,15 @@ uint8_t relay_number;
 uint8_t trap_flag[20]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 #endif
 
+#if (USERDEF_ADC_TASK == ENABLED)
+uint32_t adcValue[10];
+#endif
+
+#if (USERDEF_SW_TIMER == ENABLED)
+/* The software timer period. */
+#define SW_TIMER_PERIOD_MS (1000 / portTICK_PERIOD_MS)
+TimerHandle_t SwTimerHandle = NULL;
+#endif
 
 /**
 * @brief LED blinking task
@@ -32,14 +48,14 @@ uint8_t trap_flag[20]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 void blinkTask(void *param)
 {
-    //Endless loop
-    while(1)
-    {
-        LED_STATUS_OFF();
-        osDelayTask(500);
-        LED_STATUS_ON();
-        osDelayTask(500);
-    }
+  //Endless loop
+  while(1)
+  {
+    LED_STATUS_OFF();
+    osDelayTask(500);
+    LED_STATUS_ON();
+    osDelayTask(500);
+  }
 }
 
 #if (USERDEF_ADC_TASK == ENABLED)
@@ -48,58 +64,60 @@ void blinkTask(void *param)
 **/
 void adcTask(void *param)
 {
+  static adc16_config_t adc16ConfigStruct;
+  static adc16_channel_config_t adc16ChannelConfigStruct;
     //Endless loop
     while(1)
     {
-        //      //Perform A/D conversion
-        //      adcValue = adcGetValue(18) / 16;
-        adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_0_USER_CHANNEL1;
-        ADC16_SetChannelConfig(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP, &adc16ChannelConfigStruct);
-        while (0U == (kADC16_ChannelConversionDoneFlag &
-                      ADC16_GetChannelStatusFlags(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP)))
-        {
-        }
-        adcValue[0] = ADC16_GetChannelConversionValue(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP);
-        
-        adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_0_USER_CHANNEL2;
-        ADC16_SetChannelConfig(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP, &adc16ChannelConfigStruct);
-        while (0U == (kADC16_ChannelConversionDoneFlag &
-                      ADC16_GetChannelStatusFlags(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP)))
-        {
-        }
-        adcValue[1] = ADC16_GetChannelConversionValue(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP);
-        
-        adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_0_USER_CHANNEL3;
-        ADC16_SetChannelConfig(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP, &adc16ChannelConfigStruct);
-        while (0U == (kADC16_ChannelConversionDoneFlag &
-                      ADC16_GetChannelStatusFlags(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP)))
-        {
-        }
-        adcValue[2] = ADC16_GetChannelConversionValue(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP);
-        
-        adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_1_USER_CHANNEL1;
-        ADC16_SetChannelConfig(BOARD_ADC16_1_BASE, BOARD_ADC16_0_CHANNEL_GROUP, &adc16ChannelConfigStruct);
-        while (0U == (kADC16_ChannelConversionDoneFlag &
-                      ADC16_GetChannelStatusFlags(BOARD_ADC16_1_BASE, BOARD_ADC16_0_CHANNEL_GROUP)))
-        {
-        }
-        adcValue[3] = ADC16_GetChannelConversionValue(BOARD_ADC16_1_BASE, BOARD_ADC16_1_CHANNEL_GROUP);
-        
-        adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_0_USER_CHANNEL2;
-        ADC16_SetChannelConfig(BOARD_ADC16_1_BASE, BOARD_ADC16_1_CHANNEL_GROUP, &adc16ChannelConfigStruct);
-        while (0U == (kADC16_ChannelConversionDoneFlag &
-                      ADC16_GetChannelStatusFlags(BOARD_ADC16_1_BASE, BOARD_ADC16_1_CHANNEL_GROUP)))
-        {
-        }
-        adcValue[4] = ADC16_GetChannelConversionValue(BOARD_ADC16_1_BASE, BOARD_ADC16_1_CHANNEL_GROUP);
-        
-        PRINTF("ADC Value1: %d\r\n",adcValue[0]);
-        PRINTF("ADC Value2: %d\r\n",adcValue[1]);
-        PRINTF("ADC Value3: %d\r\n",adcValue[2]);
-        PRINTF("ADC Value4: %d\r\n",adcValue[3]);
-        PRINTF("ADC Value5: %d\r\n",adcValue[4]);
-        //Loop delay
-        osDelayTask(1000);
+      //      //Perform A/D conversion
+      //      adcValue = adcGetValue(18) / 16;
+      adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_0_USER_CHANNEL1;
+      ADC16_SetChannelConfig(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP, &adc16ChannelConfigStruct);
+      while (0U == (kADC16_ChannelConversionDoneFlag &
+                    ADC16_GetChannelStatusFlags(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP)))
+      {
+      }
+      adcValue[0] = ADC16_GetChannelConversionValue(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP);
+      
+      adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_0_USER_CHANNEL2;
+      ADC16_SetChannelConfig(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP, &adc16ChannelConfigStruct);
+      while (0U == (kADC16_ChannelConversionDoneFlag &
+                    ADC16_GetChannelStatusFlags(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP)))
+      {
+      }
+      adcValue[1] = ADC16_GetChannelConversionValue(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP);
+      
+      adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_0_USER_CHANNEL3;
+      ADC16_SetChannelConfig(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP, &adc16ChannelConfigStruct);
+      while (0U == (kADC16_ChannelConversionDoneFlag &
+                    ADC16_GetChannelStatusFlags(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP)))
+      {
+      }
+      adcValue[2] = ADC16_GetChannelConversionValue(BOARD_ADC16_0_BASE, BOARD_ADC16_0_CHANNEL_GROUP);
+      
+      adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_1_USER_CHANNEL1;
+      ADC16_SetChannelConfig(BOARD_ADC16_1_BASE, BOARD_ADC16_0_CHANNEL_GROUP, &adc16ChannelConfigStruct);
+      while (0U == (kADC16_ChannelConversionDoneFlag &
+                    ADC16_GetChannelStatusFlags(BOARD_ADC16_1_BASE, BOARD_ADC16_0_CHANNEL_GROUP)))
+      {
+      }
+      adcValue[3] = ADC16_GetChannelConversionValue(BOARD_ADC16_1_BASE, BOARD_ADC16_1_CHANNEL_GROUP);
+      
+      adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_0_USER_CHANNEL2;
+      ADC16_SetChannelConfig(BOARD_ADC16_1_BASE, BOARD_ADC16_1_CHANNEL_GROUP, &adc16ChannelConfigStruct);
+      while (0U == (kADC16_ChannelConversionDoneFlag &
+                    ADC16_GetChannelStatusFlags(BOARD_ADC16_1_BASE, BOARD_ADC16_1_CHANNEL_GROUP)))
+      {
+      }
+      adcValue[4] = ADC16_GetChannelConversionValue(BOARD_ADC16_1_BASE, BOARD_ADC16_1_CHANNEL_GROUP);
+      
+      PRINTF("ADC Value1: %d\r\n",adcValue[0]);
+      PRINTF("ADC Value2: %d\r\n",adcValue[1]);
+      PRINTF("ADC Value3: %d\r\n",adcValue[2]);
+      PRINTF("ADC Value4: %d\r\n",adcValue[3]);
+      PRINTF("ADC Value5: %d\r\n",adcValue[4]);
+      //Loop delay
+      osDelayTask(1000);
     }
 }
 #endif
@@ -107,23 +125,23 @@ void adcTask(void *param)
 #if (USERDEF_CLIENT_FTP == ENABLED)
 void ftpTranferTask(void *param)
 {
-    //	osDelayTask(5000);
-    //Endless loop
-    while(1)
+  //	osDelayTask(5000);
+  //Endless loop
+  while(1)
+  {
+    //SW2 button pressed?
+    if(!BUTTON_ENTER_READ())
     {
-        //SW2 button pressed?
-        if(!BUTTON_ENTER_READ())
-        {
-            //FTP client test routine
-            ftpClientTest();
-            
-            //Wait for the SW2 button to be released
-            while(!BUTTON_ENTER_READ());
-        }
-        
-        //      Loop delay
-        osDelayTask(100);
+      //FTP client test routine
+      ftpClientTest();
+      
+      //Wait for the SW2 button to be released
+      while(!BUTTON_ENTER_READ());
     }
+    
+    //      Loop delay
+    osDelayTask(100);
+  }
 }
 #endif
 
@@ -505,11 +523,11 @@ void IOsTask(void *param)
 */
 static void SwTimerCallback(TimerHandle_t xTimer)
 {
-    PRINTF("Tick.\r\n");
-    trapStatus_TimePeriod++;
-    
+  PRINTF("Tick.\r\n");
+  trapStatus_TimePeriod++;
+  
 #if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
-    snmpConnectIncreaseTick();
+  snmpConnectIncreaseTick();
 #endif
 }
 #endif // USERDEF_SW_TIMER == ENABLE
