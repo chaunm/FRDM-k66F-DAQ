@@ -2800,6 +2800,15 @@
       </file>
     </group>
     <group>
+      <name>ethernet</name>
+      <file>
+        <name>$PROJ_DIR$\..\ethernet.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\ethernet.h</name>
+      </file>
+    </group>
+    <group>
       <name>ExternalDrivers</name>
       <file>
         <name>$PROJ_DIR$\..\eeprom_rtc.c</name>
@@ -2818,6 +2827,15 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\quectel_m26.h</name>
+      </file>
+    </group>
+    <group>
+      <name>ftp</name>
+      <file>
+        <name>$PROJ_DIR$\..\ftp.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\ftp.h</name>
       </file>
     </group>
     <group>
@@ -2893,6 +2911,15 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\user_task.h</name>
+      </file>
+    </group>
+    <group>
+      <name>test</name>
+      <file>
+        <name>$PROJ_DIR$\..\test.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\test.h</name>
       </file>
     </group>
     <file>

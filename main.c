@@ -13,9 +13,6 @@
 #include "frdm_k66f.h"
 #include "os_port.h"
 #include "core/net.h"
-#include "drivers/mk6x_eth.h"
-#include "drivers/ksz8081.h"
-#include "dhcp/dhcp_client.h"
 #include "ipv6/slaac.h"
 #include "http/http_server.h"
 #include "http/mime.h"
@@ -27,10 +24,8 @@
 #include "variables.h"
 #include "user_task.h"
 #include "app_init.h"
-
-#if (USERDEF_CLIENT_FTP == ENABLED)
-#include "ftp/ftp_client.h"
-#endif
+#include "ethernet.h"
+#include "test.h"
 
 #include "clock_config.h"
 #include "pin_mux.h"
@@ -44,23 +39,6 @@
 #include "private_mib_module.h"
 #include "private_mib_impl.h"
 #endif
-
-#if (USERDEF_USER_INTERFACE == ENABLED)
-#include "lm2068.h"
-#include "menu.h"
-#include "eeprom_rtc.h"
-#include "rs485.h"
-#include "access_control.h"
-#endif
-#include "timers.h"
-#if (USERDEF_SW_TIMER == ENABLED)
-#include "timers.h"
-#endif
-
-#if (USERDEF_GPRS == ENABLED)
-#include "quectel_m26.h"
-#endif
-
 #if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
 #include "snmpConnect_manager.h"
 #endif
@@ -68,39 +46,10 @@
 /*******************************************************************************
 * Definitions
 ******************************************************************************/
-//Application configuration
-#define APP_MAC_ADDR "00-AB-CD-EF-00-65"
-
-#define APP_USE_DHCP DISABLED
-#define APP_IPV4_HOST_ADDR "192.168.100.103"
-#define APP_IPV4_SUBNET_MASK "255.255.255.0"
-#define APP_IPV4_DEFAULT_GATEWAY "192.168.100.1"
-#define APP_IPV4_PRIMARY_DNS "8.8.8.8"
-#define APP_IPV4_SECONDARY_DNS "8.8.4.4"
-
-#define APP_USE_SLAAC ENABLED
-#define APP_IPV6_LINK_LOCAL_ADDR "fe80::65"
-#define APP_IPV6_PREFIX "2001:db8::"
-#define APP_IPV6_PREFIX_LENGTH 64
-#define APP_IPV6_GLOBAL_ADDR "2001:db8::65"
-#define APP_IPV6_ROUTER "fe80::1"
-#define APP_IPV6_PRIMARY_DNS "2001:4860:4860::8888"
-#define APP_IPV6_SECONDARY_DNS "2001:4860:4860::8844"
-
-#define APP_HTTP_MAX_CONNECTIONS 4
-
 #if (USERDEF_CLIENT_SNMP == ENABLED)
 #define APP_SNMP_ENTERPRISE_OID "1.3.6.1.4.1.45796.1.16"//"1.3.6.1.4.1.8072.9999.9998"//
 #define APP_SNMP_CONTEXT_ENGINE "\x80\x00\x00\x00\x01\x02\x03\x04"
 #define APP_SNMP_TRAP_DEST_IP_ADDR "192.168.100.25"//"117.6.55.97"//
-#endif
-
-#if (APP_USE_DHCP == ENABLED)
-DhcpClientSettings dhcpClientSettings;
-DhcpClientCtx dhcpClientContext;
-#endif
-
-#if (USERDEF_CLIENT_SNMP == ENABLED)
 SnmpAgentSettings snmpAgentSettings;
 SnmpAgentContext snmpAgentContext;
 #endif
@@ -108,11 +57,6 @@ SnmpAgentContext snmpAgentContext;
 /*******************************************************************************
 * Prototypes
 ******************************************************************************/
-#if (USERDEF_SW_TIMER == ENABLED)
-/* The callback function. */
-static void SwTimerCallback(TimerHandle_t xTimer);
-#endif
-
 #if (USERDEF_CLIENT_SNMP == ENABLED)
 error_t snmpAgentRandCallback(uint8_t *data, size_t length);
 void trapsendTest(void);
@@ -125,10 +69,6 @@ void Trap_Send_Type_2(SnmpAgentContext *context, const IpAddr *destIpAddr,
                       SnmpVersion version, const char_t *username, uint_t genericTrapType,
                       uint_t specificTrapCode, const SnmpTrapObject *objectList, uint_t objectListSize ,
                       uint32_t* pui32value_new, uint32_t* pui32value_old);
-#endif
-
-#if (USERDEF_CLIENT_FTP == ENABLED)
-error_t ftpClientTest(void);
 #endif
 
 #if (USERDEF_CLIENT_SNMP == ENABLED)
@@ -165,11 +105,7 @@ int_t main(void)
     error_t error;
     NetInterface *interface;
     OsTask *task;
-    MacAddr macAddr;
-#if (APP_USE_DHCP == DISABLED)
-    Ipv4Addr ipv4Addr;
-#endif
-    
+   
 #if (USERDEF_CLIENT_SNMP == ENABLED)
     size_t oidLen;
     uint8_t oid[SNMP_MAX_OID_SIZE];
@@ -194,7 +130,15 @@ int_t main(void)
     BOARD_InitDebugConsole();
 #endif
 #endif
+      //Start-up message
+    TRACE_INFO("\r\n");
+    TRACE_INFO("**********************************\r\n");
+    TRACE_INFO("*** Site Monitoring Device ***\r\n");
+    TRACE_INFO("**********************************\r\n");
+    TRACE_INFO("\r\n");
+    // Init Led
     AppLedInit();
+    // Init IO Pin
     AppIoInit();
 #if (USERDEF_GPRS == ENABLED)
     gprs_init();
@@ -205,17 +149,13 @@ int_t main(void)
 #endif  
     //Initialize kernel
     osInitKernel();
-    //Start-up message
-    TRACE_INFO("\r\n");
-    TRACE_INFO("**********************************\r\n");
-    TRACE_INFO("*** Site Monitoring Device ***\r\n");
-    TRACE_INFO("**********************************\r\n");
-    TRACE_INFO("\r\n");
-    //ADC initialization
 #if (USERDEF_ADC_TASK == ENABLED)
+    //ADC initialization
     AppInitAdc();
 #endif
-    
+    // Init Ethernet module
+    interface = EthernetInit();
+    // if inter
 #if (USERDEF_USER_INTERFACE == ENABLED)
     //	Init_RS485_UART();
 #endif
@@ -238,86 +178,14 @@ int_t main(void)
         TRACE_ERROR("Failed to initialize MIB!\r\n");
     }
 #endif
-    //TCP/IP stack initialization
-    error = netInit();
-    //Any error to report?
-    if(error)
-    {
-        //Debug message
-        TRACE_ERROR("Failed to initialize TCP/IP stack!\r\n");
-    }
-    
-    //Configure the first Ethernet interface
-    interface = &netInterface[0];
-    
-    //Set interface name
-    netSetInterfaceName(interface, "eth0");
-    //Set host name
-    netSetHostname(interface, "SiteMonitor");
-    //Select the relevant network adapter
-    netSetDriver(interface, &mk6xEthDriver);
-    netSetPhyDriver(interface, &ksz8081PhyDriver);
-    //Set host MAC address
-    macStringToAddr(APP_MAC_ADDR, &macAddr);
-    netSetMacAddr(interface, &macAddr);
-    
-    //Initialize network interface
-    error = netConfigInterface(interface);
-    //Any error to report?
-    if(error)
-    {
-        //Debug message
-        TRACE_ERROR("Failed to configure interface %s!\r\n", interface->name);
-    }
-    
-#if (IPV4_SUPPORT == ENABLED)
-#if (APP_USE_DHCP == ENABLED)
-    //Get default settings
-    dhcpClientGetDefaultSettings(&dhcpClientSettings);
-    //Set the network interface to be configured by DHCP
-    dhcpClientSettings.interface = interface;
-    //Disable rapid commit option
-    dhcpClientSettings.rapidCommit = FALSE;
-    
-    //DHCP client initialization
-    error = dhcpClientInit(&dhcpClientContext, &dhcpClientSettings);
-    //Failed to initialize DHCP client?
-    if(error)
-    {
-	//Debug message
-	TRACE_ERROR("Failed to initialize DHCP client!\r\n");
-    }
-    
-    //Start DHCP client
-    error = dhcpClientStart(&dhcpClientContext);
-    //Failed to start DHCP client?
-    if(error)
-    {
-	//Debug message
-	TRACE_ERROR("Failed to start DHCP client!\r\n");
-    }
-#else
-    //Set IPv4 host address
-    ipv4StringToAddr((const char*)sMenu_Variable.ucIP, &ipv4Addr);//"192.168.100.104"
-    ipv4SetHostAddr(interface, ipv4Addr);
-    
-    //Set subnet mask
-    ipv4StringToAddr((const char*)sMenu_Variable.ucSN, &ipv4Addr);//"255.255.255.0"
-    ipv4SetSubnetMask(interface, ipv4Addr);
-    
-    //Set default gateway
-    ipv4StringToAddr((const char*)sMenu_Variable.ucGW, &ipv4Addr);//"192.168.100.1"
-    ipv4SetDefaultGateway(interface, ipv4Addr);
-    
-    //Set primary and secondary DNS servers
-    ipv4StringToAddr(APP_IPV4_PRIMARY_DNS, &ipv4Addr);
-    ipv4SetDnsServer(interface, 0, ipv4Addr);
-    ipv4StringToAddr(APP_IPV4_SECONDARY_DNS, &ipv4Addr);
-    ipv4SetDnsServer(interface, 1, ipv4Addr);
-#endif
-#endif
     //==================================================SNMP CLIENT CONFIG===========================================//
 #if (USERDEF_CLIENT_SNMP == ENABLED)
+    // if interface = NULL then can not iit snmpAgent --> print error and while
+    if (interface == NULL)
+    {
+      TRACE_ERROR("network interface is not valid - can not initialize snmp agent");
+      while(1);
+    }    
     snmpAgentGetDefaultSettings(&snmpAgentSettings);
     snmpAgentSettings.interface = interface;
     snmpAgentSettings.versionMin = SNMP_VERSION_1;
@@ -985,82 +853,7 @@ void trapsendTest(void)
 }
 #endif
 
-#if (USERDEF_CLIENT_FTP == ENABLED)
-/**
-* @brief FTP client test routine
-* @return Error code
-**/
 
-error_t ftpClientTest(void)
-{
-    error_t error;
-    size_t length;
-    IpAddr ipAddr;
-    FtpClientContext ftpContext;
-    static char_t buffer[256];
-    
-    //Debug message
-    TRACE_INFO("\r\n\r\nResolving server name...\r\n");
-    error = getHostByName(NULL, "192.168.100.25", &ipAddr, 0);
-    if(error)
-    {
-        //Debug message
-        TRACE_INFO("Failed to resolve server name!\r\n");
-        return error;
-    }
-    
-    //Debug message
-    TRACE_INFO("Connecting to FTP server %s\r\n", ipAddrToString(&ipAddr, NULL));
-    //Connect to the FTP server
-    error = ftpConnect(&ftpContext, NULL, &ipAddr, 21, FTP_NO_SECURITY | FTP_PASSIVE_MODE);
-    
-    if(error)
-    {
-        //Debug message
-        TRACE_INFO("Failed to connect to FTP server!\r\n");
-        //Exit immediately
-        return error;
-    }
-    
-    //Debug message
-    TRACE_INFO("Successful connection\r\n");
-    do
-    {
-        //Login to the FTP server using the provided username and password
-        error = ftpLogin(&ftpContext, "sonlq4", "123", "");
-        if(error) break;
-        //Open file
-        error = ftpOpenFile(&ftpContext, "FRDM-K66F.hex", FTP_FOR_READING | FTP_BINARY_TYPE);
-        if(error) break;
-        
-        while(1)
-        {
-            //Read data
-            error = ftpReadFile(&ftpContext, buffer, sizeof(buffer) - 1, &length, 0);
-            //End of file?
-            if(error) break;
-            
-            //terminate the string with a NULL character
-            buffer[length] = '\0';
-            TRACE_INFO("%s", buffer);
-        }
-        
-        TRACE_INFO("\r\n");
-        //Close the file
-        error = ftpCloseFile(&ftpContext);
-        
-        //End of exception handling block
-    } while(0);
-    
-    //Close the connection
-    ftpClose(&ftpContext);
-    //Debug message
-    TRACE_INFO("Connection closed...\r\n");
-    
-    //Return status code
-    return error;
-}
-#endif
 
 void Trap_Send_Type_1(SnmpAgentContext *context, const IpAddr *destIpAddr,
                       SnmpVersion version, const char_t *username, uint_t genericTrapType,

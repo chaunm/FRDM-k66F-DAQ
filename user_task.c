@@ -22,6 +22,10 @@
 #include "adc_config.h"
 #endif
 
+#if (USERDEF_CLIENT_FTP == ENABLED)
+#include "ftp.h"
+#endif
+
 /******************* DEFINITIONS *************************/
 
 /******************* LOCAL VARIABLES *************************/
@@ -618,7 +622,6 @@ void UserTaskInit()
   // Test code
   //gprs_turnon();
   GPRS_PWR_ON();
-  
   //Create a task to handle the GPRS operation
   task = osCreateTask("GPRS", gprs_task, NULL, 1000, OS_TASK_PRIORITY_NORMAL);
   //Failed to create the task?

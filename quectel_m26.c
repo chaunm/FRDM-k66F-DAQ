@@ -72,7 +72,6 @@ void _gprs_initUART (void)
   config.baudRate_Bps = GPRS_UART_BAUDRATE;
   config.enableTx = true;
   config.enableRx = true;
-  
   UART_Init(GPRS_UART, &config, CLOCK_GetFreq(GPRS_UART_CLKSRC));
   /* Enable RX interrupt. */
   UART_EnableInterrupts(GPRS_UART, kUART_RxDataRegFullInterruptEnable | kUART_RxOverrunInterruptEnable);
@@ -667,7 +666,6 @@ void _gprs_rx_byte(int port, uint8_t ch)
 void GPRS_UART_IRQHandler (void)
 {
   uint8_t ucChar;
-  
   if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(GPRS_UART))
   {
     ucChar = UART_ReadByte(GPRS_UART);
