@@ -9,6 +9,7 @@
 #include "variables.h"
 #include "core/net.h"
 #include "access_control.h"
+#include "net_config.h"
 
 uint8_t		mTempVal_u8[16];
 uint16_t    mTempVal_u16[16];
@@ -2421,13 +2422,16 @@ void Init_All_Variable (void)
 			sMenu_Variable.sEthernetSetting.u16DevSubnet[1],
 			sMenu_Variable.sEthernetSetting.u16DevSubnet[2],
 			sMenu_Variable.sEthernetSetting.u16DevSubnet[3]);
-	
+#if (USERDEF_CHAUNM_TEST == ENABLED)
+        // chaunm 
+        sprintf((char_t *)sMenu_Variable.ucSIP,"%d.%d.%d.%d", 192, 168, 1, 29);
+#else
 	sprintf((char_t *)sMenu_Variable.ucSIP,"%d.%d.%d.%d",
 			sMenu_Variable.u16ServerIP[0],
 			sMenu_Variable.u16ServerIP[1],
 			sMenu_Variable.u16ServerIP[2],
 			sMenu_Variable.u16ServerIP[3]);
-	
+#endif
 	//User ID init
 	sMenu_Variable.u8UserIDAddr[0] = USER1_ADDR;
 	sMenu_Variable.u8UserIDAddr[1] = USER2_ADDR;

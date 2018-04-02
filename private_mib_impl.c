@@ -1830,14 +1830,18 @@ void UpdateInfo (void)
         sActive_Alarm[10].status = 0;
         sActive_Alarm[11].status = 0;
     }
-    
+    // chaunm-01/04/2018
+    // if accessUID != 1 --> valid user --> alarm access = userID
+    // if accessUID != -1 --> invalid user --> alarm access = 128    
     if(sMenu_Control.accessUID == -1)
     {
-        privateMibBase.alarmGroup.alarmAccessAlarms = 1; 
-        IO_OPENDOOR_MCU_ON();    
-    } else
+      //privateMibBase.alarmGroup.alarmAccessAlarms = 1; 
+      privateMibBase.alarmGroup.alarmAccessAlarms = 128; 
+      IO_OPENDOOR_MCU_ON();    
+    } else if (sMenu_Control.accessUID != 0)
     {
-        privateMibBase.alarmGroup.alarmAccessAlarms = 0;
+        //privateMibBase.alarmGroup.alarmAccessAlarms = 0;
+        privateMibBase.alarmGroup.alarmAccessAlarms = sMenu_Control.accessUID;
         IO_OPENDOOR_MCU_OFF();
     }  
     for (j=0;j<5;j++)

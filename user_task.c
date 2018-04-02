@@ -7,6 +7,7 @@
 #include "os_port.h"
 #include "rs485.h"
 #include "snmpConnect_manager.h"
+#include "test.h"
 
 #if (USERDEF_CLIENT_SNMP == ENABLED)
 #include "snmp/snmp_agent.h"
@@ -52,6 +53,7 @@ TimerHandle_t SwTimerHandle = NULL;
 
 void blinkTask(void *param)
 {
+  TRACE_ERROR("Blink Task started\r\n");
   //Endless loop
   while(1)
   {
@@ -70,6 +72,7 @@ void adcTask(void *param)
 {
   static adc16_config_t adc16ConfigStruct;
   static adc16_channel_config_t adc16ChannelConfigStruct;
+  TRACE_ERROR("ADC Task started\r\n");
     //Endless loop
     while(1)
     {
@@ -129,6 +132,7 @@ void adcTask(void *param)
 #if (USERDEF_CLIENT_FTP == ENABLED)
 void ftpTranferTask(void *param)
 {
+  TRACE_ERROR("FTP task stared\r\n");
   //	osDelayTask(5000);
   //Endless loop
   while(1)
@@ -155,6 +159,7 @@ void ftpTranferTask(void *param)
 * @brief Task responsible for printing of "Hello world." message.
 */
 static void hello_task(void *pvParameters) {
+  TRACE_ERROR("User interface task stared\r\n");
   glcd_init();
   //  vTaskDelay(100);
   //  Init_I2CE();
@@ -173,7 +178,7 @@ static void hello_task(void *pvParameters) {
   sMenu_Control.init = 1;
   for (;;) {
     vTaskDelay(10);
-    Key_Scane();
+//    Key_Scane(); - chaunm - escape key jam - no scan for test
     Menu_Scane();
     Active_Alarm_Scane();
     ACS_AccessCheck();
@@ -184,7 +189,7 @@ static void hello_task(void *pvParameters) {
 /* process RS-485 state machine */
 static void rs485_task(void *pvParameters) {
   int8_t	reVal = 0;
-  
+  TRACE_ERROR("RS485 task stared\r\n");
   vTaskDelay(3000);
   for (;;) {
     vTaskDelay(200);
@@ -376,7 +381,6 @@ static void rs485_task(void *pvParameters) {
 void vApplicationIdleHook(void)
 {
   static uint32_t ulCount = 0;
-  
   ulCount++;
 }
 
@@ -403,6 +407,7 @@ void vApplicationTickHook(void)
 #if (USERDEF_IO_INTERFACE == ENABLED)
 void IOsTask(void *param)
 {
+  TRACE_ERROR("IO task stared\r\n");
   //Endless loop
   while(1)
   {		
@@ -527,19 +532,17 @@ void IOsTask(void *param)
 */
 static void SwTimerCallback(TimerHandle_t xTimer)
 {
-  PRINTF("Tick.\r\n");
-  trapStatus_TimePeriod++;
-  
+  trapStatus_TimePeriod++;  
 #if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
   snmpConnectIncreaseTick();
 #endif
 }
-#endif // USERDEF_SW_TIMER == ENABLE
+#endif // USERDEF_SW_TIMER == ENABLED
 
 void UserTaskInit()
 {
   OsTask *task;
-#if (USERDEF_SW_TIMER == ENABLE)
+#if (USERDEF_SW_TIMER == ENABLED)
   /* Create the software timer. */
   SwTimerHandle = xTimerCreate("SwTimer",          /* Text name. */
                                SW_TIMER_PERIOD_MS, /* Timer period. */
@@ -631,4 +634,24 @@ void UserTaskInit()
     TRACE_ERROR("Failed to create GPRS task!\r\n");
   }
 #endif	// USERDEF_GPRS== ENABLED
+  
+#if (USERDEF_CHAUNM_TEST_GPRS == ENABLED)
+  task = osCreateTask("GPRS TEST", TestM26Gprs, NULL, 200, OS_TASK_PRIORITY_NORMAL);
+  //Failed to create the task?
+  if(task == OS_INVALID_HANDLE)
+  {
+    //Debug message
+    TRACE_ERROR("Failed to create GPRS test task!\r\n");
+  }
+#endif // USERDEF_CHAUNM_TEST
+  
+#if (USERDEF_CHAUNM_TEST_DOOR == ENABLED)
+  task = osCreateTask("DOOR TEST", TestOpenDoorUpdate, NULL, 100, OS_TASK_PRIORITY_NORMAL);
+  //Failed to create the task?
+  if(task == OS_INVALID_HANDLE)
+  {
+    //Debug message
+    TRACE_ERROR("Failed to create Door test task!\r\n");
+  }
+#endif // USERDEF_CHAUNM_TEST
 }

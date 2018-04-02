@@ -171,5 +171,15 @@
 //Connection manager user-defined
 #define USERDEF_SNMPCONNECT_MANAGER ENABLED
 
-//#define USERDEF_DEBUG_USING DISABLED
+// chaunm
+#define USERDEF_CHAUNM_TEST          ENABLED
+#if (USERDEF_CHAUNM_TEST == ENABLED)
+    #define USERDEF_CHAUNM_TEST_GPRS     DISABLED
+    #define USERDEF_CHAUNM_TEST_DOOR     DISABLED
+#else
+    #define USERDEF_CHAUNM_TEST_GPRS     DISABLED
+    #define USERDEF_CHAUNM_TEST_DOOR     DISABLED
+#endif
+//#define USERDEF_DEBUG_USING ENABLE
+   
 #endif

@@ -50,8 +50,11 @@ gprs_validate_cmd_t gprsValidateCmd = {
 #define GPRS_TURNOFF_ECHO "ATE1\r"
 
 //Test data
-#define APP_IPV4_SERVER_ADDR "171.224.95.239"
-#define APP_IPV4_SERVER_PORT 8100
+//#define APP_IPV4_SERVER_ADDR "171.224.95.239"
+//#define APP_IPV4_SERVER_PORT 8100
+// chaunm test
+#define APP_IPV4_SERVER_ADDR "117.0.129.178"
+#define APP_IPV4_SERVER_PORT 8324
 
 //==============================================
 //Function Declaration
@@ -476,7 +479,7 @@ void _gprs_connect_udpAddr (TimeOut_t *timeOut, TickType_t *timeToWait)
   
   vTaskDelay(100 / portTICK_PERIOD_MS);
   sprintf(str, GPRS_CONNECT_UDPADDRESS_MSG, APP_IPV4_SERVER_ADDR, APP_IPV4_SERVER_PORT);
-  UART_WriteBlocking(GPRS_UART, (uint8_t *) str, strlen(str));
+   UART_WriteBlocking(GPRS_UART, (uint8_t *) str, strlen(str));
   GPRS_CHANGE_STATE(CONNECT_UDP_SERVER_RESPOND);
   vTaskSetTimeOutState(timeOut);
   *timeToWait = 5000;
@@ -669,6 +672,7 @@ void GPRS_UART_IRQHandler (void)
   if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(GPRS_UART))
   {
     ucChar = UART_ReadByte(GPRS_UART);
+    PRINTF("%c", ucChar); // chaunm - print to debug
     _gprs_rx_byte(1,ucChar); 
   }
 }
@@ -704,7 +708,7 @@ void gprs_task (void *param)
 {
   TimeOut_t gprs_timeout;
   TickType_t gprs_timeToWait;
-  
+  TRACE_ERROR("gprs task started\r\n");
   for (;;)  {
     switch (gprsOpState) {
     case GPRS_POWER_OFF:

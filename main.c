@@ -26,6 +26,7 @@
 #include "app_init.h"
 #include "ethernet.h"
 #include "test.h"
+#include "quectel_m26.h"
 
 #include "clock_config.h"
 #include "pin_mux.h"
@@ -39,9 +40,9 @@
 #include "private_mib_module.h"
 #include "private_mib_impl.h"
 #endif
-#if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
-#include "snmpConnect_manager.h"
-#endif
+//#if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
+//#include "snmpConnect_manager.h"
+//#endif
 
 /*******************************************************************************
 * Definitions
@@ -112,8 +113,7 @@ int_t main(void)
 #endif    
     BOARD_BootClockHSRUN();
     //Update system core clock
-    //   SystemCoreClockUpdate();
-    
+    //   SystemCoreClockUpdate(
     BOARD_InitPins();
     BOARD_InitLEDs();
     BOARD_InitLCD();
@@ -155,7 +155,7 @@ int_t main(void)
 #endif
     // Init Ethernet module
     interface = EthernetInit();
-    // if inter
+
 #if (USERDEF_USER_INTERFACE == ENABLED)
     //	Init_RS485_UART();
 #endif
@@ -270,7 +270,6 @@ int_t main(void)
     UserTaskInit();
     //Start the execution of tasks
     osStartKernel();
-    
     //This function should never return
     return 0;
 }
@@ -499,7 +498,7 @@ void trapsendTest(void)
         //Send a SNMP trap
 	error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                                   "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 11, trapObjects, 10); //
-        
+        osDelayTask(100);
 	//Failed to send trap message?
 	if(error)
 	{
@@ -543,7 +542,7 @@ void trapsendTest(void)
         //Send a SNMP trap
 	error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                                   "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 12, trapObjects, 9); //
-        
+        osDelayTask(100);
 	//Failed to send trap message?
 	if(error)
 	{
@@ -581,7 +580,7 @@ void trapsendTest(void)
         //Send a SNMP trap
 	error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                                   "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 13, trapObjects, 7); //
-        
+        osDelayTask(100);
 	//Failed to send trap message?
 	if(error)
 	{
@@ -634,7 +633,7 @@ void trapsendTest(void)
         //Send a SNMP trap
 	error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                                   "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 14, trapObjects, 12); //
-        
+        osDelayTask(100);
 	//Failed to send trap message?
 	if(error)
 	{
@@ -775,7 +774,7 @@ void trapsendTest(void)
         //Send a SNMP trap
 	error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                                   "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 15, trapObjects, 39); //
-        
+        osDelayTask(100);
 	//Failed to send trap message?
 	if(error)
 	{
@@ -825,7 +824,7 @@ void trapsendTest(void)
         //Send a SNMP trap
 	error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                                   "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 16, trapObjects, 11); //
-        
+        osDelayTask(100);
 	//Failed to send trap message?
 	if(error)
 	{
@@ -941,5 +940,6 @@ void Trap_Send_Type_2(SnmpAgentContext *context, const IpAddr *destIpAddr,
         snmpAgentSendTrap(context, destIpAddr, version,
                           username,genericTrapType , specificTrapCode, objectList, objectListSize); 
         *pui32value_old = *pui32value_new;
+        osDelayTask(100);
     }
 }

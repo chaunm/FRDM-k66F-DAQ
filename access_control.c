@@ -23,20 +23,20 @@ void ACS_DeleteUserID(uint16_t EEPROM_Addr, uint8_t* UserID)
 // Check if an user ID card in list
 int8_t ACS_FindUserID (uint8_t *userID)
 {
-	uint8_t i = 0,j = 0, k = 0;
-	for(i=0; i < 5; i++)
-	{
-		k = 0;
-		for(j = 0; j < 8; j++)
-			if(*(userID + j) != sMenu_Variable.u8UserID[i][j])
-			{
-				k++;
-				break;
-			}
-		if(k == 0)
-			return (i+1);
-	}
-	return -1;
+  uint8_t i = 0,j = 0, k = 0;
+  for(i=0; i < 5; i++)
+  {
+    k = 0;
+    for(j = 0; j < 8; j++)
+      if(*(userID + j) != sMenu_Variable.u8UserID[i][j])
+      {
+        k++;
+        break;
+      }
+    if(k == 0)
+      return (i+1);
+  }
+  return -1;
 }
 
 void ACS_AccessCheck(void)
