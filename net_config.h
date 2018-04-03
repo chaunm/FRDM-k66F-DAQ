@@ -156,6 +156,8 @@
 #define DNS_CLIENT_SUPPORT DISABLED
 //SNMP stack size user-defined
 #define SNMP_CLIENT_STACK_SIZE 400
+   
+/********** USER DEFINITION ************/
 //FTP client user-defined
 #define USERDEF_CLIENT_FTP DISABLED
 //SW TIMER user-defined
@@ -175,7 +177,7 @@
 #define USERDEF_CHAUNM_TEST          ENABLED
 #if (USERDEF_CHAUNM_TEST == ENABLED)
     #define USERDEF_CHAUNM_TEST_GPRS     DISABLED
-    #define USERDEF_CHAUNM_TEST_DOOR     DISABLED
+    #define USERDEF_CHAUNM_TEST_DOOR     ENABLED
 #else
     #define USERDEF_CHAUNM_TEST_GPRS     DISABLED
     #define USERDEF_CHAUNM_TEST_DOOR     DISABLED
