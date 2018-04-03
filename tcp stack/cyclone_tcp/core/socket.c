@@ -42,6 +42,11 @@
 #include "netbios/nbns_client.h"
 #include "debug.h"
 
+// chaunm - 03/04/2018 - check for send socket
+#if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
+#include "snmpConnect_manager.h"
+#endif 
+
 //Socket table
 Socket socketTable[SOCKET_MAX_COUNT];
 
@@ -553,13 +558,26 @@ error_t socketSendTo(Socket *socket, const IpAddr *destIpAddr, uint16_t destPort
 #endif
 #if (UDP_SUPPORT == ENABLED)
    //Connectionless socket?
-   if(socket->type == SOCKET_TYPE_DGRAM)
-   {
-      //Send UDP datagram - chaunm - should add udp send here?
-      error = udpSendDatagram(socket, destIpAddr,
-         destPort, data, length, written);
-   }
-   else
+     if(socket->type == SOCKET_TYPE_DGRAM)
+     {
+       //Send UDP datagram - chaunm - check and send GPRS socket here
+#if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
+       if (snmpConnectCheckStatus() == ETHERNET_CONNECTED)
+       {
+#endif
+         //Send SNMP trap message
+         error = udpSendDatagram(socket, destIpAddr,
+                               destPort, data, length, written);
+#if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
+       } else if (snmpConnectCheckStatus() == GPRS_CONNECTED)
+       {
+         //ChauNM - 03/04: Send UDP message through GPRS
+         error = gprsSendMsg(data, length);
+       }
+#endif
+       
+     }
+     else
 #endif
 #if (RAW_SOCKET_SUPPORT == ENABLED)
    //Raw socket?

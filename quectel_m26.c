@@ -53,8 +53,8 @@ gprs_validate_cmd_t gprsValidateCmd = {
 //#define APP_IPV4_SERVER_ADDR "171.224.95.239"
 //#define APP_IPV4_SERVER_PORT 8100
 // chaunm test
-#define APP_IPV4_SERVER_ADDR "117.0.129.178"
-#define APP_IPV4_SERVER_PORT 8324
+#define APP_IPV4_SERVER_ADDR "27.76.253.237"
+#define APP_IPV4_SERVER_PORT 162
 
 //==============================================
 //Function Declaration
@@ -805,6 +805,7 @@ gprs_op_status_t gprsCheckStatus(void)
 error_t gprsSendMsg(const void *data, size_t length)
 {
   UART_WriteBlocking(GPRS_UART, data, length);
+  osDelayTask(100); // chaunm - delay to keep message integrity
   return NO_ERROR;
 }
 
