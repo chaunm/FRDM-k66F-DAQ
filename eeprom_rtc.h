@@ -54,7 +54,6 @@ uint8_t dec2bcd(uint8_t val);
 uint8_t bcd2dec(uint8_t val);
 
 void Init_I2CE(void);
-
 void I2C_Init(void);
 void Start(void);
 void Stop(void);

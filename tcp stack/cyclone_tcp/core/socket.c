@@ -555,7 +555,7 @@ error_t socketSendTo(Socket *socket, const IpAddr *destIpAddr, uint16_t destPort
    //Connectionless socket?
    if(socket->type == SOCKET_TYPE_DGRAM)
    {
-      //Send UDP datagram
+      //Send UDP datagram - chaunm - should add udp send here?
       error = udpSendDatagram(socket, destIpAddr,
          destPort, data, length, written);
    }

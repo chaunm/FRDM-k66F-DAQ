@@ -8,14 +8,6 @@ UseTrigger=1
 TriggerName=main
 LimitSize=0
 ByteLimit=50
-[PlDriver]
-MemConfigValue=C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\CONFIG\debugger\NXP\MK66FN2M0xxx18.ddf
-[Jet]
-DisableInterrupts=0
-LeaveRunning=0
-MultiCoreRunAll=0
-[ArmDriver]
-EnableCache=1
 [JLinkDriver]
 CStepIntDis=_ 0
 LeaveTargetRunning=_ 0
@@ -23,7 +15,7 @@ TraceBufferSize=0x00010000
 TraceStallIfFIFOFull=0x00000000
 TracePortSize=0x00000004
 [DebugChecksum]
-Checksum=2016574112
+Checksum=-1469399185
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -32,14 +24,14 @@ Enabled=_ 0
 [CallStack]
 ShowArgs=0
 [Disassembly]
-MixedMode=0
+MixedMode=1
 [SWOTraceHWSettings]
 OverrideDefaultClocks=0
 CpuClock=72000000
 ClockAutoDetect=0
 ClockWanted=2000000
-JtagSpeed=2250000
-Prescaler=32
+JtagSpeed=2000000
+Prescaler=36
 TimeStampPrescIndex=0
 TimeStampPrescData=0
 PcSampCYCTAP=1
@@ -125,8 +117,9 @@ ProbeSetup0=2 1 1 2 0 0
 [Disassemble mode]
 mode=0
 [Breakpoints2]
-Count=0
+Bp0=_ 0 "EMUL_DATA" "USERDEF_CHAUNM_TEST_DOOR" 0 0 0 0 4294967295
+Bp1=_ 0 "EMUL_DATA" "USERDEF_CHAUNM_TEST_DOOR" 0 0 0 0 4294967295
+Count=2
 [Aliases]
-A0=_ "D:\PROJECT\DAQ-V2\Code\FRDM-K66F-DAQ_211216\FRDM-K66F-DAQ\main.c" ""
-Count=1
+Count=0
 SuppressDialog=0

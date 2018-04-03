@@ -7,7 +7,7 @@
 #include "menu.h"
 #include "eeprom_rtc.h"
 #include "variables.h"
-
+#include "access_control.h"
 static const unsigned char CRCHighTable[] = {
     0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
     0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
@@ -47,7 +47,6 @@ static const unsigned char CRCLowTable[] = {
 
 sMODBUSRTU_struct Modbus;
 sMODBUSRTU_struct DoorAccess;
-
 uart_config_t config;
 
 void Init_RS485_UART (void)
@@ -148,57 +147,6 @@ void RS4852_UART_IRQHandler(void)
     }
 }
 
-void Door_Access_Check (void)
-{
-    uint8_t   i=0;
-    //  uint8_t   mTempBuff[8];
-    
-    if(DoorAccess.u8MosbusEn == 2)
-    {
-        if(sMenu_Control.learnUID)
-        {
-            //Save user ID
-            for(i=0;i<8;i++)
-                TempUserID[sMenu_Control.index][i] = DoorAccess.u8BuffRead[i];
-            sMenu_Control.refesh = 1;
-        }
-        else
-        {
-            //Check user in system memory -> open door
-            for(i=0;i<8;i++)
-            {
-                //        mTempBuff[i] = DoorAccess.u8BuffRead[i];
-                AccessIdTemp[i] = DoorAccess.u8BuffRead[i];
-                //        privateMibBase.siteInfoGroup.siteInfoAccessId[i] = mTempBuff[i];
-                //        privateMibBase.siteInfoGroup.siteInfoAccessIdLen = 8;
-            }
-            //      sMenu_Control.accessUID = Find_UserID(mTempBuff);
-            sMenu_Control.accessUID = Find_UserID(AccessIdTemp);
-        }
-        DoorAccess.u8MosbusEn = 0;
-        DoorAccess.u8ByteCount = 0;
-    }
-}
-
-int8_t Find_UserID (uint8_t * dataPointer)
-{
-    uint8_t i=0,j=0,k=0;
-    
-    for(i=0;i<5;i++)
-    {
-        for(j=0;j<8;j++)
-            if(*(dataPointer+j) != sMenu_Variable.u8UserID[i][j]){
-                k++;
-                break;
-            }
-        
-        if(k==0)
-            return (i+1);
-        else
-            k=0;
-    }
-    return -1;
-}
 
 int8_t RS4851_Check_Respond_Data (void)
 {
