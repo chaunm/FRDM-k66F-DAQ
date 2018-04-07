@@ -1845,6 +1845,8 @@ void UpdateInfo (void)
   if(newCardDetect ==1)
   {
     newCardDetect = 0;
+    privateMibBase.siteInfoGroup.siteInfoAccessIdLen = 8;
+    memcpy(privateMibBase.siteInfoGroup.siteInfoAccessId, (const char*)AccessIdTemp, 8);
     if (sMenu_Control.accessUID == -1)
     {
       //privateMibBase.alarmGroup.alarmAccessAlarms = 1;
@@ -1869,11 +1871,12 @@ void UpdateInfo (void)
     for(i=0;i<8;i++)    
       privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCard[i] = sMenu_Variable.u8UserID[j][i];    
   }    
-  for(i=0;i<8;i++)
-  {
-    privateMibBase.siteInfoGroup.siteInfoAccessId[i] = AccessIdTemp[i];
-    privateMibBase.siteInfoGroup.siteInfoAccessIdLen = 8;
-  }
+  // chaunm - already update 08/04
+//  for(i=0;i<8;i++)
+//  {
+//    privateMibBase.siteInfoGroup.siteInfoAccessId[i] = AccessIdTemp[i];
+//    privateMibBase.siteInfoGroup.siteInfoAccessIdLen = 8;
+//  }
   
   Alarm_Control();
   Relay_Output();

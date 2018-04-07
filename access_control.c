@@ -2,7 +2,6 @@
 #include "eeprom_rtc.h"
 #include "rs485.h"
 #include "variables.h"
-#include "private_mib_module.h"
 
 uint8_t TempUserID[5][9];
 uint8_t newCardDetect;
@@ -69,9 +68,6 @@ void ACS_AccessCheck(void)
       //      sMenu_Control.accessUID = Find_UserID(mTempBuff);
       sMenu_Control.accessUID = ACS_FindUserID(AccessIdTemp);
       newCardDetect = 1;
-      // update acess ID - chaunm 07-04
-      privateMibBase.siteInfoGroup.siteInfoAccessIdLen = 8;
-      memcpy(privateMibBase.siteInfoGroup.siteInfoAccessId, (const char*)AccessIdTemp, 8);
     }
     DoorAccess.u8MosbusEn = 0;
     DoorAccess.u8ByteCount = 0;

@@ -12,7 +12,7 @@
 
 //Dependencies
 #include "mibs/mib_common.h"
-
+#include "mibs/mib2_module.h"
 //Size of testString object
 #define PRIVATE_MIB_TEST_STRING_SIZE 32
 //Number of LEDs
