@@ -161,6 +161,20 @@ const MibObject privateMibObjects[] =
 		privateMibGetSiteInfoGroup,
 		NULL
 	},
+        {
+		"siteInfoIpAddress",
+		{43, 6, 1, 4, 1, 130, 229, 100, 1, 1, 10},
+		11,
+		ASN1_CLASS_APPLICATION,
+		MIB_TYPE_UNSIGNED32,
+		MIB_ACCESS_READ_ONLY,
+		NULL,
+		NULL,
+		sizeof(uint32_t),
+		NULL,
+		privateMibGetSiteInfoGroup,
+		NULL
+	},
 
 	//AcInfo group
 	{

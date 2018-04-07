@@ -2383,16 +2383,16 @@ void Init_All_Variable (void)
 	ReadMemory(_AIRCON_TEMP4,&sMenu_Variable.u16AirConTemp[3]); 
 	ReadMemory(_AIRCON_TIME1,&sMenu_Variable.u16AirConTime1); 
 	ReadMemory(_AIRCON_TIME2,&sMenu_Variable.u16AirConTime2); 
-	/*
+#if (USERDEF_CHAUNM_TEST == ENABLED)
 	sMenu_Variable.sEthernetSetting.u16DevIP[0] = 192;
 	sMenu_Variable.sEthernetSetting.u16DevIP[1] = 168;
-	sMenu_Variable.sEthernetSetting.u16DevIP[2] = 1;
-	sMenu_Variable.sEthernetSetting.u16DevIP[3] = 199;	
+	sMenu_Variable.sEthernetSetting.u16DevIP[2] = 100;
+	sMenu_Variable.sEthernetSetting.u16DevIP[3] = 247;	
 	
 	sMenu_Variable.sEthernetSetting.u16DevGateway[0] = 192;
 	sMenu_Variable.sEthernetSetting.u16DevGateway[1] = 168;
-	sMenu_Variable.sEthernetSetting.u16DevGateway[2] = 1;
-	sMenu_Variable.sEthernetSetting.u16DevGateway[3] = 200;
+	sMenu_Variable.sEthernetSetting.u16DevGateway[2] = 100;
+	sMenu_Variable.sEthernetSetting.u16DevGateway[3] = 1;
 	
 	sMenu_Variable.sEthernetSetting.u16DevSubnet[0] = 255;
 	sMenu_Variable.sEthernetSetting.u16DevSubnet[1] = 255;
@@ -2401,10 +2401,10 @@ void Init_All_Variable (void)
 	
 	sMenu_Variable.u16ServerIP[0] = 192;
 	sMenu_Variable.u16ServerIP[1] = 168;
-	sMenu_Variable.u16ServerIP[2] = 1;
-	sMenu_Variable.u16ServerIP[3] = 200;
+	sMenu_Variable.u16ServerIP[2] = 100;
+	sMenu_Variable.u16ServerIP[3] = 83;
 	sMenu_Variable.u16ServerPort = 162;
-	*/
+#endif // #if (USERDEF_CHAUNM_TEST == ENABLED)
 	sprintf((char_t *)sMenu_Variable.ucIP,"%d.%d.%d.%d",
 			sMenu_Variable.sEthernetSetting.u16DevIP[0],
 			sMenu_Variable.sEthernetSetting.u16DevIP[1],

@@ -1,3 +1,12 @@
+#if (USERDEF_CLIENT_SNMP == ENABLED)
+#include "snmp/snmp_agent.h"
+#include "mibs/mib2_module.h"
+#include "mibs/mib2_impl.h"
+#include "oid.h"
+#include "private_mib_module.h"
+#include "private_mib_impl.h"
+#endif
+
 #include "user_task.h"
 #include "net_config.h"
 #include "board.h"
@@ -8,15 +17,6 @@
 #include "rs485.h"
 #include "snmpConnect_manager.h"
 #include "test.h"
-
-#if (USERDEF_CLIENT_SNMP == ENABLED)
-#include "snmp/snmp_agent.h"
-#include "mibs/mib2_module.h"
-#include "mibs/mib2_impl.h"
-#include "oid.h"
-#include "private_mib_module.h"
-#include "private_mib_impl.h"
-#endif
 
 #if (USERDEF_ADC_TASK == ENABLED)
 #include "fsl_adc16.h"

@@ -40,9 +40,13 @@ void TestOpenDoorUpdate(void* param)
   TRACE_INFO("Door Access Test Started\r\n");
   while (1)
   {
-    sMenu_Control.accessUID++;
+    if (sMenu_Control.accessUID < 5)
+        sMenu_Control.accessUID++;
+    else if (sMenu_Control.accessUID == 5)
+        sMenu_Control.accessUID = 0;
+    
     if (sMenu_Control.accessUID > 5)
       sMenu_Control.accessUID = 1;
-    osDelayTask(5000);
+    osDelayTask(60000);
   }
 }

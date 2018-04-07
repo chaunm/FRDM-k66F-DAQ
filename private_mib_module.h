@@ -49,6 +49,7 @@ typedef struct
 	char_t siteInfoAccessId[MIB2_IF_DESCR_SIZE];
 	size_t siteInfoAccessIdLen;        
 	uint32_t siteInfoTrapCounter;
+        uint32_t siteInfoIpAddress;
 } PrivateMibSiteInfoGroup;
 
 /**
