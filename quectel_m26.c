@@ -45,7 +45,7 @@ gprs_validate_cmd_t gprsValidateCmd = {
 #define GPRS_SET_DSTADDRESSMODE_MSG "AT+QIDNSIP=%d\r"
 #define GPRS_GET_LOCAL_IP_MSG "AT+QILOCIP\r"
 #define GPRS_SET_TCPIPSTACKMODE_MSG "AT+QIMODE=%d\r"
-#define GPRS_CONNECT_TCPADDRESS_MSG "AT+QIOPEN=\"TCP\",\"%s\",\"%s\"\r"
+#define GPRS_CONNECT_TCPADDRESS_MSG "AT+QIOPEN=\"TCP\",\"%s\",\"%d\"\r"
 #define GPRS_CONECT_TCPDOMAIN_MSG "AT+QIOPEN=\"TCP\",\"%s\",\"%d\"\r"
 #define GPRS_CONNECT_UDPADDRESS_MSG "AT+QIOPEN=\"UDP\",\"%s\",\"%d\"\r"
 #define GPRS_DEACTIVE_GPRSCONTEXT_MSG "AT+QIDEACT\r"
@@ -55,7 +55,7 @@ gprs_validate_cmd_t gprsValidateCmd = {
 //#define APP_IPV4_SERVER_ADDR "171.224.95.239"
 //#define APP_IPV4_SERVER_PORT 8100
 // chaunm test
-#define APP_IPV4_SERVER_ADDR "27.76.253.237"
+#define APP_IPV4_SERVER_ADDR "42.114.10.119"
 #define APP_IPV4_SERVER_PORT 162
 
 //==============================================
@@ -163,6 +163,7 @@ void _gprs_process_rx_message(uint8_t *rx_msg, uint16_t rx_len)
     }
   }
 }
+
 
 void _gprs_power_turning_on(void)
 {  
@@ -579,6 +580,7 @@ void _gprs_connect_udpAddr (TimeOut_t *timeOut, TickType_t *timeToWait)
   
   vTaskDelay(100 / portTICK_PERIOD_MS);
   sprintf(str, GPRS_CONNECT_UDPADDRESS_MSG, APP_IPV4_SERVER_ADDR, APP_IPV4_SERVER_PORT);
+//  sprintf(str, GPRS_CONNECT_TCPADDRESS_MSG, APP_IPV4_SERVER_ADDR, APP_IPV4_SERVER_PORT);
    UART_WriteBlocking(GPRS_UART, (uint8_t *) str, strlen(str));
   GPRS_CHANGE_STATE(CONNECT_UDP_SERVER_RESPOND);
   vTaskSetTimeOutState(timeOut);
@@ -780,16 +782,16 @@ void GPRS_UART_IRQHandler (void)
 void gprs_init (void)
 {
   _gprs_initUART();
-  
   GPRS_EN_INIT(0);
   GPRS_PWR_INIT(0);
-  
+  GPRS_PWR_OFF();
+  GPRS_EN_ON();
   GPRS_CHANGE_STATE(GPRS_POWER_OFF);
 }
 
 void gprs_turnon(void)
 {
-  //GPRS_PWR_ON();
+//  GPRS_PWR_OFF();
   GPRS_CHANGE_STATE(GPRS_POWER_TURNING_ON);
 }
 
@@ -925,4 +927,11 @@ void gprs_disconnect (void)
 {
   if (gprsCheckStatus() == TRANSPARENT_DATA_MODE)
     GPRS_CHANGE_STATE(DEACTIVE_GPRS_CONTEXT);
+  gprsIpAddr.ipAddr = 0;
+  gprsIpAddr.len = 0;
+}
+
+uint32_t gprsGetIpAddr()
+{
+  return gprsIpAddr.ipAddr;
 }

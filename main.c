@@ -76,6 +76,9 @@ int_t main(void)
     AppLedInit();
     // Init IO Pin
     AppIoInit();
+    //Initialize kernel
+    osInitKernel();
+    
 #if (USERDEF_GPRS == ENABLED)
     gprs_init();
 #endif
@@ -83,8 +86,7 @@ int_t main(void)
 #if (USERDEF_USER_INTERFACE == ENABLED)  
     AppInitUserInterface();
 #endif  
-    //Initialize kernel
-    osInitKernel();
+    
 #if (USERDEF_ADC_TASK == ENABLED)
     //ADC initialization
     AppInitAdc();
@@ -99,7 +101,6 @@ int_t main(void)
     SnmpInitMib();
     error = SnmpInitClient(interface);
     //Create TrapSend task
-    /*
     if (error == NO_ERROR)
     {
       task = osCreateTask("TrapSend", SnmpSendTrapTask, NULL, 500, OS_TASK_PRIORITY_NORMAL);
@@ -112,7 +113,6 @@ int_t main(void)
     }
     else
       TRACE_ERROR("Failed to create SNMP Client!\r\n");
-    */
 #endif
     // Declare application Task and timer
     UserTaskInit();

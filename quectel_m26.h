@@ -116,6 +116,7 @@ gprs_op_status_t gprsCheckStatus(void);
 void gprs_connect (void);
 void gprs_disconnect (void);
 error_t gprsSendMsg(const void *data, size_t length);
+uint32_t gprsGetIpAddr();
  	
 #endif
 

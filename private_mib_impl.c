@@ -67,7 +67,7 @@ error_t privateMibInit(void)
   privateMibBase.ledTable[2].ledState = 0;
   
   //Default value for testString object
-  strcpy(privateMibBase.siteInfoGroup.siteInfoBTSCode, "OnlineCETSite");
+  strcpy(privateMibBase.siteInfoGroup.siteInfoBTSCode, "BOX0001");
   privateMibBase.siteInfoGroup.siteInfoBTSCodeLen = strlen(privateMibBase.siteInfoGroup.siteInfoBTSCode);       
   
   privateMibBase.siteInfoGroup.siteInfoThresTemp1 = 50;
@@ -1709,14 +1709,17 @@ void UpdateInfo (void)
   privateMibBase.batteryGroup.battery1Voltage = sATS_Variable.battVolt;
   privateMibBase.batteryGroup.battery1AlarmStatus = sATS_Variable.batt_DCLow;
   privateMibBase.batteryGroup.battery1ThresVolt = sMenu_Variable.u16BattThresVolt[0];
-  
+  // Generation status
   if (sATS_Variable.Gen1Fail == 1)
   {
-    privateMibBase.alarmGroup.alarmGenFailureAlarms = 1;
+    privateMibBase.alarmGroup.alarmGenFailureAlarms = 2;
     sActive_Alarm[12].status = 1;
   } else
   {
-    privateMibBase.alarmGroup.alarmGenFailureAlarms = 0;
+    if(sATS_Variable.Gen1Voltage==1)
+      privateMibBase.alarmGroup.alarmGenFailureAlarms = 1;
+    if(sATS_Variable.Gen1Voltage==0)
+      privateMibBase.alarmGroup.alarmGenFailureAlarms = 0;
     sActive_Alarm[12].status = 0;
   }
   //  if (sATS_Variable.batt_DCLow)
@@ -1842,7 +1845,7 @@ void UpdateInfo (void)
   // if accessUID != 1 --> valid user --> alarm access = userID
   // if accessUID != -1 --> invalid user --> alarm access = 0
   // use the 8th bit to mark there is a RF card detect
-  if(newCardDetect ==1)
+  if(newCardDetect == 1)
   {
     newCardDetect = 0;
     privateMibBase.siteInfoGroup.siteInfoAccessIdLen = 8;

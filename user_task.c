@@ -178,7 +178,7 @@ static void hello_task(void *pvParameters) {
   sMenu_Control.init = 1;
   for (;;) {
     vTaskDelay(10);
-//    Key_Scane(); - chaunm - escape key jam - no scan for test
+    Key_Scane(); //chaunm - escape key jam - no scan for test
     Menu_Scane();
     Active_Alarm_Scane();
     ACS_AccessCheck();

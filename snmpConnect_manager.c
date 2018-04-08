@@ -9,6 +9,8 @@
 
 //Dependencies
 #include "snmpConnect_manager.h"
+#include "private_mib_module.h"
+#include "menu.h"
 
 //========================================
 //Global Variable
@@ -38,12 +40,12 @@ void snmpConnectManagerTask (void *param)
   bool pingRequested = false;
   char ipaddrStr[24];
   TRACE_INFO("SNMP connect manager task started\r\n");
-  //ipStringToAddr((const char*)sMenu_Variable.ucSIP, &ipaddr); 
-  ipStringToAddr("8.8.8.8", &ipaddr); 
+  ipStringToAddr((const char*)sMenu_Variable.ucSIP, &ipaddr); 
+  //ipStringToAddr("8.8.8.8", &ipaddr); 
   for (;;)  {
     if (snmpConnectManager.pingTick > PING_SEND_PERIOD)
     {
-      TRACE_INFO("Send ping to 8.8.8.8\r\n");      
+      TRACE_INFO("Send ping to %s\r\n", sMenu_Variable.ucSIP);      
       netInterface = snmpAgentContext.socket->interface;
       status = ping(netInterface, &ipaddr, 32, 255, timeout, &rtt_time);
       snmpConnectManager.pingTick = 0;
@@ -72,6 +74,7 @@ void snmpConnectManagerTask (void *param)
           else if (gprsCheckStatus() == TRANSPARENT_DATA_MODE)
           {
             snmpConnectManager.status = GPRS_CONNECTED;
+            privateMibBase.siteInfoGroup.siteInfoIpAddress = gprsGetIpAddr();
             TRACE_INFO("ethernet down, GPRS up\r\n");
           }
         } else pingRetry++;
@@ -83,6 +86,7 @@ void snmpConnectManagerTask (void *param)
         pingRequested = false;
         snmpConnectManager.status = ETHERNET_CONNECTED;
         gprs_disconnect();
+        MenuGetDeviceIpv4(&privateMibBase.siteInfoGroup.siteInfoIpAddress);
         TRACE_INFO("Ethernet up, turn GPRS OFF\r\n");
       }
       else if (gprsCheckStatus() == GPRS_POWER_OFF)
@@ -97,6 +101,7 @@ void snmpConnectManagerTask (void *param)
       if (status == NO_ERROR)
       {
         snmpConnectManager.status = ETHERNET_CONNECTED;
+        MenuGetDeviceIpv4(&privateMibBase.siteInfoGroup.siteInfoIpAddress);
         TRACE_INFO("Ethernet up\r\n");
       }
       else if (gprsCheckStatus() == GPRS_POWER_OFF)
@@ -106,6 +111,7 @@ void snmpConnectManagerTask (void *param)
       else if (gprsCheckStatus() == TRANSPARENT_DATA_MODE)
       {
         snmpConnectManager.status = GPRS_CONNECTED;
+        privateMibBase.siteInfoGroup.siteInfoIpAddress = gprsGetIpAddr();
         TRACE_INFO("ethernet down, GPRS up\r\n");
       }
       break;
