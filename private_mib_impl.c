@@ -1731,15 +1731,17 @@ void UpdateInfo (void)
   //  privateMibBase.alarmGroup.alarmDcThresAlarms = 0;
   //  sActive_Alarm[1].status = 0;
   //  }
-  if (sATS_Variable.Gen1Voltage == 0) //0:Stop; 1:Run
-  {
-    privateMibBase.alarmGroup.alarmMachineStopAlarms = 1;
-    sActive_Alarm[14].status = 1;
-  } else if (sATS_Variable.Gen1Voltage == 1)
-  {
-    privateMibBase.alarmGroup.alarmMachineStopAlarms = 0;
-    sActive_Alarm[14].status = 0;
-  } 
+  // change alarm
+//  if (sATS_Variable.Gen1Voltage == 0) //0:Stop; 1:Run
+//  {
+//    privateMibBase.alarmGroup.alarmMachineStopAlarms = 1;
+//    sActive_Alarm[14].status = 1;
+//  } else if (sATS_Variable.Gen1Voltage == 1)
+//  {
+//    privateMibBase.alarmGroup.alarmMachineStopAlarms = 0;
+//    sActive_Alarm[14].status = 0;
+//  } 
+  privateMibBase.alarmGroup.alarmMachineStopAlarms = sATS_Variable.Gen1ControlStatus;
   
   privateMibBase.siteInfoGroup.siteInfoThresTemp1 = sMenu_Variable.u16ThresTemp[0];
   privateMibBase.siteInfoGroup.siteInfoThresTemp2 = sMenu_Variable.u16ThresTemp[1];

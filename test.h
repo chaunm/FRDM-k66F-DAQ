@@ -5,5 +5,6 @@
 
 void TestM26Gprs(void* param);
 void TestOpenDoorUpdate(void* param);
+void TestGeneration(void* param);
 
 #endif

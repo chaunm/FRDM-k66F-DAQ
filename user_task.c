@@ -654,4 +654,14 @@ void UserTaskInit()
     TRACE_ERROR("Failed to create Door test task!\r\n");
   }
 #endif // USERDEF_CHAUNM_TEST
+  
+  #if (USERDEF_CHAUNM_TEST_GEN == ENABLED)
+  task = osCreateTask("GEN TEST", TestGeneration, NULL, 100, OS_TASK_PRIORITY_NORMAL);
+  //Failed to create the task?
+  if(task == OS_INVALID_HANDLE)
+  {
+    //Debug message
+    TRACE_ERROR("Failed to create Generator test task!\r\n");
+  }
+#endif // USERDEF_CHAUNM_TEST
 }

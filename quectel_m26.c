@@ -170,9 +170,11 @@ void _gprs_power_turning_on(void)
   vTaskDelay(1000 / portTICK_PERIOD_MS);
   GPRS_PWR_ON();
   vTaskDelay(3000 / portTICK_PERIOD_MS);
-  GPRS_EN_OFF();
+//  GPRS_EN_OFF();
+  GPRS_EN_ON(); // chaunm
   vTaskDelay(3000/ portTICK_PERIOD_MS);
-  GPRS_EN_ON();
+//  GPRS_EN_ON();
+  GPRS_EN_OFF(); // chaunm 
   vTaskDelay(1000 / portTICK_PERIOD_MS);
   
   GPRS_CHANGE_STATE(GPRS_CHECK_POWER_STATUS);
