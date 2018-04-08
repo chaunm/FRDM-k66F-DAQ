@@ -99,6 +99,7 @@ int_t main(void)
     SnmpInitMib();
     error = SnmpInitClient(interface);
     //Create TrapSend task
+    /*
     if (error == NO_ERROR)
     {
       task = osCreateTask("TrapSend", SnmpSendTrapTask, NULL, 500, OS_TASK_PRIORITY_NORMAL);
@@ -111,6 +112,7 @@ int_t main(void)
     }
     else
       TRACE_ERROR("Failed to create SNMP Client!\r\n");
+    */
 #endif
     // Declare application Task and timer
     UserTaskInit();

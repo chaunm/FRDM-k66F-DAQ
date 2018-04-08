@@ -47,7 +47,7 @@ typedef struct
   OsMutex mutex;                                        ///<Mutex preventing simultaneous access to SNMP agent context
 }SNMPConnectManager;
 
-#define PING_SEND_PERIOD 10
+#define PING_SEND_PERIOD 3
 
 //=======================================
 //Function declearation

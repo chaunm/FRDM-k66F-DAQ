@@ -15,7 +15,7 @@ TraceBufferSize=0x00010000
 TraceStallIfFIFOFull=0x00000000
 TracePortSize=0x00000004
 [DebugChecksum]
-Checksum=-412963729
+Checksum=1177920809
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -42,12 +42,6 @@ ITMportsEnable=0
 ITMportsTermIO=0
 ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
-[Trace1]
-Enabled=0
-ShowSource=1
-[Trace2]
-Enabled=0
-ShowSource=0
 [SWOTraceWindow]
 PcSampling=0
 InterruptLogs=0
@@ -65,12 +59,6 @@ GraphEnabled=0
 ShowTimeLog=1
 LiveEnabled=0
 LiveFile=PowerLogLive.log
-[DataLog]
-LogEnabled=0
-GraphEnabled=0
-ShowTimeLog=1
-SumEnabled=0
-ShowTimeSum=1
 [EventLog]
 Title_0=Ch3
 Symbol_0=0 4 1
@@ -80,13 +68,6 @@ Title_2=Ch1
 Symbol_2=0 4 1
 Title_3=Ch0
 Symbol_3=0 4 1
-LogEnabled=0
-GraphEnabled=0
-ShowTimeLog=1
-SumEnabled=0
-ShowTimeSum=1
-SumSortOrder=0
-[InterruptLog]
 LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
@@ -110,16 +91,41 @@ ShowTiming=1
 Frequency=10000
 Probe0=I0
 ProbeSetup0=2 1 1 2 0 0
-[Disassemble mode]
-mode=0
-[Breakpoints2]
-Bp0=_ 0 "EMUL_DATA" "USERDEF_CHAUNM_TEST_DOOR" 0 0 0 0 4294967295
-Bp1=_ 0 "EMUL_DATA" "USERDEF_CHAUNM_TEST_DOOR" 0 0 0 0 4294967295
-Count=2
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
 Category=_ 0
+[InterruptLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+SumSortOrder=0
+[DataLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Count=0
+[Interrupts]
+Enabled=1
+[MemConfig]
+Base=1
+Manual=0
+Ddf=1
+TypeViol=0
+Stop=1
+[Trace1]
+Enabled=0
+ShowSource=1
 [Aliases]
 Count=0
 SuppressDialog=0
+[Simulator]
+Freq=10000000
+MultiCoreRunAll=1

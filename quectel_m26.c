@@ -16,6 +16,7 @@ gprs_msg_buf_t gprsRxMsg;
 gprs_msg_buf_t gprsTxMsg;
 bool is_CR_received = FALSE;
 bool is_LF_received = FALSE;
+gprs_ip_address_t gprsIpAddr;
 
 gprs_validate_cmd_t gprsValidateCmd = {
   .retry = 0,
@@ -42,12 +43,13 @@ gprs_validate_cmd_t gprsValidateCmd = {
 #define GPRS_CHECK_CURRENTMODE_MSG "AT+QICSGP?\r" // 1: GPRS connecting mode 0: CSD connecting mode
 #define GPRS_ACTIVATE_GPRSCONTEXT_MSG "AT+QIACT\r"
 #define GPRS_SET_DSTADDRESSMODE_MSG "AT+QIDNSIP=%d\r"
+#define GPRS_GET_LOCAL_IP_MSG "AT+QILOCIP\r"
 #define GPRS_SET_TCPIPSTACKMODE_MSG "AT+QIMODE=%d\r"
 #define GPRS_CONNECT_TCPADDRESS_MSG "AT+QIOPEN=\"TCP\",\"%s\",\"%s\"\r"
 #define GPRS_CONECT_TCPDOMAIN_MSG "AT+QIOPEN=\"TCP\",\"%s\",\"%d\"\r"
 #define GPRS_CONNECT_UDPADDRESS_MSG "AT+QIOPEN=\"UDP\",\"%s\",\"%d\"\r"
 #define GPRS_DEACTIVE_GPRSCONTEXT_MSG "AT+QIDEACT\r"
-#define GPRS_TURNOFF_ECHO "ATE1\r"
+#define GPRS_TURNOFF_ECHO "ATE0\r"
 
 //Test data
 //#define APP_IPV4_SERVER_ADDR "171.224.95.239"
@@ -85,6 +87,7 @@ void _gprs_clear_rx_buf(void)
 {
   gprsRxMsg.ptr = 0;
   gprsRxMsg.len = 0;
+  memset(gprsRxMsg.buf, 0, GPRS_MSG_BUF_SIZE);
 }
 
 void _gprs_process_rx_message(uint8_t *rx_msg, uint16_t rx_len)
@@ -139,6 +142,25 @@ void _gprs_process_rx_message(uint8_t *rx_msg, uint16_t rx_len)
     //gprsValidateCmd.receive_cmd = CMD_ERROR_RESPOND;	//keep old response
   } else {
     gprsValidateCmd.received_cmd = UNKNOWN_RESPOND;
+    // chaunm - process for incoming IP address here
+    if (gprsOpState == GET_GPRS_LOCAL_IP_RESPOND)
+    {
+      int pointCount = 0;
+//      PRINTF("ip response:");
+      for (int i = 0; i < rx_len; i++)
+      {
+        if ((char)rx_msg[i] == '.')
+          pointCount++;
+//        PRINTF("%c", rx_msg[i]);
+      }
+//      PRINTF("\r\n");
+      if ((pointCount == 3) && (rx_len > 6))
+      {
+        memcpy(gprsIpAddr.ipAddress, rx_msg, rx_len);
+        gprsIpAddr.len = rx_len;
+        gprsValidateCmd.received_cmd = OK_RESPOND;
+      }
+    }
   }
 }
 
@@ -452,7 +474,8 @@ void _gprs_set_dstAddr_type_respond (TimeOut_t *timeOut, TickType_t *timeToWait)
 {
   if (gprsValidateCmd.received_cmd == OK_RESPOND) 
   {
-    GPRS_CHANGE_STATE(CONNECT_UDP_SERVER);
+//    GPRS_CHANGE_STATE(CONNECT_UDP_SERVER);
+    GPRS_CHANGE_STATE(GET_GPRS_LOCAL_IP);
     _resetValidateCmdVariable(); // reset retry for the new check
   }
   
@@ -472,6 +495,83 @@ void _gprs_set_dstAddr_type_respond (TimeOut_t *timeOut, TickType_t *timeToWait)
     }
   }
 }
+
+/**************** chaunm - add get local ip start**********************/
+void _gprs_get_gprs_local_ip (TimeOut_t *timeOut, TickType_t *timeToWait)
+{
+  vTaskDelay(100 / portTICK_PERIOD_MS);
+  UART_WriteBlocking(GPRS_UART, GPRS_GET_LOCAL_IP_MSG, strlen(GPRS_GET_LOCAL_IP_MSG));
+  GPRS_CHANGE_STATE(GET_GPRS_LOCAL_IP_RESPOND);
+  vTaskSetTimeOutState(timeOut);
+  *timeToWait = 10000;
+}
+
+void _gprs_get_gprs_local_ip_respond (TimeOut_t *timeOut, TickType_t *timeToWait)
+{
+  if (gprsValidateCmd.received_cmd == OK_RESPOND) 
+  {
+    GPRS_CHANGE_STATE(PARSE_GPRS_IP_ADDR);
+    _resetValidateCmdVariable(); // reset retry for the new check
+  }
+  
+  if( xTaskCheckForTimeOut(timeOut, timeToWait ) == pdFALSE )
+  {
+    return;
+  } else
+  {
+    if (gprsValidateCmd.retry++ > 2) 
+    {
+      gprs_turnoff();
+      _resetValidateCmdVariable(); // reset retry for the new check
+    } else
+    {
+      GPRS_CHANGE_STATE(GET_GPRS_LOCAL_IP);
+      //_resetValidateCmdVariable(); // reset retry for the new check
+    }
+  }
+}
+
+void _gprs_parse_local_ip_address()
+{
+  uint8_t i = 3;
+  uint8_t j;
+  uint8_t* gprsIp = (uint8_t*)&gprsIpAddr.ipAddr;
+  gprsIpAddr.ipAddr = 0;
+  if (gprsIpAddr.len >= 7)
+  {
+    for (j = 0; j < gprsIpAddr.len; j++)
+    {
+      if ((gprsIpAddr.ipAddress[j] <= '9') && (gprsIpAddr.ipAddress[j] >= '0'))
+      {
+        gprsIp[i] = gprsIp[i] * 10 + gprsIpAddr.ipAddress[j] - 48;
+      }
+      else if (gprsIpAddr.ipAddress[j] == '.')
+      {
+        if (i > 0)
+          i--;
+        else
+        {
+          gprsIpAddr.ipAddr = 0;
+          break;
+        }
+      }
+      else
+      {
+         gprsIpAddr.ipAddr = 0;
+         break;
+      }
+    }
+    gprsIpAddr.len = 0;
+  }
+  if (gprsIpAddr.ipAddr > 0)
+  {
+    PRINTF("IP: %d\r\n", gprsIpAddr.ipAddr);
+    GPRS_CHANGE_STATE(CONNECT_UDP_SERVER);
+  }
+  else
+    GPRS_CHANGE_STATE(GET_GPRS_LOCAL_IP);    
+}
+/**************** chaunm - add get local ip end*************************/
 
 void _gprs_connect_udpAddr (TimeOut_t *timeOut, TickType_t *timeToWait)
 {
@@ -770,6 +870,15 @@ void gprs_task (void *param)
     case SET_DEST_ADDRESS_TYPE_RESPOND:
       _gprs_set_dstAddr_type_respond(&gprs_timeout, &gprs_timeToWait);
       break;
+    case GET_GPRS_LOCAL_IP: // chaunm
+      _gprs_get_gprs_local_ip(&gprs_timeout, &gprs_timeToWait);
+      break;
+    case GET_GPRS_LOCAL_IP_RESPOND: // chaunm
+      _gprs_get_gprs_local_ip_respond(&gprs_timeout, &gprs_timeToWait);
+      break;
+    case PARSE_GPRS_IP_ADDR: // chaunm
+      _gprs_parse_local_ip_address();
+      break;
     case CONNECT_UDP_SERVER:
       _gprs_connect_udpAddr(&gprs_timeout, &gprs_timeToWait);
       break;
@@ -779,9 +888,6 @@ void gprs_task (void *param)
     case TRANSPARENT_DATA_MODE:
       if (gprsValidateCmd.data_conection_terminated)
         GPRS_CHANGE_STATE(DEACTIVE_GPRS_CONTEXT);
-      
-      //UART_WriteBlocking(GPRS_UART, "Hello", 5);
-      //vTaskDelay(10000 / portTICK_PERIOD_MS);
       break;
     case DEACTIVE_GPRS_CONTEXT:
       _gprs_deactive_gprs_context(&gprs_timeout, &gprs_timeToWait);
