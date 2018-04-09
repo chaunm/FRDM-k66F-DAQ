@@ -1863,7 +1863,7 @@ void UpdateInfo (void)
     {
       //privateMibBase.alarmGroup.alarmAccessAlarms = 0;
       privateMibBase.alarmGroup.alarmAccessAlarms &= 0x100; // clear last ID
-      privateMibBase.alarmGroup.alarmAccessAlarms = sMenu_Control.accessUID; // add current ID
+      privateMibBase.alarmGroup.alarmAccessAlarms |= sMenu_Control.accessUID; // add current ID
       privateMibBase.alarmGroup.alarmAccessAlarms ^= 0x100; // change mark bit
       IO_OPENDOOR_MCU_OFF();
     } 
