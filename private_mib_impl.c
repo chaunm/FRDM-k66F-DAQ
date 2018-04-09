@@ -1664,7 +1664,7 @@ error_t privateMibGetAlarmGroup(const MibObject *object, const uint8_t *oid,
   else if(!strcmp(object->name, "alarmAccessAlarms"))
   {
     //Get object value
-    value->integer = privateMibBase.alarmGroup.alarmAccessAlarms & 0xFFFFFF00; // chaunm - the 8th bit for marking
+    value->integer = privateMibBase.alarmGroup.alarmAccessAlarms & 0x000000FF; // chaunm - the 8th bit for marking
   }
   //alarmAcThresAlarms object?
   else if(!strcmp(object->name, "alarmAcThresAlarms"))
@@ -1856,26 +1856,27 @@ void UpdateInfo (void)
     {
       //privateMibBase.alarmGroup.alarmAccessAlarms = 1;
       
-      privateMibBase.alarmGroup.alarmAccessAlarms &= 0x00; 
+      privateMibBase.alarmGroup.alarmAccessAlarms &= 0x100; 
       privateMibBase.alarmGroup.alarmAccessAlarms ^= 0x100; 
       IO_OPENDOOR_MCU_ON();    
     } else if (sMenu_Control.accessUID != 0)
     {
       //privateMibBase.alarmGroup.alarmAccessAlarms = 0;
-      privateMibBase.alarmGroup.alarmAccessAlarms &= 0x00; // clear last ID
+      privateMibBase.alarmGroup.alarmAccessAlarms &= 0x100; // clear last ID
       privateMibBase.alarmGroup.alarmAccessAlarms = sMenu_Control.accessUID; // add current ID
       privateMibBase.alarmGroup.alarmAccessAlarms ^= 0x100; // change mark bit
       IO_OPENDOOR_MCU_OFF();
     } 
   }
-  for (j=0;j<5;j++)
-  {
-    privateMibBase.configGroup.configAccessIdTable[j].configAccessIdIndex = j+1;
-    privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCardLen = 8;
-    memset(&privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCard,0,16);
-    for(i=0;i<8;i++)    
-      privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCard[i] = sMenu_Variable.u8UserID[j][i];    
-  }    
+  // need to make clear thing below - chaunm
+//  for (j=0;j<5;j++)
+//  {
+//    privateMibBase.configGroup.configAccessIdTable[j].configAccessIdIndex = j+1;
+//    privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCardLen = 8;
+//    memset(&privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCard,0,16);
+//    for(i=0;i<8;i++)    
+//      privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCard[i] = sMenu_Variable.u8UserID[j][i];    
+//  }    
   // chaunm - already update 08/04
 //  for(i=0;i<8;i++)
 //  {

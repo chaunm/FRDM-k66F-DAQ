@@ -44,8 +44,8 @@
 /*! @brief The board name */
 #define BOARD_NAME "FRDM-K66F"
 
- // CanhLT - 23/12
- #define DEBUG_CONSOLE_UART4
+ // CanhLT - 23/12 -- chaunm - disable debug console
+// #define DEBUG_CONSOLE_UART4
  
 #ifndef DEBUG_UART
 #define DEBUG_UART 4

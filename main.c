@@ -94,9 +94,6 @@ int_t main(void)
     // Init Ethernet module
     interface = EthernetInit();
 
-#if (USERDEF_USER_INTERFACE == ENABLED)
-    //	Init_RS485_UART();
-#endif
 #if (USERDEF_CLIENT_SNMP == ENABLED)
     SnmpInitMib();
     error = SnmpInitClient(interface);

@@ -49,7 +49,7 @@ gprs_validate_cmd_t gprsValidateCmd = {
 #define GPRS_CONECT_TCPDOMAIN_MSG "AT+QIOPEN=\"TCP\",\"%s\",\"%d\"\r"
 #define GPRS_CONNECT_UDPADDRESS_MSG "AT+QIOPEN=\"UDP\",\"%s\",\"%d\"\r"
 #define GPRS_DEACTIVE_GPRSCONTEXT_MSG "AT+QIDEACT\r"
-#define GPRS_TURNOFF_ECHO "ATE0\r"
+#define GPRS_TURNOFF_ECHO "ATE1\r"
 
 //Test data
 //#define APP_IPV4_SERVER_ADDR "171.224.95.239"
@@ -170,11 +170,9 @@ void _gprs_power_turning_on(void)
   vTaskDelay(1000 / portTICK_PERIOD_MS);
   GPRS_PWR_ON();
   vTaskDelay(3000 / portTICK_PERIOD_MS);
-//  GPRS_EN_OFF();
-  GPRS_EN_ON(); // chaunm
+  GPRS_EN_OFF();
   vTaskDelay(3000/ portTICK_PERIOD_MS);
-//  GPRS_EN_ON();
-  GPRS_EN_OFF(); // chaunm 
+  GPRS_EN_ON();
   vTaskDelay(1000 / portTICK_PERIOD_MS);
   
   GPRS_CHANGE_STATE(GPRS_CHECK_POWER_STATUS);
@@ -786,8 +784,6 @@ void gprs_init (void)
   _gprs_initUART();
   GPRS_EN_INIT(0);
   GPRS_PWR_INIT(0);
-  GPRS_PWR_OFF();
-  GPRS_EN_ON();
   GPRS_CHANGE_STATE(GPRS_POWER_OFF);
 }
 
