@@ -2331,7 +2331,8 @@ void ReadMemory(uint16_t Index,uint16_t *Value)
 {
 	uint16_t uiValue16=0;
 	uiValue16 = ReadEEPROM_Word(sSetting_Values[Index].addrEEPROM);
-	if(uiValue16>=sSetting_Values[Index].lowerVal && uiValue16<=sSetting_Values[Index].upperVal) *Value = uiValue16;
+	if(uiValue16>=sSetting_Values[Index].lowerVal && uiValue16<=sSetting_Values[Index].upperVal) 
+          *Value = uiValue16;
 	else {
 		*Value = sSetting_Values[Index].defaultVal;
 		WriteEEPROM_Word(sSetting_Values[Index].addrEEPROM,*Value);
@@ -2383,16 +2384,16 @@ void Init_All_Variable (void)
 	ReadMemory(_AIRCON_TEMP4,&sMenu_Variable.u16AirConTemp[3]); 
 	ReadMemory(_AIRCON_TIME1,&sMenu_Variable.u16AirConTime1); 
 	ReadMemory(_AIRCON_TIME2,&sMenu_Variable.u16AirConTime2); 
-	/*
+#if (USERDEF_CHAUNM_TEST == ENABLED)
 	sMenu_Variable.sEthernetSetting.u16DevIP[0] = 192;
 	sMenu_Variable.sEthernetSetting.u16DevIP[1] = 168;
-	sMenu_Variable.sEthernetSetting.u16DevIP[2] = 1;
-	sMenu_Variable.sEthernetSetting.u16DevIP[3] = 199;	
+	sMenu_Variable.sEthernetSetting.u16DevIP[2] = 100;
+	sMenu_Variable.sEthernetSetting.u16DevIP[3] = 247;	
 	
 	sMenu_Variable.sEthernetSetting.u16DevGateway[0] = 192;
 	sMenu_Variable.sEthernetSetting.u16DevGateway[1] = 168;
-	sMenu_Variable.sEthernetSetting.u16DevGateway[2] = 1;
-	sMenu_Variable.sEthernetSetting.u16DevGateway[3] = 200;
+	sMenu_Variable.sEthernetSetting.u16DevGateway[2] = 100;
+	sMenu_Variable.sEthernetSetting.u16DevGateway[3] = 1;
 	
 	sMenu_Variable.sEthernetSetting.u16DevSubnet[0] = 255;
 	sMenu_Variable.sEthernetSetting.u16DevSubnet[1] = 255;
@@ -2401,10 +2402,10 @@ void Init_All_Variable (void)
 	
 	sMenu_Variable.u16ServerIP[0] = 192;
 	sMenu_Variable.u16ServerIP[1] = 168;
-	sMenu_Variable.u16ServerIP[2] = 1;
-	sMenu_Variable.u16ServerIP[3] = 200;
+	sMenu_Variable.u16ServerIP[2] = 100;
+	sMenu_Variable.u16ServerIP[3] = 29;
 	sMenu_Variable.u16ServerPort = 162;
-	*/
+#endif // #if (USERDEF_CHAUNM_TEST == ENABLED)
 	sprintf((char_t *)sMenu_Variable.ucIP,"%d.%d.%d.%d",
 			sMenu_Variable.sEthernetSetting.u16DevIP[0],
 			sMenu_Variable.sEthernetSetting.u16DevIP[1],
@@ -2422,16 +2423,13 @@ void Init_All_Variable (void)
 			sMenu_Variable.sEthernetSetting.u16DevSubnet[1],
 			sMenu_Variable.sEthernetSetting.u16DevSubnet[2],
 			sMenu_Variable.sEthernetSetting.u16DevSubnet[3]);
-#if (USERDEF_CHAUNM_TEST == ENABLED)
-        // chaunm 
-        sprintf((char_t *)sMenu_Variable.ucSIP,"%d.%d.%d.%d", 192, 168, 1, 29);
-#else
+
 	sprintf((char_t *)sMenu_Variable.ucSIP,"%d.%d.%d.%d",
 			sMenu_Variable.u16ServerIP[0],
 			sMenu_Variable.u16ServerIP[1],
 			sMenu_Variable.u16ServerIP[2],
 			sMenu_Variable.u16ServerIP[3]);
-#endif
+
 	//User ID init
 	sMenu_Variable.u8UserIDAddr[0] = USER1_ADDR;
 	sMenu_Variable.u8UserIDAddr[1] = USER2_ADDR;
@@ -2451,4 +2449,12 @@ void Init_All_Variable (void)
 	for(i=0;i<8;i++)
 		sMenu_Variable.u8UserID[4][i] = ReadEEPROM_Byte (USER5_ADDR+i);
 	
+}
+
+void MenuGetDeviceIpv4(uint32_t* ipAddr)
+{
+  (*ipAddr) = (((sMenu_Variable.sEthernetSetting.u16DevIP[0] & 0x00FF) << 24) |
+               ((sMenu_Variable.sEthernetSetting.u16DevIP[1] & 0x00FF) << 16) |
+               ((sMenu_Variable.sEthernetSetting.u16DevIP[2] & 0x00FF) << 8)  |
+               ((sMenu_Variable.sEthernetSetting.u16DevIP[3] & 0x00FF)));
 }

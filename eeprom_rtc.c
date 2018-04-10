@@ -260,7 +260,8 @@ void WriteEEPROM_Word(uint16_t uiAdrress,uint16_t uiData){
 	unsigned char High_Adrr;
 	unsigned char Low_Adrr;
 
-	vTaskDelay(10);	//Waiting time for write data :10ms
+//        vTaskDelay(10);	//Waiting time for write data :10ms - chaunm: can not use task delay while OS is not initialized
+        Delay_us(10000);
 	Low_Adrr  =(unsigned char) uiAdrress;
 	High_Adrr =(unsigned char) (uiAdrress>>8);
 	Start();
@@ -270,7 +271,8 @@ void WriteEEPROM_Word(uint16_t uiAdrress,uint16_t uiData){
 	WriteI2C(DataHigh);
 	WriteI2C(DataLow);
 	Stop();
-	vTaskDelay(10);	//Waiting time for write data :10ms
+        Delay_us(10000);
+//	vTaskDelay(10);	//Waiting time for write data :10ms
 }
 
 uint16_t ReadEEPROM_Word(uint16_t uiAdrress){
@@ -307,7 +309,8 @@ void WriteEEPROM_long(uint16_t uiAdrress,uint32_t uiData){
 	unsigned char High_Adrr;
 	unsigned char Low_Adrr;
 
-	vTaskDelay(10);	//Waiting time for write data :10ms
+//	vTaskDelay(10);	//Waiting time for write data :10ms
+        Delay_us(10000);
 	Low_Adrr  =(unsigned char) uiAdrress;
 	High_Adrr =(unsigned char) (uiAdrress>>8);
 
@@ -320,8 +323,8 @@ void WriteEEPROM_long(uint16_t uiAdrress,uint32_t uiData){
 	WriteI2C(temp[1]);
 	WriteI2C(temp[0]);
 	Stop();
-
-	vTaskDelay(10);	//Waiting time for write data :10ms
+        Delay_us(10000);
+//	vTaskDelay(10);	//Waiting time for write data :10ms
 }
 
 uint32_t ReadEEPROM_long(uint32_t uiAdrress){
@@ -357,7 +360,8 @@ void WriteBlock(uint16_t u16Address, char *blocks){
 	unsigned char High_Adrr;
 	unsigned char Low_Adrr;
 
-	vTaskDelay(10);	//Waiting time for write data :10ms
+//	vTaskDelay(10);	//Waiting time for write data :10ms
+        Delay_us(10000);
 	Low_Adrr  =(unsigned char) u16Address;
 	High_Adrr =(unsigned char) (u16Address>>8);
 
@@ -369,8 +373,8 @@ void WriteBlock(uint16_t u16Address, char *blocks){
 		WriteI2C(blocks[i]);
 	}
 	Stop();
-
-	vTaskDelay(10);	//Waiting time for write data :10ms
+        Delay_us(10000);
+//	vTaskDelay(10);	//Waiting time for write data :10ms
 }
 
 void WriteEEPROMu32(uint16_t uiAdrress,uint32_t uiData){

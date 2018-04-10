@@ -146,7 +146,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);
   SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
-                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,1, trapObjects, 1,                             
+                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,1, trapObjects, 2,                             
                     &privateMibBase.alarmGroup.alarmFireAlarms, 
                     &privateMibBase.alarmGroup.alarmFireAlarms_old);
   
@@ -157,7 +157,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[0].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);
   SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
-                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,2, trapObjects, 1,                              
+                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,2, trapObjects, 2,                              
                     &privateMibBase.alarmGroup.alarmSmokeAlarms, 
                     &privateMibBase.alarmGroup.alarmSmokeAlarms_old);
   
@@ -168,7 +168,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);       
   SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
-                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,3, trapObjects, 1,                             
+                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,3, trapObjects, 2,                             
                     &privateMibBase.alarmGroup.alarmMotionDetectAlarms, 
                     &privateMibBase.alarmGroup.alarmMotionDetectAlarms_old);
   
@@ -179,7 +179,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);
   SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
-                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,4, trapObjects, 1,                             
+                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,4, trapObjects, 2,                             
                     &privateMibBase.alarmGroup.alarmFloodDetectAlarms, 
                     &privateMibBase.alarmGroup.alarmFloodDetectAlarms_old);
   
@@ -190,7 +190,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);
   SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
-                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,5, trapObjects, 1,
+                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,5, trapObjects, 2,
                     &privateMibBase.alarmGroup.alarmDoorOpenAlarms, 
                     &privateMibBase.alarmGroup.alarmDoorOpenAlarms_old);
   
@@ -201,7 +201,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen); 
   SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
-                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,6, trapObjects, 1,
+                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,6, trapObjects, 2,
                     &privateMibBase.alarmGroup.alarmGenFailureAlarms, 
                     &privateMibBase.alarmGroup.alarmGenFailureAlarms_old);
   
@@ -212,7 +212,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);  
   SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
-                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,7, trapObjects, 1,
+                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,7, trapObjects, 2,
                     &privateMibBase.alarmGroup.alarmDcThresAlarms, 
                     &privateMibBase.alarmGroup.alarmDcThresAlarms_old);
   
@@ -223,32 +223,34 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);  
   SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
-                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,8, trapObjects, 1,
+                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,8, trapObjects, 2,
                     &privateMibBase.alarmGroup.alarmMachineStopAlarms, 
                     &privateMibBase.alarmGroup.alarmMachineStopAlarms_old);
   
-  //Add the alarmAccessAlarms.0 object to the variable binding list of the message
+   //Add the alarmAcThresAlarms.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.15.9.0", trapObjects[0].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[0].oidLen);
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);  
   SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
-                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,9, trapObjects, 1,
-                    &privateMibBase.alarmGroup.alarmAccessAlarms, 
-                    &privateMibBase.alarmGroup.alarmAccessAlarms_old);
-  
-  //Add the alarmAcThresAlarms.0 object to the variable binding list of the message
-  oidFromString("1.3.6.1.4.1.45796.1.15.10.0", trapObjects[0].oid,
-                SNMP_MAX_OID_SIZE, &trapObjects[0].oidLen);  
-  //Add the siteInfoBTSCode.0 object to the variable binding list of the message
-  oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
-                SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);  
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
-                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,10, trapObjects, 1,
+                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,9, trapObjects, 2,
                     &privateMibBase.alarmGroup.alarmAcThresAlarms, 
                     &privateMibBase.alarmGroup.alarmAcThresAlarms_old);
   
+//Add the alarmAccessAlarms.0 object to the variable binding list of the message
+  oidFromString("1.3.6.1.4.1.45796.1.15.10.0", trapObjects[0].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[0].oidLen);     
+  //Add the siteInfoAccessID.0 object to the variable binding list of the message
+  oidFromString("1.3.6.1.4.1.45796.1.1.8.0", trapObjects[1].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);  
+  //Add the siteInfoBTSCode.0 object to the variable binding list of the message
+  oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[2].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[2].oidLen);  
+  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+                    "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,9, trapObjects, 3,
+                    &privateMibBase.alarmGroup.alarmAccessAlarms, 
+                    &privateMibBase.alarmGroup.alarmAccessAlarms_old);  
 }
 
 static void SnmpSendSiteInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
@@ -700,15 +702,15 @@ static void SnmpSendTrap(void)
     //          "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 7, trapObjects, 8); //
     //        }
     */
-    if (trapStatus_TimePeriod >= 30)
-    {        
-        SnmpSendSiteInfoTrap(trapObjects, destIpAddr);
-        SnmpSendAcInfoTrap(trapObjects, destIpAddr);
-        SnmpSendBatteryInfoTrap(trapObjects, destIpAddr);
-        SnmpSendAccessoriesInfoTrap(trapObjects, destIpAddr);
-	SnmpSendConfigurationInfoTrap(trapObjects, destIpAddr);
-        SnmpSendAlarmInfoTrap(trapObjects, destIpAddr);
-    }    
+//    if (trapStatus_TimePeriod >= 30)
+//    {        
+//        SnmpSendSiteInfoTrap(trapObjects, destIpAddr);
+//        SnmpSendAcInfoTrap(trapObjects, destIpAddr);
+//        SnmpSendBatteryInfoTrap(trapObjects, destIpAddr);
+//        SnmpSendAccessoriesInfoTrap(trapObjects, destIpAddr);
+//	SnmpSendConfigurationInfoTrap(trapObjects, destIpAddr);
+//        SnmpSendAlarmInfoTrap(trapObjects, destIpAddr);
+//    }    
     //	//Add the ifNum object to the variable binding list of the message
     //	oidFromString("1.3.6.1.2.1.11.15.0", trapObjects[0].oid,
     //	SNMP_MAX_OID_SIZE, &trapObjects[0].oidLen);//1.3.6.1.2.1.2.2.1.2.1
@@ -728,7 +730,7 @@ void SnmpSendTrapTask(void *param)
   while(1)
   {
     SnmpSendTrap();
-    osDelayTask(3000);
+    osDelayTask(1000);
   }
 }
 

@@ -12,20 +12,25 @@
       <name>General</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <version>24</version>
+        <version>22</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
           <name>ExePath</name>
-          <state>$PROJ_DIR$/debug</state>
+          <state>Debug\Exe</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>$PROJ_DIR$/debug/obj</state>
+          <state>Debug\Obj</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>$PROJ_DIR$/debug/list</state>
+          <state>Debug\List</state>
+        </option>
+        <option>
+          <name>Variant</name>
+          <version>20</version>
+          <state>40</state>
         </option>
         <option>
           <name>GEndianMode</name>
@@ -34,24 +39,29 @@
         <option>
           <name>Input variant</name>
           <version>3</version>
-          <state>6</state>
+          <state>0</state>
         </option>
         <option>
           <name>Input description</name>
-          <state>No specifier n, no float nor long long, no scan set, no assignment suppressing.</state>
+          <state>Automatic choice of formatter.</state>
         </option>
         <option>
           <name>Output variant</name>
           <version>2</version>
-          <state>5</state>
+          <state>0</state>
         </option>
         <option>
           <name>Output description</name>
-          <state>No specifier a, A, no specifier n, no float nor long long.</state>
+          <state>Automatic choice of formatter.</state>
         </option>
         <option>
           <name>GOutputBinary</name>
           <state>0</state>
+        </option>
+        <option>
+          <name>FPU</name>
+          <version>2</version>
+          <state>5</state>
         </option>
         <option>
           <name>OGCoreOrChip</name>
@@ -73,11 +83,11 @@
         </option>
         <option>
           <name>OGProductVersion</name>
-          <state>6.50.6.4952</state>
+          <state>7.10.3.6927</state>
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.80.2.11970</state>
+          <state>7.10.3.6927</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -119,16 +129,21 @@
         <option>
           <name>GeneralMisraRules04</name>
           <version>0</version>
-          <state>011101010110111110111110110011011100111110101010110110010110101111010101111111110101101111101111111111110010110001111111010010111110111111111</state>
+          <state>111101110010111111111000110111111111111111111111111110010111101111010101111111111111111111111111101111111011111001111011111011111111111111111</state>
         </option>
         <option>
           <name>RTConfigPath2</name>
           <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Normal.h</state>
         </option>
         <option>
+          <name>GFPUCoreSlave</name>
+          <version>20</version>
+          <state>40</state>
+        </option>
+        <option>
           <name>GBECoreSlave</name>
-          <version>24</version>
-          <state>39</state>
+          <version>20</version>
+          <state>40</state>
         </option>
         <option>
           <name>OGUseCmsis</name>
@@ -141,34 +156,6 @@
         <option>
           <name>GRuntimeLibThreads</name>
           <state>0</state>
-        </option>
-        <option>
-          <name>CoreVariant</name>
-          <version>24</version>
-          <state>39</state>
-        </option>
-        <option>
-          <name>GFPUDeviceSlave</name>
-          <state>MK66FN2M0xxx18	Freescale MK66FN2M0xxx18</state>
-        </option>
-        <option>
-          <name>FPU2</name>
-          <version>0</version>
-          <state>4</state>
-        </option>
-        <option>
-          <name>NrRegs</name>
-          <version>0</version>
-          <state>1</state>
-        </option>
-        <option>
-          <name>NEON</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>GFPUCoreSlave2</name>
-          <version>24</version>
-          <state>39</state>
         </option>
       </data>
     </settings>
@@ -621,7 +608,7 @@
         <debug>1</debug>
         <option>
           <name>OOCOutputFormat</name>
-          <version>3</version>
+          <version>2</version>
           <state>3</state>
         </option>
         <option>
@@ -630,7 +617,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>FRDM-K66F-DAQ.bin</state>
+          <state>FRDM-K66F-DAQ.sim</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -648,7 +635,6 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
-        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -668,7 +654,7 @@
       <name>ILINK</name>
       <archiveVersion>0</archiveVersion>
       <data>
-        <version>18</version>
+        <version>16</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -718,13 +704,10 @@
         <option>
           <name>IlinkConfigDefines</name>
           <state></state>
-          <state>__stack_size__=0x1000</state>
-          <state>__heap_size__=0x1000</state>
-          <state>__ram_vector_table__=1</state>
         </option>
         <option>
           <name>IlinkMapFile</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>IlinkLogFile</name>
@@ -748,11 +731,11 @@
         </option>
         <option>
           <name>IlinkIcfOverride</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$PROJ_DIR$/MK66FN2M0xxx18_flash.icf</state>
+          <state>lnk0t.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -812,7 +795,7 @@
         </option>
         <option>
           <name>IlinkProgramEntryLabel</name>
-          <state>__iar_program_start</state>
+          <state></state>
         </option>
         <option>
           <name>DoFill</name>
@@ -943,7 +926,7 @@
         </option>
         <option>
           <name>CrcAlgorithm</name>
-          <version>1</version>
+          <version>0</version>
           <state>1</state>
         </option>
         <option>
@@ -954,14 +937,6 @@
         <option>
           <name>IlinkThreadsSlave</name>
           <state>1</state>
-        </option>
-        <option>
-          <name>IlinkLogCallGraph</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>IlinkIcfFile_AltDefault</name>
-          <state></state>
         </option>
       </data>
     </settings>
@@ -1002,20 +977,25 @@
       <name>General</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <version>24</version>
+        <version>22</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>0</debug>
         <option>
           <name>ExePath</name>
-          <state>$PROJ_DIR$/release</state>
+          <state>Release\Exe</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>$PROJ_DIR$/release/obj</state>
+          <state>Release\Obj</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>$PROJ_DIR$/release/list</state>
+          <state>Release\List</state>
+        </option>
+        <option>
+          <name>Variant</name>
+          <version>20</version>
+          <state>0</state>
         </option>
         <option>
           <name>GEndianMode</name>
@@ -1024,28 +1004,33 @@
         <option>
           <name>Input variant</name>
           <version>3</version>
-          <state>6</state>
+          <state>0</state>
         </option>
         <option>
           <name>Input description</name>
-          <state>Automatic choice of formatter.</state>
+          <state></state>
         </option>
         <option>
           <name>Output variant</name>
           <version>2</version>
-          <state>5</state>
+          <state>0</state>
         </option>
         <option>
           <name>Output description</name>
-          <state>Automatic choice of formatter.</state>
+          <state></state>
         </option>
         <option>
           <name>GOutputBinary</name>
           <state>0</state>
         </option>
         <option>
+          <name>FPU</name>
+          <version>2</version>
+          <state>0</state>
+        </option>
+        <option>
           <name>OGCoreOrChip</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>GRuntimeLibSelect</name>
@@ -1059,15 +1044,15 @@
         </option>
         <option>
           <name>RTDescription</name>
-          <state>0</state>
+          <state></state>
         </option>
         <option>
           <name>OGProductVersion</name>
-          <state>6.50.6.4952</state>
+          <state>7.10.3.6927</state>
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.60.2.11347</state>
+          <state></state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -1079,7 +1064,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>MK66FN2M0xxx18	Freescale MK66FN2M0xxx18</state>
+          <state></state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -1087,7 +1072,7 @@
         </option>
         <option>
           <name>GEndianModeBE</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>OGBufferedTerminalOutput</name>
@@ -1109,16 +1094,21 @@
         <option>
           <name>GeneralMisraRules04</name>
           <version>0</version>
-          <state>011101010110111110111110110011011100111110101010110110010110101111010101111110110101101111101111111111110010110001111111010010111110111101111</state>
+          <state>111101110010111111111000110111111111111111111111111110010111101111010101111111111111111111111111101111111011111001111011111011111111111111111</state>
         </option>
         <option>
           <name>RTConfigPath2</name>
-          <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Normal.h</state>
+          <state></state>
+        </option>
+        <option>
+          <name>GFPUCoreSlave</name>
+          <version>20</version>
+          <state>1</state>
         </option>
         <option>
           <name>GBECoreSlave</name>
-          <version>24</version>
-          <state>39</state>
+          <version>20</version>
+          <state>1</state>
         </option>
         <option>
           <name>OGUseCmsis</name>
@@ -1131,34 +1121,6 @@
         <option>
           <name>GRuntimeLibThreads</name>
           <state>0</state>
-        </option>
-        <option>
-          <name>CoreVariant</name>
-          <version>24</version>
-          <state>41</state>
-        </option>
-        <option>
-          <name>GFPUDeviceSlave</name>
-          <state>MK66FN2M0xxx18	Freescale MK66FN2M0xxx18</state>
-        </option>
-        <option>
-          <name>FPU2</name>
-          <version>0</version>
-          <state>4</state>
-        </option>
-        <option>
-          <name>NrRegs</name>
-          <version>0</version>
-          <state>2</state>
-        </option>
-        <option>
-          <name>NEON</name>
-          <state>1</state>
-        </option>
-        <option>
-          <name>GFPUCoreSlave2</name>
-          <version>24</version>
-          <state>39</state>
         </option>
       </data>
     </settings>
@@ -1605,7 +1567,7 @@
         <debug>0</debug>
         <option>
           <name>OOCOutputFormat</name>
-          <version>3</version>
+          <version>2</version>
           <state>0</state>
         </option>
         <option>
@@ -1632,7 +1594,6 @@
       <data>
         <extensions></extensions>
         <cmdline></cmdline>
-        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1652,7 +1613,7 @@
       <name>ILINK</name>
       <archiveVersion>0</archiveVersion>
       <data>
-        <version>18</version>
+        <version>16</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>0</debug>
         <option>
@@ -1669,7 +1630,7 @@
         </option>
         <option>
           <name>IlinkOutputFile</name>
-          <state>FRDM-K66F-DAQ.out</state>
+          <state>###Unitialized###</state>
         </option>
         <option>
           <name>IlinkDebugInfoEnable</name>
@@ -1702,9 +1663,6 @@
         <option>
           <name>IlinkConfigDefines</name>
           <state></state>
-          <state>__stack_size__=0x1000</state>
-          <state>__heap_size__=0x1000</state>
-          <state>__ram_vector_table__=1</state>
         </option>
         <option>
           <name>IlinkMapFile</name>
@@ -1732,11 +1690,11 @@
         </option>
         <option>
           <name>IlinkIcfOverride</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$PROJ_DIR$/MK66FN2M0xxx18_flash.icf</state>
+          <state>lnk0t.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1796,7 +1754,7 @@
         </option>
         <option>
           <name>IlinkProgramEntryLabel</name>
-          <state>__iar_program_start</state>
+          <state></state>
         </option>
         <option>
           <name>DoFill</name>
@@ -1927,7 +1885,7 @@
         </option>
         <option>
           <name>CrcAlgorithm</name>
-          <version>1</version>
+          <version>0</version>
           <state>1</state>
         </option>
         <option>
@@ -1938,14 +1896,6 @@
         <option>
           <name>IlinkThreadsSlave</name>
           <state>1</state>
-        </option>
-        <option>
-          <name>IlinkLogCallGraph</name>
-          <state>0</state>
-        </option>
-        <option>
-          <name>IlinkIcfFile_AltDefault</name>
-          <state></state>
         </option>
       </data>
     </settings>

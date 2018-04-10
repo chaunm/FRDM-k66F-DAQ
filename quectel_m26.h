@@ -46,6 +46,9 @@ typedef enum gprs_op_status_e
 	ACTIVE_GPRS_CONTEXT_RESPOND,
 	SET_DEST_ADDRESS_TYPE,
 	SET_DEST_ADDRESS_TYPE_RESPOND,
+        GET_GPRS_LOCAL_IP, 
+        GET_GPRS_LOCAL_IP_RESPOND,
+        PARSE_GPRS_IP_ADDR,
 	CONNECT_TCP_SERVER,
 	CONNECT_TCP_SERVER_RESPOND,
 	CONNECT_UDP_SERVER,
@@ -98,6 +101,12 @@ typedef struct gprs_validate_cmd_t
 	bool data_conection_terminated;
 } gprs_validate_cmd_t;
 
+typedef struct gprs_ip_address_t {
+  unsigned char ipAddress[18];
+  uint32_t ipAddr;
+  uint8_t len;
+} gprs_ip_address_t;
+
 // Function declaration
 void gprs_init(void);
 void gprs_turnon(void);
@@ -107,6 +116,7 @@ gprs_op_status_t gprsCheckStatus(void);
 void gprs_connect (void);
 void gprs_disconnect (void);
 error_t gprsSendMsg(const void *data, size_t length);
+uint32_t gprsGetIpAddr();
  	
 #endif
 

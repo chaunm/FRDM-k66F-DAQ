@@ -144,6 +144,8 @@ void Init_All_Variable (void);
 void Default(uint16_t MemoryAdress,uint16_t *Value,uint16_t default_value);
 void ReadMemory(uint16_t Index,uint16_t *Value);
 
+void MenuGetDeviceIpv4(uint32_t* ipAddr);
+
 
 extern uint8_t		mTempVal_u8[16];
 extern uint16_t	mTempVal_u16[16];

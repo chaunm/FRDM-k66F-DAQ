@@ -161,6 +161,20 @@ const MibObject privateMibObjects[] =
 		privateMibGetSiteInfoGroup,
 		NULL
 	},
+        {
+		"siteInfoIpAddress",
+		{43, 6, 1, 4, 1, 130, 229, 100, 1, 1, 10},
+		11,
+		ASN1_CLASS_APPLICATION,
+		MIB_TYPE_UNSIGNED32,
+		MIB_ACCESS_READ_ONLY,
+		NULL,
+		NULL,
+		sizeof(uint32_t),
+		NULL,
+		privateMibGetSiteInfoGroup,
+		NULL
+	},
 
 	//AcInfo group
 	{
@@ -881,9 +895,9 @@ const MibObject privateMibObjects[] =
 		NULL,
 		privateMibGetAlarmGroup,
 		NULL
-	},
-	{
-		"alarmAccessAlarms",
+	},        
+        {
+		"alarmAcThresAlarms",
 		{43, 6, 1, 4, 1, 130, 229, 100, 1, 15, 9},
 		11,
 		ASN1_CLASS_UNIVERSAL,
@@ -895,9 +909,9 @@ const MibObject privateMibObjects[] =
 		NULL,
 		privateMibGetAlarmGroup,
 		NULL
-	},
+	},        
 	{
-		"alarmAcThresAlarms",
+		"alarmAccessAlarms",
 		{43, 6, 1, 4, 1, 130, 229, 100, 1, 15, 10},
 		11,
 		ASN1_CLASS_UNIVERSAL,

@@ -12,7 +12,7 @@
 
 //Dependencies
 #include "mibs/mib_common.h"
-
+#include "mibs/mib2_module.h"
 //Size of testString object
 #define PRIVATE_MIB_TEST_STRING_SIZE 32
 //Number of LEDs
@@ -49,6 +49,7 @@ typedef struct
 	char_t siteInfoAccessId[MIB2_IF_DESCR_SIZE];
 	size_t siteInfoAccessIdLen;        
 	uint32_t siteInfoTrapCounter;
+        uint32_t siteInfoIpAddress;
 } PrivateMibSiteInfoGroup;
 
 /**

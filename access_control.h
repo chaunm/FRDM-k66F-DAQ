@@ -2,6 +2,8 @@
 #define __ACCESS_CONTROL_H__
 #include <stdint.h>
 
+extern uint8_t newCardDetect;
+
 void ACS_SaveUserID (uint16_t EEPROM_Addr, uint8_t* UserID);
 void ACS_DeleteUserID (uint16_t EEPROM_Addr, uint8_t* UserID);
 int8_t ACS_FindUserID (uint8_t *userID);

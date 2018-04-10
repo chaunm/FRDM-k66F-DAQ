@@ -76,6 +76,9 @@ int_t main(void)
     AppLedInit();
     // Init IO Pin
     AppIoInit();
+    //Initialize kernel
+    osInitKernel();
+    
 #if (USERDEF_GPRS == ENABLED)
     gprs_init();
 #endif
@@ -83,8 +86,7 @@ int_t main(void)
 #if (USERDEF_USER_INTERFACE == ENABLED)  
     AppInitUserInterface();
 #endif  
-    //Initialize kernel
-    osInitKernel();
+    
 #if (USERDEF_ADC_TASK == ENABLED)
     //ADC initialization
     AppInitAdc();
@@ -92,9 +94,6 @@ int_t main(void)
     // Init Ethernet module
     interface = EthernetInit();
 
-#if (USERDEF_USER_INTERFACE == ENABLED)
-    //	Init_RS485_UART();
-#endif
 #if (USERDEF_CLIENT_SNMP == ENABLED)
     SnmpInitMib();
     error = SnmpInitClient(interface);

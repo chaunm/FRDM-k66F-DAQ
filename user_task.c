@@ -1,3 +1,12 @@
+#if (USERDEF_CLIENT_SNMP == ENABLED)
+#include "snmp/snmp_agent.h"
+#include "mibs/mib2_module.h"
+#include "mibs/mib2_impl.h"
+#include "oid.h"
+#include "private_mib_module.h"
+#include "private_mib_impl.h"
+#endif
+
 #include "user_task.h"
 #include "net_config.h"
 #include "board.h"
@@ -8,15 +17,6 @@
 #include "rs485.h"
 #include "snmpConnect_manager.h"
 #include "test.h"
-
-#if (USERDEF_CLIENT_SNMP == ENABLED)
-#include "snmp/snmp_agent.h"
-#include "mibs/mib2_module.h"
-#include "mibs/mib2_impl.h"
-#include "oid.h"
-#include "private_mib_module.h"
-#include "private_mib_impl.h"
-#endif
 
 #if (USERDEF_ADC_TASK == ENABLED)
 #include "fsl_adc16.h"
@@ -178,7 +178,7 @@ static void hello_task(void *pvParameters) {
   sMenu_Control.init = 1;
   for (;;) {
     vTaskDelay(10);
-//    Key_Scane(); - chaunm - escape key jam - no scan for test
+    Key_Scane(); //chaunm - escape key jam - no scan for test
     Menu_Scane();
     Active_Alarm_Scane();
     ACS_AccessCheck();
@@ -652,6 +652,16 @@ void UserTaskInit()
   {
     //Debug message
     TRACE_ERROR("Failed to create Door test task!\r\n");
+  }
+#endif // USERDEF_CHAUNM_TEST
+  
+  #if (USERDEF_CHAUNM_TEST_GEN == ENABLED)
+  task = osCreateTask("GEN TEST", TestGeneration, NULL, 100, OS_TASK_PRIORITY_NORMAL);
+  //Failed to create the task?
+  if(task == OS_INVALID_HANDLE)
+  {
+    //Debug message
+    TRACE_ERROR("Failed to create Generator test task!\r\n");
   }
 #endif // USERDEF_CHAUNM_TEST
 }
