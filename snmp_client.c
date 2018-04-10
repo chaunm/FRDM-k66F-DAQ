@@ -702,15 +702,17 @@ static void SnmpSendTrap(void)
     //          "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 7, trapObjects, 8); //
     //        }
     */
-//    if (trapStatus_TimePeriod >= 30)
-//    {        
-//        SnmpSendSiteInfoTrap(trapObjects, destIpAddr);
-//        SnmpSendAcInfoTrap(trapObjects, destIpAddr);
-//        SnmpSendBatteryInfoTrap(trapObjects, destIpAddr);
-//        SnmpSendAccessoriesInfoTrap(trapObjects, destIpAddr);
-//	SnmpSendConfigurationInfoTrap(trapObjects, destIpAddr);
-//        SnmpSendAlarmInfoTrap(trapObjects, destIpAddr);
-//    }    
+#if (USERDEF_NO_TRAP_INFO_UPDATE_TEST == ENABLED)
+    if (trapStatus_TimePeriod >= 30)
+    {        
+        SnmpSendSiteInfoTrap(trapObjects, destIpAddr);
+        SnmpSendAcInfoTrap(trapObjects, destIpAddr);
+        SnmpSendBatteryInfoTrap(trapObjects, destIpAddr);
+        SnmpSendAccessoriesInfoTrap(trapObjects, destIpAddr);
+	SnmpSendConfigurationInfoTrap(trapObjects, destIpAddr);
+        SnmpSendAlarmInfoTrap(trapObjects, destIpAddr);
+    }    
+#endif
     //	//Add the ifNum object to the variable binding list of the message
     //	oidFromString("1.3.6.1.2.1.11.15.0", trapObjects[0].oid,
     //	SNMP_MAX_OID_SIZE, &trapObjects[0].oidLen);//1.3.6.1.2.1.2.2.1.2.1

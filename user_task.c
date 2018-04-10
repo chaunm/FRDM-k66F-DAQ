@@ -533,6 +533,17 @@ void IOsTask(void *param)
 static void SwTimerCallback(TimerHandle_t xTimer)
 {
   trapStatus_TimePeriod++;  
+  // check if door is not locked then lock the door after delay time - chaunm
+  if (privateMibBase.accessoriesGroup.doorStatus == 0)
+  {
+    if (doorOpenTimeCount > 0)
+      doorOpenTimeCount--;
+    else
+    {
+      privateMibBase.accessoriesGroup.doorStatus = 1;
+      IO_OPENDOOR_MCU_ON();
+    }
+  }
 #if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
   snmpConnectIncreaseTick();
 #endif
