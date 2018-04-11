@@ -278,19 +278,16 @@ static void SnmpSendSiteInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.7.0", trapObjects[6].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[6].oidLen);
+    //Add the siteInfoBTSCode.0 object to the variable binding list of the message
+  oidFromString("1.3.6.1.4.1.45796.1.1.9.0", trapObjects[7].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[7].oidLen);        
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
-  oidFromString("1.3.6.1.4.1.45796.1.1.8.0", trapObjects[7].oid,
-                SNMP_MAX_OID_SIZE, &trapObjects[7].oidLen);
-  //Add the siteInfoBTSCode.0 object to the variable binding list of the message
-  oidFromString("1.3.6.1.4.1.45796.1.1.9.0", trapObjects[8].oid,
-                SNMP_MAX_OID_SIZE, &trapObjects[8].oidLen);        
-  //Add the siteInfoBTSCode.0 object to the variable binding list of the message
-  oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[9].oid,
-                SNMP_MAX_OID_SIZE, &trapObjects[9].oidLen);
+  oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[8].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[8].oidLen);
   
   //Send a SNMP trap
   error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
-                            "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 11, trapObjects, 10); //
+                            "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 11, trapObjects, 9); //
   //Failed to send trap message?
   if(error)
   {
@@ -622,15 +619,12 @@ static void SnmpSendAlarmInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr
   //Add the battery1Voltage.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.15.9.0", trapObjects[8].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[8].oidLen);
-  //Add the battery1Voltage.0 object to the variable binding list of the message
-  oidFromString("1.3.6.1.4.1.45796.1.15.10.0", trapObjects[9].oid,
-                SNMP_MAX_OID_SIZE, &trapObjects[9].oidLen);       
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
-  oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[10].oid,
-                SNMP_MAX_OID_SIZE, &trapObjects[10].oidLen);
+  oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[9].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[9].oidLen);
   //Send a SNMP trap
   error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
-                            "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 16, trapObjects, 11); //
+                            "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 16, trapObjects, 10); //
   //        osDelayTask(100);
   //Failed to send trap message?
   if(error)
@@ -652,56 +646,6 @@ static void SnmpSendTrap(void)
     //Destination IP address
     ipStringToAddr((const char_t*)sMenu_Variable.ucSIP, &destIpAddr);  
     SnmpSendAlarmTrap(trapObjects, destIpAddr);
-    /*
-    //======================================= Send AlarmAcessAlarms variable with SiteInfoAccessId ========================//
-    
-    //        //        Add the battery1Voltage.0 object to the variable binding list of the message
-    //          oidFromString("1.3.6.1.4.1.45796.1.15.9.0", trapObjects[0].oid,
-    //          SNMP_MAX_OID_SIZE, &trapObjects[0].oidLen);
-    //          //Add the battery1Voltage.0 object to the variable binding list of the message
-    //          oidFromString("1.3.6.1.4.1.45796.1.1.8.0", trapObjects[1].oid,
-    //          SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);
-    
-    //======================================= Send AlarmAcessAlarms variable with SiteInfoAccessId ========================//
-    //        if ((privateMibBase.alarmGroup.alarmFireAlarms != 0)    ||
-    //            (privateMibBase.alarmGroup.alarmSmokeAlarms != 0)    ||
-    //            (privateMibBase.alarmGroup.alarmMotionDetectAlarms != 0)    ||
-    //            (privateMibBase.alarmGroup.alarmFloodDetectAlarms != 0)    ||
-    //            (privateMibBase.alarmGroup.alarmDoorOpenAlarms != 0)    ||
-    //            (privateMibBase.alarmGroup.alarmGenFailureAlarms != 0)    ||
-    //            (privateMibBase.alarmGroup.alarmDcThresAlarms != 0)    ||
-    //            (privateMibBase.alarmGroup.alarmMachineStopAlarms != 0)    )
-    //        {
-    //           //Add the battery1Voltage.0 object to the variable binding list of the message
-    //          oidFromString("1.3.6.1.4.1.45796.1.15.1.0", trapObjects[0].oid,
-    //          SNMP_MAX_OID_SIZE, &trapObjects[0].oidLen);
-    //          //Add the battery1Voltage.0 object to the variable binding list of the message
-    //          oidFromString("1.3.6.1.4.1.45796.1.15.2.0", trapObjects[1].oid,
-    //          SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);
-    //          //Add the battery1Voltage.0 object to the variable binding list of the message
-    //          oidFromString("1.3.6.1.4.1.45796.1.15.3.0", trapObjects[2].oid,
-    //          SNMP_MAX_OID_SIZE, &trapObjects[2].oidLen);
-    //          //Add the battery1Voltage.0 object to the variable binding list of the message
-    //          oidFromString("1.3.6.1.4.1.45796.1.15.4.0", trapObjects[3].oid,
-    //          SNMP_MAX_OID_SIZE, &trapObjects[3].oidLen);
-    //          //Add the battery1Voltage.0 object to the variable binding list of the message
-    //          oidFromString("1.3.6.1.4.1.45796.1.15.5.0", trapObjects[4].oid,
-    //          SNMP_MAX_OID_SIZE, &trapObjects[4].oidLen);
-    //          //Add the battery1Voltage.0 object to the variable binding list of the message
-    //          oidFromString("1.3.6.1.4.1.45796.1.15.6.0", trapObjects[5].oid,
-    //          SNMP_MAX_OID_SIZE, &trapObjects[5].oidLen);
-    //          //Add the battery1Voltage.0 object to the variable binding list of the message
-    //          oidFromString("1.3.6.1.4.1.45796.1.15.7.0", trapObjects[6].oid,
-    //          SNMP_MAX_OID_SIZE, &trapObjects[6].oidLen);
-    //          //Add the battery1Voltage.0 object to the variable binding list of the message
-    //          oidFromString("1.3.6.1.4.1.45796.1.15.8.0", trapObjects[7].oid,
-    //          SNMP_MAX_OID_SIZE, &trapObjects[7].oidLen);
-    //          
-    //                  //Send a SNMP trap
-    //          error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
-    //          "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 7, trapObjects, 8); //
-    //        }
-    */
 #if (USERDEF_NO_TRAP_INFO_UPDATE_TEST == DISABLED)
     if (trapStatus_TimePeriod >= 30)
     {        
