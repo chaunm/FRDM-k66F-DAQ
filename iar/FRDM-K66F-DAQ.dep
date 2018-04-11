@@ -730,10 +730,6 @@
       <name>$PROJ_DIR$\..\clock_config.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 411</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 258</file>
         </tool>
@@ -749,10 +745,6 @@
       <name>$PROJ_DIR$\..\board.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 213</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 136</file>
         </tool>
@@ -767,10 +759,6 @@
     <file>
       <name>$PROJ_DIR$\..\pin_mux.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 444</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 183</file>
@@ -796,10 +784,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_adc16.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 366</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 167</file>
         </tool>
@@ -814,10 +798,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_clock.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 257</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 223</file>
@@ -834,10 +814,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmp.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 203</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 407</file>
         </tool>
@@ -852,10 +828,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmt.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 202</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 326</file>
@@ -872,10 +844,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_common.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 219</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 410</file>
         </tool>
@@ -890,10 +858,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_crc.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 391</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 380</file>
@@ -910,10 +874,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dac.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 300</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 464</file>
         </tool>
@@ -928,10 +888,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dmamux.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 387</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 236</file>
@@ -948,10 +904,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 271</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 314</file>
         </tool>
@@ -966,10 +918,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_edma.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 321</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 354</file>
@@ -986,10 +934,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_freertos.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 420</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 246</file>
         </tool>
@@ -1004,10 +948,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_edma.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 249</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 319</file>
@@ -1039,10 +979,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ewm.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 247</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 220</file>
         </tool>
@@ -1057,10 +993,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flash.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 283</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 347</file>
@@ -1077,10 +1009,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexbus.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 431</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 458</file>
         </tool>
@@ -1095,10 +1023,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexcan.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 479</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 328</file>
@@ -1115,10 +1039,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ftm.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 442</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 245</file>
         </tool>
@@ -1133,10 +1053,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_gpio.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 475</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 390</file>
@@ -1153,10 +1069,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_i2c.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 436</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 158</file>
         </tool>
@@ -1171,10 +1083,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_i2c_edma.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 200</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 189</file>
@@ -1191,10 +1099,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_i2c_freertos.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 135</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 301</file>
         </tool>
@@ -1209,10 +1113,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_llwu.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 285</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 281</file>
@@ -1229,10 +1129,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lmem_cache.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 267</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 215</file>
         </tool>
@@ -1247,10 +1143,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lptmr.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 388</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 265</file>
@@ -1267,10 +1159,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 424</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 404</file>
         </tool>
@@ -1285,10 +1173,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_edma.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 360</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 419</file>
@@ -1305,10 +1189,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_freertos.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 460</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 147</file>
         </tool>
@@ -1323,10 +1203,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_mpu.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 221</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 288</file>
@@ -1343,10 +1219,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pdb.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 291</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 169</file>
         </tool>
@@ -1361,10 +1233,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pit.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 332</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 207</file>
@@ -1381,10 +1249,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pmc.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 290</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 292</file>
         </tool>
@@ -1399,10 +1263,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rcm.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 181</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 445</file>
@@ -1419,10 +1279,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rnga.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 416</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 461</file>
         </tool>
@@ -1437,10 +1293,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rtc.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 357</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 392</file>
@@ -1457,10 +1309,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 274</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 481</file>
         </tool>
@@ -1475,10 +1323,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai_edma.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 284</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 441</file>
@@ -1495,10 +1339,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sdhc.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 229</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 294</file>
         </tool>
@@ -1513,10 +1353,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sdramc.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 451</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 237</file>
@@ -1533,10 +1369,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sim.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 377</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 399</file>
         </tool>
@@ -1551,10 +1383,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_smc.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 175</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 262</file>
@@ -1571,10 +1399,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tpm.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 429</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 270</file>
         </tool>
@@ -1589,10 +1413,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tsi_v4.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 208</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 118</file>
@@ -1609,10 +1429,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_uart.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 308</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 154</file>
         </tool>
@@ -1627,10 +1443,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_uart_edma.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 303</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 197</file>
@@ -1647,10 +1459,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_uart_freertos.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 413</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 449</file>
         </tool>
@@ -1665,10 +1473,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_vref.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 225</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 329</file>
@@ -1685,10 +1489,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_wdog.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 351</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 478</file>
         </tool>
@@ -1703,10 +1503,6 @@
     <file>
       <name>$PROJ_DIR$\..\rtos\freertos_9.0.0\Source\croutine.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 304</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 268</file>
@@ -1723,10 +1519,6 @@
       <name>$PROJ_DIR$\..\rtos\freertos_9.0.0\Source\event_groups.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 486</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 234</file>
         </tool>
@@ -1741,10 +1533,6 @@
     <file>
       <name>$PROJ_DIR$\..\rtos\freertos_9.0.0\Source\portable\IAR\ARM_CM4F\fsl_tickless_lptmr.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 253</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 131</file>
@@ -1848,10 +1636,6 @@
       <name>$PROJ_DIR$\..\rtos\freertos_9.0.0\Source\portable\IAR\ARM_CM4F\fsl_tickless_systick.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 218</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 224</file>
         </tool>
@@ -1866,10 +1650,6 @@
     <file>
       <name>$PROJ_DIR$\..\rtos\freertos_9.0.0\Source\portable\MemMang\heap_4.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 440</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 186</file>
@@ -1886,10 +1666,6 @@
       <name>$PROJ_DIR$\..\rtos\freertos_9.0.0\Source\list.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 447</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 172</file>
         </tool>
@@ -1904,10 +1680,6 @@
     <file>
       <name>$PROJ_DIR$\..\rtos\freertos_9.0.0\Source\portable\IAR\ARM_CM4F\port.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 126</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 239</file>
@@ -1939,10 +1711,6 @@
       <name>$PROJ_DIR$\..\rtos\freertos_9.0.0\Source\queue.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 403</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 422</file>
         </tool>
@@ -1958,10 +1726,6 @@
       <name>$PROJ_DIR$\..\rtos\freertos_9.0.0\Source\tasks.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 348</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 162</file>
         </tool>
@@ -1976,10 +1740,6 @@
     <file>
       <name>$PROJ_DIR$\..\rtos\freertos_9.0.0\Source\timers.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 434</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 279</file>
@@ -2019,10 +1779,6 @@
       <name>$PROJ_DIR$\..\ethernet.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 372</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 289</file>
         </tool>
@@ -2037,10 +1793,6 @@
     <file>
       <name>$PROJ_DIR$\..\eeprom_rtc.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 318</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 250</file>
@@ -2057,10 +1809,6 @@
       <name>$PROJ_DIR$\..\lm2068.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 140</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 324</file>
         </tool>
@@ -2075,10 +1823,6 @@
     <file>
       <name>$PROJ_DIR$\..\quectel_m26.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 227</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 405</file>
@@ -2095,10 +1839,6 @@
       <name>$PROJ_DIR$\..\ftp.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 174</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 718</file>
         </tool>
@@ -2113,10 +1853,6 @@
     <file>
       <name>$PROJ_DIR$\..\app_init.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 160</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 164</file>
@@ -2133,10 +1869,6 @@
       <name>$PROJ_DIR$\..\menu.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 473</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 182</file>
         </tool>
@@ -2151,10 +1883,6 @@
     <file>
       <name>$PROJ_DIR$\..\rs485.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 409</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 180</file>
@@ -2171,10 +1899,6 @@
       <name>$PROJ_DIR$\..\private_mib_impl.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 204</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 386</file>
         </tool>
@@ -2189,10 +1913,6 @@
     <file>
       <name>$PROJ_DIR$\..\private_mib_module.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 435</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 278</file>
@@ -2209,22 +1929,20 @@
       <name>$PROJ_DIR$\..\snmp_client.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 196</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 214</file>
         </tool>
       </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 395 231 155 414 430 394 320 396 402 524 115 330 157 541 497 494 112 496 423 492 502 491 695 592 558 543 551 401 560 500 499 593 595 557 597 588 651 199 412 653 645 657 659 644 668 673 675 428 485 161 615 603 590 605 613 616 323 459 622 620 681 624 679 317 685 687 556 703 705 576 523 581 585 577 572 568 575 683 584 530 528 554 255 280 547 512 51 23 185 295 11 12 6 10 309 7 9 548 13 17 522 0 3 5 532</file>
+        </tool>
+      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\..\snmpConnect_manager.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 476</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 417</file>
@@ -2241,10 +1959,6 @@
       <name>$PROJ_DIR$\..\user_task.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 382</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 263</file>
         </tool>
@@ -2259,10 +1973,6 @@
     <file>
       <name>$PROJ_DIR$\..\test.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 122</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 119</file>
@@ -2279,10 +1989,6 @@
       <name>$PROJ_DIR$\..\tcp stack\common\debug.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 359</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 343</file>
         </tool>
@@ -2297,10 +2003,6 @@
     <file>
       <name>$PROJ_DIR$\..\main.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 259</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 282</file>
@@ -2326,10 +2028,6 @@
       <name>$PROJ_DIR$\..\variables.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 120</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 450</file>
         </tool>
@@ -2354,10 +2052,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\system_MK66F18.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 364</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 286</file>
         </tool>
@@ -2372,10 +2066,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\common\date_time.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 128</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 327</file>
@@ -2392,10 +2082,6 @@
       <name>$PROJ_DIR$\..\tcp stack\common\endian.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 142</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 334</file>
         </tool>
@@ -2410,10 +2096,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\common\os_port_freertos.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 211</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 471</file>
@@ -2430,10 +2112,6 @@
       <name>$PROJ_DIR$\..\tcp stack\common\path.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 448</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 184</file>
         </tool>
@@ -2448,10 +2126,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\common\resource_manager.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 344</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 469</file>
@@ -2468,10 +2142,6 @@
       <name>$PROJ_DIR$\..\tcp stack\common\str.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 331</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 439</file>
         </tool>
@@ -2486,10 +2156,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\aes.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 228</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 173</file>
@@ -2506,10 +2172,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\dhcp\dhcp_common.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 264</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 452</file>
         </tool>
@@ -2524,10 +2186,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\asn1.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 468</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 474</file>
@@ -2544,10 +2202,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\cipher_mode_cbc.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 346</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 371</file>
         </tool>
@@ -2562,10 +2216,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\cipher_mode_cfb.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 437</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 398</file>
@@ -2582,10 +2232,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\des.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 195</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 325</file>
         </tool>
@@ -2600,10 +2246,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\hmac.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 715</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 125</file>
@@ -2620,10 +2262,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\md5.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 170</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 254</file>
         </tool>
@@ -2638,10 +2276,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\oid.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 121</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 465</file>
@@ -2658,10 +2292,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\sha1.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 453</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 408</file>
         </tool>
@@ -2676,10 +2306,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\ethernet.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 372</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 289</file>
@@ -2696,10 +2322,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\ip.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 345</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 139</file>
         </tool>
@@ -2714,10 +2336,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\net.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 306</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 365</file>
@@ -2734,10 +2352,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\net_mem.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 188</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 358</file>
         </tool>
@@ -2752,10 +2366,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\nic.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 156</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 177</file>
@@ -2772,10 +2382,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\ping.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 356</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 244</file>
         </tool>
@@ -2790,10 +2396,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\raw_socket.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 123</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 137</file>
@@ -2810,10 +2412,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\socket.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 305</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 480</file>
         </tool>
@@ -2828,10 +2426,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\tcp.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 134</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 315</file>
@@ -2848,10 +2442,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\tcp_fsm.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 165</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 210</file>
         </tool>
@@ -2866,10 +2456,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\tcp_misc.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 176</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 216</file>
@@ -2886,10 +2472,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\tcp_timer.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 252</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 367</file>
         </tool>
@@ -2904,10 +2486,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\core\udp.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 375</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 369</file>
@@ -2924,10 +2502,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\dhcp\dhcp_client.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 335</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 168</file>
         </tool>
@@ -2942,10 +2516,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\dhcp\dhcp_debug.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 340</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 338</file>
@@ -2962,10 +2532,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\dns\dns_cache.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 446</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 194</file>
         </tool>
@@ -2980,10 +2546,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\dns\dns_client.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 457</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 425</file>
@@ -3000,10 +2562,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\dns\dns_common.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 190</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 432</file>
         </tool>
@@ -3018,10 +2576,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\dns\dns_debug.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 269</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 163</file>
@@ -3038,10 +2592,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\drivers\ksz8081.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 127</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 393</file>
         </tool>
@@ -3056,10 +2606,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\drivers\mk6x_eth.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 241</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 242</file>
@@ -3076,10 +2622,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ftp\ftp_client.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 376</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 238</file>
         </tool>
@@ -3094,10 +2636,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\http\http_server.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 222</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 166</file>
@@ -3114,10 +2652,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\http\http_server_auth.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 470</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 433</file>
         </tool>
@@ -3132,10 +2666,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\http\http_server_misc.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 400</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 243</file>
@@ -3152,10 +2682,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\http\mime.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 313</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 310</file>
         </tool>
@@ -3170,10 +2696,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\http\ssi.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 266</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 151</file>
@@ -3190,10 +2712,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv4\arp.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 342</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 484</file>
         </tool>
@@ -3208,10 +2726,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv4\icmp.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 384</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 132</file>
@@ -3228,10 +2742,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv4\igmp.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 385</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 287</file>
         </tool>
@@ -3246,10 +2756,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv4\ipv4.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 362</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 472</file>
@@ -3266,10 +2772,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv4\ipv4_frag.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 148</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 277</file>
         </tool>
@@ -3284,10 +2786,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv6\icmpv6.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 297</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 477</file>
@@ -3304,10 +2802,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv6\ipv6.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 717</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 352</file>
         </tool>
@@ -3322,10 +2816,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv6\ipv6_frag.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 129</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 232</file>
@@ -3342,10 +2832,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv6\ipv6_misc.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 482</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 350</file>
         </tool>
@@ -3360,10 +2846,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv6\ipv6_pmtu.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 370</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 248</file>
@@ -3380,10 +2862,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv6\mld.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 251</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 302</file>
         </tool>
@@ -3398,10 +2876,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv6\ndp.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 178</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 152</file>
@@ -3418,10 +2892,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv6\ndp_cache.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 307</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 381</file>
         </tool>
@@ -3436,10 +2906,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv6\ndp_misc.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 179</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 456</file>
@@ -3456,10 +2922,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ipv6\slaac.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 193</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 272</file>
         </tool>
@@ -3474,10 +2936,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mdns\mdns_client.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 339</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 150</file>
@@ -3494,10 +2952,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mdns\mdns_common.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 171</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 141</file>
         </tool>
@@ -3512,10 +2966,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mdns\mdns_responder.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 363</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 443</file>
@@ -3532,10 +2982,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mibs\mib2_impl.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 298</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 406</file>
         </tool>
@@ -3550,10 +2996,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mibs\mib2_module.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 463</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 379</file>
@@ -3570,10 +3012,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mibs\mib_common.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 205</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 378</file>
         </tool>
@@ -3588,10 +3026,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\netbios\nbns_client.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 212</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 316</file>
@@ -3608,10 +3042,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\netbios\nbns_common.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 201</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 462</file>
         </tool>
@@ -3626,10 +3056,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\netbios\nbns_responder.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 296</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 130</file>
@@ -3646,10 +3072,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\snmp\snmp_agent.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 353</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 124</file>
         </tool>
@@ -3664,10 +3086,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\snmp\snmp_agent_dispatch.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 421</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 716</file>
@@ -3684,10 +3102,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\snmp\snmp_agent_misc.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 483</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 145</file>
         </tool>
@@ -3702,10 +3116,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\snmp\snmp_agent_pdu.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 159</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 206</file>
@@ -3722,10 +3132,6 @@
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\snmp\snmp_common.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 187</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 143</file>
         </tool>
@@ -3740,10 +3146,6 @@
     <file>
       <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\snmp\snmp_usm.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 714</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 133</file>
@@ -3760,10 +3162,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\utilities\fsl_debug_console.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 454</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 217</file>
         </tool>
@@ -3778,10 +3176,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\utilities\fsl_notifier.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 368</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 389</file>
@@ -3798,10 +3192,6 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\utilities\fsl_sbrk.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 226</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
           <file> 438</file>
         </tool>
@@ -3810,10 +3200,6 @@
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\utilities\fsl_shell.c</name>
       <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 467</file>
-        </tool>
         <tool>
           <name>BICOMP</name>
           <file> 397</file>

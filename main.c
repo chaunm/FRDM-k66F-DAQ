@@ -40,11 +40,11 @@
 * @brief Main entry point
 * @return Unused value
 **/
+NetInterface *interface;
 
 int_t main(void)
 {
-    error_t error;
-    NetInterface *interface;
+    error_t error;  
     OsTask *task;
     
     BOARD_BootClockHSRUN();

@@ -214,7 +214,7 @@ typedef struct
 
 typedef struct
 {
-    uint16_t  indorTemp;
+    uint16_t  indoorTemp;
     uint16_t  outdoorTemp;
     uint32_t  airCon1Runtime;
     uint32_t  airCon2Runtime;

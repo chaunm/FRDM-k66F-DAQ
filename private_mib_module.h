@@ -105,6 +105,10 @@ typedef struct
 	uint32_t airConSetTemp2;
 	uint32_t airConSetTemp3;
 	uint32_t airConSetTemp4;
+        uint32_t siteIndoorTemp;
+        uint32_t siteOutdoorTemp;
+        uint32_t airconRuntime1;
+        uint32_t airconRuntime2;
 	uint8_t ledControlStatus;
 	uint8_t speakerControlStatus;
 	

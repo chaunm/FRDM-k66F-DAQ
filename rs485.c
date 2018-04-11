@@ -258,7 +258,7 @@ void Extract_Holding_Regs_Data_ATS (void)
 
 void Extract_Holding_Regs_Data_AIRCON (void)
 {
-    sAirCon_Variable.indorTemp = (Modbus.u8BuffRead[3]<<8)|Modbus.u8BuffRead[4];
+    sAirCon_Variable.indoorTemp = (Modbus.u8BuffRead[3]<<8)|Modbus.u8BuffRead[4];
     sAirCon_Variable.outdoorTemp = (Modbus.u8BuffRead[5]<<8)|Modbus.u8BuffRead[6];
     sAirCon_Variable.airCon1Runtime = (Modbus.u8BuffRead[7]<<24)|(Modbus.u8BuffRead[8]<<16)|(Modbus.u8BuffRead[9]<<8)|(Modbus.u8BuffRead[10]<<0);
     sAirCon_Variable.airCon2Runtime = (Modbus.u8BuffRead[11]<<24)|(Modbus.u8BuffRead[12]<<16)|(Modbus.u8BuffRead[13]<<8)|(Modbus.u8BuffRead[14]<<0);

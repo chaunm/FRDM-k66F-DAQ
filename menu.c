@@ -474,7 +474,7 @@ void Menu_Nomarl_Display(void)
 			glcd_Display_Integer_With_Zero(1,16,2,sAirCon_Variable.mins);
 			glcd_Display_Integer_With_Zero(1,19,2,sAirCon_Variable.secs);
 			
-			glcd_Display_Float_1Dec(2,15,4,sAirCon_Variable.indorTemp);
+			glcd_Display_Float_1Dec(2,15,4,sAirCon_Variable.indoorTemp);
 			glcd_Display_Float_1Dec(3,15,4,sAirCon_Variable.outdoorTemp);
 			if(sAirCon_Variable.airCon1Status == 1)
 			{

@@ -420,17 +420,29 @@ static void SnmpSendAccessoriesInfoTrap(SnmpTrapObject* trapObjects, IpAddr dest
   oidFromString("1.3.6.1.4.1.45796.1.4.9.0", trapObjects[8].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[8].oidLen);   
   //Add the ledControlStatus.0 object to the variable binding list of the message
-  oidFromString("1.3.6.1.4.1.45796.1.4.5.0", trapObjects[9].oid,
+  oidFromString("1.3.6.1.4.1.45796.1.4.10.0", trapObjects[9].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[9].oidLen);
   //Add the speakerControlStatus.0 object to the variable binding list of the message
-  oidFromString("1.3.6.1.4.1.45796.1.4.5.0", trapObjects[10].oid,
+  oidFromString("1.3.6.1.4.1.45796.1.4.11.0", trapObjects[10].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[10].oidLen);
+  //Add the speakerControlStatus.0 object to the variable binding list of the message
+  oidFromString("1.3.6.1.4.1.45796.1.4.12.0", trapObjects[11].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[11].oidLen);
+   //Add the speakerControlStatus.0 object to the variable binding list of the message
+  oidFromString("1.3.6.1.4.1.45796.1.4.13.0", trapObjects[12].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[12].oidLen);
+   //Add the speakerControlStatus.0 object to the variable binding list of the message
+  oidFromString("1.3.6.1.4.1.45796.1.4.14.0", trapObjects[13].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[13].oidLen);
+   //Add the speakerControlStatus.0 object to the variable binding list of the message
+  oidFromString("1.3.6.1.4.1.45796.1.4.15.0", trapObjects[14].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[14].oidLen);
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
-  oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[11].oid,
-                SNMP_MAX_OID_SIZE, &trapObjects[11].oidLen);  
+  oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[15].oid,
+                SNMP_MAX_OID_SIZE, &trapObjects[15].oidLen);  
   //Send a SNMP trap
   error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
-                            "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 14, trapObjects, 12); //
+                            "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 14, trapObjects, 16); //
   //Failed to send trap message?
   if(error)
   {
