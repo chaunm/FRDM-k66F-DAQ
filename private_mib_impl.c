@@ -1858,6 +1858,8 @@ void UpdateInfo (void)
       
       privateMibBase.alarmGroup.alarmAccessAlarms &= 0x100; 
       privateMibBase.alarmGroup.alarmAccessAlarms ^= 0x100; 
+      //lock the door
+      privateMibBase.accessoriesGroup.doorStatus = 1;
       IO_OPENDOOR_MCU_ON();    
     } else if (sMenu_Control.accessUID != 0)
     {
@@ -1865,18 +1867,21 @@ void UpdateInfo (void)
       privateMibBase.alarmGroup.alarmAccessAlarms &= 0x100; // clear last ID
       privateMibBase.alarmGroup.alarmAccessAlarms |= sMenu_Control.accessUID; // add current ID
       privateMibBase.alarmGroup.alarmAccessAlarms ^= 0x100; // change mark bit
+      privateMibBase.accessoriesGroup.doorStatus = 0;
       IO_OPENDOOR_MCU_OFF();
+      doorOpenTimeCount = DOOR_OPEN_TIME;
     } 
   }
-  // need to make clear thing below - chaunm
-//  for (j=0;j<5;j++)
-//  {
-//    privateMibBase.configGroup.configAccessIdTable[j].configAccessIdIndex = j+1;
-//    privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCardLen = 8;
-//    memset(&privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCard,0,16);
-//    for(i=0;i<8;i++)    
-//      privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCard[i] = sMenu_Variable.u8UserID[j][i];    
-//  }    
+  // The code below to udpate config access userID to the MIB database -- can reduce memory access by only update when there is the change
+  // chaunm - 10/04 - need implimentation when change here
+  for (j=0;j<5;j++)
+  {
+    privateMibBase.configGroup.configAccessIdTable[j].configAccessIdIndex = j+1;
+    privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCardLen = 8;
+    memset(&privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCard,0,16);
+    for(i=0;i<8;i++)    
+      privateMibBase.configGroup.configAccessIdTable[j].configAccessIdCard[i] = sMenu_Variable.u8UserID[j][i];    
+  }    
   // chaunm - already update 08/04
 //  for(i=0;i<8;i++)
 //  {

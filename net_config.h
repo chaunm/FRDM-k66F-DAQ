@@ -174,15 +174,17 @@
 #define USERDEF_SNMPCONNECT_MANAGER ENABLED
 
 // chaunm
-#define USERDEF_CHAUNM_TEST          ENABLED //enable to use specific network configuration for testing purpose
+#define USERDEF_CHAUNM_TEST          DISABLED //enable to use specific network configuration for testing purpose
 #if (USERDEF_CHAUNM_TEST == ENABLED)
-    #define USERDEF_CHAUNM_TEST_GPRS     DISABLED
-    #define USERDEF_CHAUNM_TEST_DOOR     DISABLED
-    #define USERDEF_CHAUNM_TEST_GEN      DISABLED
+    #define USERDEF_CHAUNM_TEST_GPRS            DISABLED
+    #define USERDEF_CHAUNM_TEST_DOOR            DISABLED
+    #define USERDEF_CHAUNM_TEST_GEN             DISABLED
+    #define USERDEF_NO_TRAP_INFO_UPDATE_TEST    DISABLED
 #else
-    #define USERDEF_CHAUNM_TEST_GPRS     DISABLED
-    #define USERDEF_CHAUNM_TEST_DOOR     DISABLED
-    #define USERDEF_CHAUNM_TEST_GEN      DISABLED
+    #define USERDEF_CHAUNM_TEST_GPRS            DISABLED
+    #define USERDEF_CHAUNM_TEST_DOOR            DISABLED
+    #define USERDEF_CHAUNM_TEST_GEN             DISABLED
+    #define USERDEF_NO_TRAP_INFO_UPDATE_TEST    DISABLED
 #endif
 //#define USERDEF_DEBUG_USING ENABLE
    

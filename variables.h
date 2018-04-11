@@ -93,7 +93,7 @@ typedef enum
     _GEN_MAX_RUNTIME, _GEN_UNDER_VOLT, _GEN_ERROR_RESET_EN, _GEN_ERROR_RESET_MIN, _GEN_WARM_UP_TIME, _GEN_COOL_DOWN_TIME,
     _GEN_NIGHT_EN, _GEN_NIGHT_BEGIN, _GEN_NIGHT_END, _DC_LOW_INPUT, _DC_LOW_VOLT,
     _AIRCON_TEMP1,_AIRCON_TEMP2,_AIRCON_TEMP3,_AIRCON_TEMP4,_AIRCON_TIME1,_AIRCON_TIME2,
-    _HOUR, _MINS, _SECS, _DATE, _MONTH, _YEAR
+    _HOUR, _MINS, _SECS, _DATE, _MONTH, _YEAR, _DEFAULT_WRITE
 }setting_values;
 
 typedef struct
@@ -233,7 +233,7 @@ extern sActive_Alarm_Struct		sActive_Alarm[ACTIVE_ALARM_NUMBER];
 extern sKey_Control_Struct    sKey_Control;
 extern sMenu_Object_Struct		sMenu_Object[19];
 extern sMenu_Control_Struct		sMenu_Control;
-extern sSetting_Values_Struct		sSetting_Values[48];
+extern sSetting_Values_Struct		sSetting_Values[49];
 extern sMenu_Variable_Struct	sMenu_Variable;
 extern sATS_Variable_Struct	sATS_Variable;
 extern sAirCon_Variable_Struct   sAirCon_Variable;

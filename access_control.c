@@ -5,6 +5,7 @@
 
 uint8_t TempUserID[5][9];
 uint8_t newCardDetect;
+uint8_t doorOpenTimeCount = 0;
 // Save an UserID to EEPROM
 void ACS_SaveUserID(uint16_t EEPROM_Addr, uint8_t* UserID)
 {
@@ -73,3 +74,4 @@ void ACS_AccessCheck(void)
     DoorAccess.u8ByteCount = 0;
   }
 }
+

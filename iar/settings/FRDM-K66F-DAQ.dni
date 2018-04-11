@@ -15,7 +15,7 @@ TraceBufferSize=0x00010000
 TraceStallIfFIFOFull=0x00000000
 TracePortSize=0x00000004
 [DebugChecksum]
-Checksum=-1667567933
+Checksum=-891558576
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -112,7 +112,8 @@ mode=0
 [Breakpoints2]
 Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\tcp stack\cyclone_tcp\snmp\snmp_agent_pdu.c}.903.7" 0 0 1 "" 0 "" 0
 Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\tcp stack\cyclone_tcp\snmp\snmp_agent_misc.c}.979.4" 0 0 1 "" 0 "" 0
-Count=2
+Bp2=_ 1 "EMUL_DATA" "_AIRCON_TIME2" 0 0 0 0 4294967295
+Count=3
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""

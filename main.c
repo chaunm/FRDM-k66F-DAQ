@@ -78,14 +78,14 @@ int_t main(void)
     AppIoInit();
     //Initialize kernel
     osInitKernel();
+
+#if (USERDEF_USER_INTERFACE == ENABLED)  
+    AppInitUserInterface();
+#endif  
     
 #if (USERDEF_GPRS == ENABLED)
     gprs_init();
 #endif
-    
-#if (USERDEF_USER_INTERFACE == ENABLED)  
-    AppInitUserInterface();
-#endif  
     
 #if (USERDEF_ADC_TASK == ENABLED)
     //ADC initialization
