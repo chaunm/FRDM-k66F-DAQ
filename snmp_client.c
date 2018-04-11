@@ -702,7 +702,7 @@ static void SnmpSendTrap(void)
     //          "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 7, trapObjects, 8); //
     //        }
     */
-#if (USERDEF_NO_TRAP_INFO_UPDATE_TEST == ENABLED)
+#if (USERDEF_NO_TRAP_INFO_UPDATE_TEST == DISABLED)
     if (trapStatus_TimePeriod >= 30)
     {        
         SnmpSendSiteInfoTrap(trapObjects, destIpAddr);

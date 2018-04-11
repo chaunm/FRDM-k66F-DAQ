@@ -20,32 +20,32 @@ sAirCon_Variable_Struct     sAirCon_Variable;
 sMenu_Variable_Struct	    sMenu_Variable;
 sKey_Control_Struct    	    sKey_Control;
 sMenu_Control_Struct		sMenu_Control;
-sSetting_Values_Struct		sSetting_Values[48] = 
-{//step    lower     upper   addr  rVal   dVal    point
+sSetting_Values_Struct		sSetting_Values[49] =          // chaunm add initialize
+{       //step    lower     upper   addr  rVal   dVal    point
 	{1     ,     1,    1000,    0,     0,   180,      0},  //_AC_LOW
 	{1     ,     1,    1000,    2,     0,   485,      1},  //_DC_LOW
 	{1     ,     1,    1000,    4,     0,   250,      1},  //_TEMP1
 	{1     ,     1,    1000,    6,     0,   250,      1},  //_TEMP2
 	{1     ,     1,    1000,    8,     0,   250,      1},  //_TEMP3
 	{1     ,     1,    1000,   10,     0,   250,      1},  //_TEMP4
-	{1     ,     0,     255,   12,     0,     0,      0},  //_DEV_IP1
-	{1     ,     0,     255,   14,     0,     0,      0},  //_DEV_IP2
-	{1     ,     0,     255,   16,     0,     0,      0},  //_DEV_IP3
-	{1     ,     0,     255,   18,     0,     0,      0},  //_DEV_IP4
-	{1     ,     0,     255,   20,     0,     0,      0},  //_DEV_SUBNET1
-	{1     ,     0,     255,   22,     0,     0,      0},  //_DEV_SUBNET2
-	{1     ,     0,     255,   24,     0,     0,      0},  //_DEV_SUBNET3
+	{1     ,     0,     255,   12,     0,   192,      0},  //_DEV_IP1
+	{1     ,     0,     255,   14,     0,   168,      0},  //_DEV_IP2
+	{1     ,     0,     255,   16,     0,   100,      0},  //_DEV_IP3
+	{1     ,     0,     255,   18,     0,   247,      0},  //_DEV_IP4
+	{1     ,     0,     255,   20,     0,   255,      0},  //_DEV_SUBNET1
+	{1     ,     0,     255,   22,     0,   255,      0},  //_DEV_SUBNET2
+	{1     ,     0,     255,   24,     0,   255,      0},  //_DEV_SUBNET3
 	{1     ,     0,     255,   26,     0,     0,      0},  //_DEV_SUBNET4
-	{1     ,     0,     255,   28,     0,     0,      0},  //_DEV_GATEW1
-	{1     ,     0,     255,   30,     0,     0,      0},  //_DEV_GATEW2
-	{1     ,     0,     255,   32,     0,     0,      0},  //_DEV_GATEW3
-	{1     ,     0,     255,   34,     0,     0,      0},  //_DEV_GATEW4
-	{1     ,     0,   65535,   36,     0,     0,      0},  //_DEV_PORT
-	{1     ,     0,     255,   38,     0,     0,      0},  //_SERVER_IP1
-	{1     ,     0,     255,   40,     0,     0,      0},  //_SERVER_IP2
-	{1     ,     0,     255,   42,     0,     0,      0},  //_SERVER_IP3
-	{1     ,     0,     255,   44,     0,     0,      0},  //_SERVER_IP4
-	{1     ,     0,   65535,   46,     0,     0,      0},  //_SERVER_PORT
+	{1     ,     0,     255,   28,     0,   192,      0},  //_DEV_GATEW1
+	{1     ,     0,     255,   30,     0,   168,      0},  //_DEV_GATEW2
+	{1     ,     0,     255,   32,     0,   100,      0},  //_DEV_GATEW3
+	{1     ,     0,     255,   34,     0,     1,      0},  //_DEV_GATEW4
+	{1     ,     0,   65535,   36,     0,   161,      0},  //_DEV_PORT
+	{1     ,     0,     255,   38,     0,   192,      0},  //_SERVER_IP1
+	{1     ,     0,     255,   40,     0,   168,      0},  //_SERVER_IP2
+	{1     ,     0,     255,   42,     0,   100,      0},  //_SERVER_IP3
+	{1     ,     0,     255,   44,     0,    29,      0},  //_SERVER_IP4
+	{1     ,     0,   65535,   46,     0,   162,      0},  //_SERVER_PORT
 	{5     ,     5,    4320,   48,     0,     4,      0},  //_GEN_MAX_RUNTIME	3 days
 	{5     ,   100,     500,   50,     0,   130,      0},  //_GEN_UNDER_VOLT
 	{1     ,     0,       1,   52,     0,     0,      0},  //_GEN_ERROR_RESET_EN
@@ -69,6 +69,7 @@ sSetting_Values_Struct		sSetting_Values[48] =
 	{1     ,     1,      31,    0,     0,     0,      0},  //_DATE
 	{1     ,     1,      12,    0,     0,     0,      0},  //_MONTH
 	{1     ,     0,      99,    0,     0,     0,      1},  //_YEAR
+        {1     ,     0,     255,   82,     0,   170,      0}   //_DEFAULT_WRITE      
 };
 
 sMenu_Object_Struct		sMenu_Object[19] =
@@ -2324,7 +2325,8 @@ void Write_Default_All_Variable(void){
 
 void Default(uint16_t MemoryAdress,uint16_t *Value,uint16_t default_value)
 {
-	*Value = default_value;WriteEEPROM_Word(MemoryAdress,*Value);
+	*Value = default_value;
+        WriteEEPROM_Word(MemoryAdress,*Value);
 }
 
 void ReadMemory(uint16_t Index,uint16_t *Value)
@@ -2341,8 +2343,15 @@ void ReadMemory(uint16_t Index,uint16_t *Value)
 
 void Init_All_Variable (void)
 {
-	uint8_t i=0; 
-	
+	uint8_t i=0;
+        uint16_t defaultWrite;
+        // chaunm - initialize all setting
+        ReadMemory(_DEFAULT_WRITE, &defaultWrite);
+        if (defaultWrite != 170)
+        {
+          Write_Default_All_Variable();
+          WriteEEPROM_Word(sSetting_Values[_DEFAULT_WRITE].addrEEPROM, 170);
+        }
 	ReadMemory(_AC_LOW,&sMenu_Variable.u16AcThresVolt[0]);
 	ReadMemory(_DC_LOW,&sMenu_Variable.u16BattThresVolt[0]);
 	ReadMemory(_TEMP1,&sMenu_Variable.u16ThresTemp[0]);

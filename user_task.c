@@ -654,7 +654,7 @@ void UserTaskInit()
     //Debug message
     TRACE_ERROR("Failed to create GPRS test task!\r\n");
   }
-#endif // USERDEF_CHAUNM_TEST
+#endif // USERDEF_CHAUNM_TEST_GPRS
   
 #if (USERDEF_CHAUNM_TEST_DOOR == ENABLED)
   task = osCreateTask("DOOR TEST", TestOpenDoorUpdate, NULL, 100, OS_TASK_PRIORITY_NORMAL);
@@ -664,7 +664,7 @@ void UserTaskInit()
     //Debug message
     TRACE_ERROR("Failed to create Door test task!\r\n");
   }
-#endif // USERDEF_CHAUNM_TEST
+#endif // USERDEF_CHAUNM_TEST_DOOR
   
   #if (USERDEF_CHAUNM_TEST_GEN == ENABLED)
   task = osCreateTask("GEN TEST", TestGeneration, NULL, 100, OS_TASK_PRIORITY_NORMAL);
@@ -674,5 +674,5 @@ void UserTaskInit()
     //Debug message
     TRACE_ERROR("Failed to create Generator test task!\r\n");
   }
-#endif // USERDEF_CHAUNM_TEST
+#endif // USERDEF_CHAUNM_TEST_GEN
 }
