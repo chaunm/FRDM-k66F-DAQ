@@ -317,7 +317,7 @@ void Menu_Nomarl_Display(void)
 		switch(sMenu_Control.mainPageIndex)
 		{
 		case 0:
-			glcd_writeString("  :  :  ",1,13);
+			glcd_writeString("  :  ",1,16);
 			glcd_writeString("Main page 1",2,5);
 			glcd_Draw_Black_Rectangle(LAYER2_ADDR,1,1,20);
 			break;
@@ -357,9 +357,9 @@ void Menu_Nomarl_Display(void)
 		switch(sMenu_Control.mainPageIndex)
 		{
 		case 0:
-			glcd_Display_Integer_With_Zero(1,13,2,GTime.hour);
-			glcd_Display_Integer_With_Zero(1,16,2,GTime.min);
-			glcd_Display_Integer_With_Zero(1,19,2,GTime.sec);
+			glcd_Display_Integer_With_Zero(1,16,2,GTime.hour);
+			glcd_Display_Integer_With_Zero(1,19,2,GTime.min);
+			//glcd_Display_Integer_With_Zero(1,19,2,GTime.sec);
 			
 			if(sMenu_Control.accessUID == -1)
 				glcd_writeString("   Access Denied    ",4,1);

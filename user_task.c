@@ -398,6 +398,8 @@ void vApplicationTickHook(void)
     LED_RUN_TOGGLE();
     if (snmpConnectCheckStatus() ==  GPRS_CONNECTED)
       LED_CON_GPRS_ON();
+    else if (snmpConnectCheckStatus() == DISCONNECTED)
+      LED_CON_GPRS_TOGGLE();
     else
       LED_CON_GPRS_OFF();
     if (interface !=NULL)
@@ -415,8 +417,8 @@ void vApplicationTickHook(void)
       LED_ALARM_ON();
     else
       LED_ALARM_OFF();
-    sysCountTest = 0;
     GTime = GetTime();
+    sysCountTest = 0;
   }
 }
 #endif // USERDEF_USER_INTERFACE == ENABLED

@@ -1778,10 +1778,10 @@ void UpdateInfo (void)
   privateMibBase.accessoriesGroup.airConSetTemp2 = sMenu_Variable.u16AirConTemp[1];
   privateMibBase.accessoriesGroup.airConSetTemp3 = sMenu_Variable.u16AirConTemp[2];
   privateMibBase.accessoriesGroup.airConSetTemp4 = sMenu_Variable.u16AirConTemp[3];  
-  privateMibBase.accessoriesGroup.siteIndoorTemp = 28;//sAirCon_Variable.indoorTemp; // chaunm - test data
-  privateMibBase.accessoriesGroup.siteOutdoorTemp = 30; //sAirCon_Variable.outdoorTemp;
-  privateMibBase.accessoriesGroup.airconRuntime1 = 1234;//sAirCon_Variable.airCon1Runtime;
-  privateMibBase.accessoriesGroup.airconRuntime2 = 5678;//sAirCon_Variable.airCon2Runtime;
+  privateMibBase.accessoriesGroup.siteIndoorTemp = sAirCon_Variable.indoorTemp; 
+  privateMibBase.accessoriesGroup.siteOutdoorTemp = sAirCon_Variable.outdoorTemp;
+  privateMibBase.accessoriesGroup.airconRuntime1 = sAirCon_Variable.airCon1Runtime;
+  privateMibBase.accessoriesGroup.airconRuntime2 = sAirCon_Variable.airCon2Runtime;
     
   // Fire Alarm
   if (DigitalInput[1] == 1) 
