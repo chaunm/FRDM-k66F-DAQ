@@ -47,6 +47,7 @@ uint32_t adcValue[10];
 TimerHandle_t SwTimerHandle = NULL;
 #endif
 
+extern NetInterface *interface;
 /**
 * @brief LED blinking task
 **/
@@ -178,7 +179,7 @@ static void hello_task(void *pvParameters) {
   sMenu_Control.init = 1;
   for (;;) {
     vTaskDelay(10);
-    Key_Scane(); //chaunm - escape key jam - no scan for test
+    Key_Scane(); 
     Menu_Scane();
     Active_Alarm_Scane();
     ACS_AccessCheck();
@@ -395,11 +396,29 @@ void vApplicationTickHook(void)
   {
     GPIO_TogglePinsOutput(GPIOC,1<<4u);
     LED_RUN_TOGGLE();
-    LED_CON_GPRS_TOGGLE();
-    LED_CON_ETH_TOGGLE();
-    LED_ALARM_TOGGLE();
-    sysCountTest = 0;
+    if (snmpConnectCheckStatus() ==  GPRS_CONNECTED)
+      LED_CON_GPRS_ON();
+    else if (snmpConnectCheckStatus() == DISCONNECTED)
+      LED_CON_GPRS_TOGGLE();
+    else
+      LED_CON_GPRS_OFF();
+    if (interface !=NULL)
+    {
+      if (interface->linkState)
+        LED_CON_ETH_ON();
+      else
+        LED_CON_ETH_OFF();
+    }
+    else
+    {
+      LED_CON_ETH_OFF();
+    }      
+    if (IsAnyAlarm() > 0)
+      LED_ALARM_ON();
+    else
+      LED_ALARM_OFF();
     GTime = GetTime();
+    sysCountTest = 0;
   }
 }
 #endif // USERDEF_USER_INTERFACE == ENABLED

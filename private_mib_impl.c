@@ -1106,7 +1106,27 @@ error_t privateMibGetAccessoriesGroup(const MibObject *object, const uint8_t *oi
   {
     //Get object value
     value->integer = entry->speakerControlStatus;
+  }
+  else if(!strcmp(object->name, "siteIndoorTemp"))
+  {
+    //Get object value
+    value->integer = entry->siteIndoorTemp;
   } 
+  else if(!strcmp(object->name, "siteOutdoorTemp"))
+  {
+    //Get object value
+    value->integer = entry->siteOutdoorTemp;
+  } 
+  else if(!strcmp(object->name, "airconRuntime1"))
+  {
+    //Get object value
+    value->integer = entry->airconRuntime1;
+  } 
+  else if(!strcmp(object->name, "airconRuntime2"))
+  {
+    //Get object value
+    value->integer = entry->airconRuntime2;
+  }
   //Unknown object?
   else
   {
@@ -1747,17 +1767,22 @@ void UpdateInfo (void)
   privateMibBase.siteInfoGroup.siteInfoThresTemp2 = sMenu_Variable.u16ThresTemp[1];
   privateMibBase.siteInfoGroup.siteInfoThresTemp3 = sMenu_Variable.u16ThresTemp[2];
   privateMibBase.siteInfoGroup.siteInfoThresTemp4 = sMenu_Variable.u16ThresTemp[3];
-  privateMibBase.siteInfoGroup.siteInfoMeasuredTemp = sAirCon_Variable.indorTemp;
-  privateMibBase.siteInfoGroup.siteInfoMeasuredHumid = 80;
-  
+  privateMibBase.siteInfoGroup.siteInfoMeasuredTemp = sAirCon_Variable.indoorTemp; // chaunm - this one for the local sensor on main device
+  privateMibBase.siteInfoGroup.siteInfoMeasuredHumid = 0; // chaunm - this one for the local sensor on main device
+    
   privateMibBase.accessoriesGroup.airCon1Status = sAirCon_Variable.airCon1Status; //1: Run/On; 0: Stop/Off
   privateMibBase.accessoriesGroup.airCon2Status = sAirCon_Variable.airCon2Status; //1: Run/On; 0: Stop/Off
   privateMibBase.accessoriesGroup.fan1Status = sAirCon_Variable.fanStatus; //1: Run/On; 0: Stop/Off  
+  privateMibBase.accessoriesGroup.fan2Status = sAirCon_Variable.fanStatus;
   privateMibBase.accessoriesGroup.airConSetTemp1 = sMenu_Variable.u16AirConTemp[0];
   privateMibBase.accessoriesGroup.airConSetTemp2 = sMenu_Variable.u16AirConTemp[1];
   privateMibBase.accessoriesGroup.airConSetTemp3 = sMenu_Variable.u16AirConTemp[2];
   privateMibBase.accessoriesGroup.airConSetTemp4 = sMenu_Variable.u16AirConTemp[3];  
-  
+  privateMibBase.accessoriesGroup.siteIndoorTemp = sAirCon_Variable.indoorTemp; 
+  privateMibBase.accessoriesGroup.siteOutdoorTemp = sAirCon_Variable.outdoorTemp;
+  privateMibBase.accessoriesGroup.airconRuntime1 = sAirCon_Variable.airCon1Runtime;
+  privateMibBase.accessoriesGroup.airconRuntime2 = sAirCon_Variable.airCon2Runtime;
+    
   // Fire Alarm
   if (DigitalInput[1] == 1) 
   {
@@ -1932,6 +1957,19 @@ void Relay_Output(void)
   {   
     IO_ALARM_SPEAKER_OFF();
   }  
+}
+
+uint8_t IsAnyAlarm()
+{
+  return(privateMibBase.alarmGroup.alarmFireAlarms +
+	privateMibBase.alarmGroup.alarmSmokeAlarms +
+	privateMibBase.alarmGroup.alarmMotionDetectAlarms +
+	privateMibBase.alarmGroup.alarmFloodDetectAlarms +
+	privateMibBase.alarmGroup.alarmDoorOpenAlarms +
+	privateMibBase.alarmGroup.alarmGenFailureAlarms +
+	privateMibBase.alarmGroup.alarmDcThresAlarms +
+	privateMibBase.alarmGroup.alarmMachineStopAlarms +
+	privateMibBase.alarmGroup.alarmAcThresAlarms);
 }
 
 

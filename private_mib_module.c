@@ -174,7 +174,7 @@ const MibObject privateMibObjects[] =
 		NULL,
 		privateMibGetSiteInfoGroup,
 		NULL
-	},
+	},     
 
 	//AcInfo group
 	{
@@ -374,7 +374,8 @@ const MibObject privateMibObjects[] =
 		privateMibGetBatteryGroup,
 		NULL
 	},
-	{
+	// aircon device
+        {
 		"airCon1Status",
 		{43, 6, 1, 4, 1, 130, 229, 100, 1, 4, 1},
 		11,
@@ -525,6 +526,62 @@ const MibObject privateMibObjects[] =
 		NULL,
 		sizeof(uint32_t),
 		privateMibSetAccessoriesGroup,
+		privateMibGetAccessoriesGroup,
+		NULL
+	},
+        {
+		"siteIndoorTemp",
+		{43, 6, 1, 4, 1, 130, 229, 100, 1, 4, 12},
+		11,
+		ASN1_CLASS_UNIVERSAL,
+		ASN1_TYPE_INTEGER,
+		MIB_ACCESS_READ_ONLY,
+		NULL,
+		NULL,
+		sizeof(uint32_t),
+		NULL,
+		privateMibGetAccessoriesGroup,
+		NULL
+	},
+        {
+		"siteOutdoorTemp",
+		{43, 6, 1, 4, 1, 130, 229, 100, 1, 4, 13},
+		11,
+		ASN1_CLASS_UNIVERSAL,
+		ASN1_TYPE_INTEGER,
+		MIB_ACCESS_READ_ONLY,
+		NULL,
+		NULL,
+		sizeof(uint32_t),
+		NULL,
+		privateMibGetAccessoriesGroup,
+		NULL
+	},
+        {
+		"airconRuntime1",
+		{43, 6, 1, 4, 1, 130, 229, 100, 1, 4, 14},
+		11,
+		ASN1_CLASS_UNIVERSAL,
+		ASN1_TYPE_INTEGER,
+		MIB_ACCESS_READ_ONLY,
+		NULL,
+		NULL,
+		sizeof(uint32_t),
+		NULL,
+		privateMibGetAccessoriesGroup,
+		NULL
+	},
+        {
+		"airconRuntime2",
+		{43, 6, 1, 4, 1, 130, 229, 100, 1, 4, 15},
+		11,
+		ASN1_CLASS_UNIVERSAL,
+		ASN1_TYPE_INTEGER,
+		MIB_ACCESS_READ_ONLY,
+		NULL,
+		NULL,
+		sizeof(uint32_t),
+		NULL,
 		privateMibGetAccessoriesGroup,
 		NULL
 	},

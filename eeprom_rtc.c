@@ -190,11 +190,17 @@ TimeFormat GetTime(void){
 	TimeFormat Time;
 
 	Time.sec=READ_RTC(0);   // read second
+        Delay_us(1000);
 	Time.min=READ_RTC(1);   // read minute
+        Delay_us(1000);
 	Time.hour=READ_RTC(2);  // read hour
+        Delay_us(1000);
 	Time.day=READ_RTC(3);   // read day
+        Delay_us(1000);
 	Time.date=READ_RTC(4);  // read date
+        Delay_us(1000);
 	Time.month=READ_RTC(5); // read month
+        Delay_us(1000);
 	Time.year=READ_RTC(6);  // read year
 
 	Time.sec 	= bcd2dec(Time.sec&0x7f);

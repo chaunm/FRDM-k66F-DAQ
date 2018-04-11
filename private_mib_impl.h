@@ -21,6 +21,7 @@ void privateMibUnlock(void);
 void UpdateInfo (void);
 void Alarm_Control(void);
 void Relay_Output(void);
+uint8_t IsAnyAlarm();
 
 
 error_t privateMibGetCurrentTime(const MibObject *object, const uint8_t *oid,
