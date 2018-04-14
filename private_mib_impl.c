@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "variables.h"
 #include "access_control.h"
+#include "am2320.h"
 
 uint32_t setCount_test;
 //Mutex preventing simultaneous access to the private MIB base
@@ -67,7 +68,7 @@ error_t privateMibInit(void)
   privateMibBase.ledTable[2].ledState = 0;
   
   //Default value for testString object
-  strcpy(privateMibBase.siteInfoGroup.siteInfoBTSCode, "BOX0001");
+  strcpy(privateMibBase.siteInfoGroup.siteInfoBTSCode, "BOX0002");
   privateMibBase.siteInfoGroup.siteInfoBTSCodeLen = strlen(privateMibBase.siteInfoGroup.siteInfoBTSCode);       
   
   privateMibBase.siteInfoGroup.siteInfoThresTemp1 = 50;
@@ -1767,8 +1768,8 @@ void UpdateInfo (void)
   privateMibBase.siteInfoGroup.siteInfoThresTemp2 = sMenu_Variable.u16ThresTemp[1];
   privateMibBase.siteInfoGroup.siteInfoThresTemp3 = sMenu_Variable.u16ThresTemp[2];
   privateMibBase.siteInfoGroup.siteInfoThresTemp4 = sMenu_Variable.u16ThresTemp[3];
-  privateMibBase.siteInfoGroup.siteInfoMeasuredTemp = sAirCon_Variable.indoorTemp; // chaunm - this one for the local sensor on main device
-  privateMibBase.siteInfoGroup.siteInfoMeasuredHumid = 0; // chaunm - this one for the local sensor on main device
+  privateMibBase.siteInfoGroup.siteInfoMeasuredTemp = u16Temper; // chaunm - this one for the local sensor on main device
+  privateMibBase.siteInfoGroup.siteInfoMeasuredHumid = u16HumiRh; // chaunm - this one for the local sensor on main device
     
   privateMibBase.accessoriesGroup.airCon1Status = sAirCon_Variable.airCon1Status; //1: Run/On; 0: Stop/Off
   privateMibBase.accessoriesGroup.airCon2Status = sAirCon_Variable.airCon2Status; //1: Run/On; 0: Stop/Off

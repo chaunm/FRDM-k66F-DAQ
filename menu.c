@@ -10,6 +10,7 @@
 #include "core/net.h"
 #include "access_control.h"
 #include "net_config.h"
+#include "am2320.h"
 
 uint8_t		mTempVal_u8[16];
 uint16_t    mTempVal_u16[16];
@@ -318,7 +319,11 @@ void Menu_Nomarl_Display(void)
 		{
 		case 0:
 			glcd_writeString("  :  ",1,16);
-			glcd_writeString("Main page 1",2,5);
+			glcd_writeString("Home",2,9);
+                        glcd_writeString("Temp:",6,1);
+                        glcd_writeString("Humi:",6,12);
+                        glcd_writeString("ATS:",7,1);
+			glcd_writeString("AirCon:",8,1);
 			glcd_Draw_Black_Rectangle(LAYER2_ADDR,1,1,20);
 			break;
 		case 1:
@@ -370,6 +375,17 @@ void Menu_Nomarl_Display(void)
 				glcd_writeString("      User          ",4,1);
 				glcd_Display_Integer(4,11,1,sMenu_Control.accessUID);
 			}
+                        glcd_Display_Float_1Dec(6,6,4,u16Temper);
+                        glcd_Display_Float_1Dec(6,17,4,u16HumiRh);
+                        if(Modbus.atsError == 0) 
+                          glcd_writeString("Online ",7,5);
+			else
+                          glcd_writeString("Offline",7,5);
+                        
+                        if(Modbus.airConError == 0) 
+                          glcd_writeString("Online ",8,8);
+			else
+                          glcd_writeString("Offline",8,8);
 			break;
 		case 1:
 			if(Modbus.atsError == 0) 

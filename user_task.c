@@ -27,6 +27,8 @@
 #include "ftp.h"
 #endif
 
+#include "am2320.h"
+
 /******************* DEFINITIONS *************************/
 
 /******************* LOCAL VARIABLES *************************/
@@ -160,6 +162,7 @@ void ftpTranferTask(void *param)
 * @brief Task responsible for printing of "Hello world." message.
 */
 static void hello_task(void *pvParameters) {
+  static uint16_t countReadAM2320;
   TRACE_ERROR("User interface task stared\r\n");
   glcd_init();
   //  vTaskDelay(100);
@@ -177,13 +180,19 @@ static void hello_task(void *pvParameters) {
   //GLCD
   glcd_writeString("Hello World !",1,3);
   sMenu_Control.init = 1;
+  AM2320_I2C_Init();
   for (;;) {
     vTaskDelay(10);
+    if(countReadAM2320 > 100){
+      Getdata_AM2320();
+      countReadAM2320 = 0;
+    }
     Key_Scane(); 
     Menu_Scane();
     Active_Alarm_Scane();
     ACS_AccessCheck();
     UpdateInfo ();
+    countReadAM2320++;
   }
 }
 
