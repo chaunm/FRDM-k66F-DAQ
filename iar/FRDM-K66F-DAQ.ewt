@@ -2800,6 +2800,15 @@
       </file>
     </group>
     <group>
+      <name>am2320</name>
+      <file>
+        <name>$PROJ_DIR$\..\am2320.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\am2320.h</name>
+      </file>
+    </group>
+    <group>
       <name>ethernet</name>
       <file>
         <name>$PROJ_DIR$\..\ethernet.c</name>

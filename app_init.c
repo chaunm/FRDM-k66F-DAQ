@@ -7,6 +7,7 @@
 #include "menu.h"
 #include "rs485.h"
 #include "fsl_debug_console.h"
+#include "am2320.h"
 
 void AppInitUserInterface()
 {
@@ -46,6 +47,7 @@ void AppInitUserInterface()
   Init_I2CE();
   Init_All_Variable();
   Init_RS485_UART();
+  AM2320_I2C_Init();
 }
 
 void AppInitAdc()

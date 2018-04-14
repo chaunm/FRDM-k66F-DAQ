@@ -163,6 +163,7 @@ void ftpTranferTask(void *param)
 */
 static void hello_task(void *pvParameters) {
   static uint16_t countReadAM2320;
+  static uint16_t getTimeCount;
   TRACE_ERROR("User interface task stared\r\n");
   glcd_init();
   //  vTaskDelay(100);
@@ -180,12 +181,20 @@ static void hello_task(void *pvParameters) {
   //GLCD
   glcd_writeString("Hello World !",1,3);
   sMenu_Control.init = 1;
-  AM2320_I2C_Init();
   for (;;) {
     vTaskDelay(10);
     if(countReadAM2320 > 100){
+      vTaskSuspendAll();
       Getdata_AM2320();
+      xTaskResumeAll();
       countReadAM2320 = 0;
+    }
+    if (getTimeCount > 50)
+    {
+      getTimeCount = 0;
+      vTaskSuspendAll();
+      GTime = GetTime();
+      xTaskResumeAll();
     }
     Key_Scane(); 
     Menu_Scane();
@@ -193,6 +202,7 @@ static void hello_task(void *pvParameters) {
     ACS_AccessCheck();
     UpdateInfo ();
     countReadAM2320++;
+    getTimeCount++;
   }
 }
 
@@ -426,7 +436,6 @@ void vApplicationTickHook(void)
       LED_ALARM_ON();
     else
       LED_ALARM_OFF();
-    GTime = GetTime();
     sysCountTest = 0;
   }
 }
