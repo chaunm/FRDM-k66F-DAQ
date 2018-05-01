@@ -27,6 +27,9 @@
 #include "ftp.h"
 #endif
 
+#include "i2c_lock.h"
+#include "am2320.h"
+
 /******************* DEFINITIONS *************************/
 
 /******************* LOCAL VARIABLES *************************/
@@ -160,6 +163,8 @@ void ftpTranferTask(void *param)
 * @brief Task responsible for printing of "Hello world." message.
 */
 static void hello_task(void *pvParameters) {
+  static uint16_t countReadAM2320;
+  static uint16_t getTimeCount;
   TRACE_ERROR("User interface task stared\r\n");
   glcd_init();
   //  vTaskDelay(100);
@@ -179,11 +184,30 @@ static void hello_task(void *pvParameters) {
   sMenu_Control.init = 1;
   for (;;) {
     vTaskDelay(10);
+    if(countReadAM2320 > 100){
+      I2C_Get_Lock();
+      vTaskSuspendAll();
+      Getdata_AM2320();
+      xTaskResumeAll();
+      I2C_Release_Lock();
+      countReadAM2320 = 0;
+    }
+    if (getTimeCount > 50)
+    {
+      getTimeCount = 0;
+      I2C_Get_Lock();
+      vTaskSuspendAll();
+      GTime = GetTime();
+      xTaskResumeAll();
+      I2C_Release_Lock();
+    }
     Key_Scane(); 
     Menu_Scane();
     Active_Alarm_Scane();
     ACS_AccessCheck();
     UpdateInfo ();
+    countReadAM2320++;
+    getTimeCount++;
   }
 }
 
@@ -417,7 +441,6 @@ void vApplicationTickHook(void)
       LED_ALARM_ON();
     else
       LED_ALARM_OFF();
-    GTime = GetTime();
     sysCountTest = 0;
   }
 }

@@ -2800,6 +2800,15 @@
       </file>
     </group>
     <group>
+      <name>am2320</name>
+      <file>
+        <name>$PROJ_DIR$\..\am2320.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\am2320.h</name>
+      </file>
+    </group>
+    <group>
       <name>ethernet</name>
       <file>
         <name>$PROJ_DIR$\..\ethernet.c</name>
@@ -2836,6 +2845,15 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\ftp.h</name>
+      </file>
+    </group>
+    <group>
+      <name>i2c</name>
+      <file>
+        <name>$PROJ_DIR$\..\i2c_lock.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\i2c_lock.h</name>
       </file>
     </group>
     <group>
