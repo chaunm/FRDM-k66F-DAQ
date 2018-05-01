@@ -2526,6 +2526,15 @@
       </file>
     </group>
     <group>
+      <name>i2c</name>
+      <file>
+        <name>$PROJ_DIR$\..\i2c_lock.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\i2c_lock.h</name>
+      </file>
+    </group>
+    <group>
       <name>initialization</name>
       <file>
         <name>$PROJ_DIR$\..\adc_config.h</name>

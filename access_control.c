@@ -2,6 +2,9 @@
 #include "eeprom_rtc.h"
 #include "rs485.h"
 #include "variables.h"
+#include "i2c_lock.h"
+#include "freeRTOS.h"
+#include "task.h"
 
 uint8_t TempUserID[5][9];
 uint8_t newCardDetect;
@@ -11,7 +14,13 @@ void ACS_SaveUserID(uint16_t EEPROM_Addr, uint8_t* UserID)
 {
   uint8_t i=0;
   for(i=0;i<8;i++)
+  {
+    I2C_Get_Lock();
+    vTaskSuspendAll();
     WriteEEPROM_Byte(EEPROM_Addr+i,*(UserID+i));
+    I2C_Release_Lock();
+    xTaskResumeAll();
+  }
 }
 
 // Delete an UserID from EEPROM
@@ -19,7 +28,13 @@ void ACS_DeleteUserID(uint16_t EEPROM_Addr, uint8_t* UserID)
 {
   uint8_t i=0;
   for(i=0;i<8;i++)
+  {
+    I2C_Get_Lock();
+    vTaskSuspendAll();
     WriteEEPROM_Byte(EEPROM_Addr+i,0xFF);
+    I2C_Release_Lock();
+    xTaskResumeAll();
+  }
 }
 
 // Check if an user ID card in list

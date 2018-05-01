@@ -11,6 +11,9 @@
 #include "access_control.h"
 #include "net_config.h"
 #include "am2320.h"
+#include "freeRTOS.h"
+#include "task.h"
+#include "i2c_lock.h"
 
 uint8_t		mTempVal_u8[16];
 uint16_t    mTempVal_u16[16];
@@ -870,13 +873,56 @@ void Display_Alarm_Settings(void)
 		}else{
 			switch(sMenu_Control.index)
 			{
-			case 0: sMenu_Variable.u16AcThresVolt[0] = mTempVal_u16[0]; WriteEEPROM_Word(sSetting_Values[_AC_LOW].addrEEPROM,sMenu_Variable.u16AcThresVolt[0]); break;
-			case 1: sMenu_Variable.u16BattThresVolt[0] = mTempVal_u16[1]; WriteEEPROM_Word(sSetting_Values[_DC_LOW].addrEEPROM,sMenu_Variable.u16BattThresVolt[0]); break;
-			case 2: sMenu_Variable.u16ThresTemp[0] = mTempVal_u16[2]; WriteEEPROM_Word(sSetting_Values[_TEMP1].addrEEPROM,sMenu_Variable.u16ThresTemp[0]); break;
-			case 3: sMenu_Variable.u16ThresTemp[1] = mTempVal_u16[3]; WriteEEPROM_Word(sSetting_Values[_TEMP2].addrEEPROM,sMenu_Variable.u16ThresTemp[1]); break;
-			case 4: sMenu_Variable.u16ThresTemp[2] = mTempVal_u16[4]; WriteEEPROM_Word(sSetting_Values[_TEMP3].addrEEPROM,sMenu_Variable.u16ThresTemp[2]); break;
-			case 5: sMenu_Variable.u16ThresTemp[3] = mTempVal_u16[5]; WriteEEPROM_Word(sSetting_Values[_TEMP4].addrEEPROM,sMenu_Variable.u16ThresTemp[3]); break;
-			default: break;
+			case 0: 
+                          sMenu_Variable.u16AcThresVolt[0] = mTempVal_u16[0]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_AC_LOW].addrEEPROM,sMenu_Variable.u16AcThresVolt[0]); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 1: 
+                          sMenu_Variable.u16BattThresVolt[0] = mTempVal_u16[1]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_DC_LOW].addrEEPROM,sMenu_Variable.u16BattThresVolt[0]); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();                          
+                          break;
+			case 2: 
+                          sMenu_Variable.u16ThresTemp[0] = mTempVal_u16[2]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_TEMP1].addrEEPROM,sMenu_Variable.u16ThresTemp[0]); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();                                 
+                          break;
+			case 3: 
+                          sMenu_Variable.u16ThresTemp[1] = mTempVal_u16[3]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_TEMP2].addrEEPROM,sMenu_Variable.u16ThresTemp[1]); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();                          
+                          break;
+			case 4: 
+                          sMenu_Variable.u16ThresTemp[2] = mTempVal_u16[4]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_TEMP3].addrEEPROM,sMenu_Variable.u16ThresTemp[2]);
+                          xTaskResumeAll();
+                          I2C_Release_Lock();                          
+                          break;
+			case 5: 
+                          sMenu_Variable.u16ThresTemp[3] = mTempVal_u16[5]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_TEMP4].addrEEPROM,sMenu_Variable.u16ThresTemp[3]);
+                          xTaskResumeAll();
+                          I2C_Release_Lock(); 
+                          break;
+			default: 
+                          break;
 			}		
 			sMenu_Control.ajustValue = 0;
 		}
@@ -1124,17 +1170,105 @@ void Display_ATS_Settings(void)
 		}else{
 			switch(sMenu_Control.index)
 			{
-			case 0: sMenu_Variable.changedVal = _GEN_MAX_RUNTIME; sMenu_Variable.u16GENMaxRuntime = mTempVal_u16[0]; WriteEEPROM_Word(sSetting_Values[_GEN_MAX_RUNTIME].addrEEPROM,sMenu_Variable.u16GENMaxRuntime); break;
-			case 1: sMenu_Variable.changedVal = _GEN_UNDER_VOLT; sMenu_Variable.u16GENUnderVolt = mTempVal_u16[1]; WriteEEPROM_Word(sSetting_Values[_GEN_UNDER_VOLT].addrEEPROM,sMenu_Variable.u16GENUnderVolt); break;
-			case 2: sMenu_Variable.changedVal = _GEN_ERROR_RESET_EN; sMenu_Variable.u16GENErrorResetEnable = mTempVal_u16[2]; WriteEEPROM_Word(sSetting_Values[_GEN_ERROR_RESET_EN].addrEEPROM,sMenu_Variable.u16GENErrorResetEnable); break;
-			case 3: sMenu_Variable.changedVal = _GEN_ERROR_RESET_MIN; sMenu_Variable.u16GENErrorResetTime = mTempVal_u16[3]; WriteEEPROM_Word(sSetting_Values[_GEN_ERROR_RESET_MIN].addrEEPROM,sMenu_Variable.u16GENErrorResetTime); break;
-			case 4: sMenu_Variable.changedVal = _GEN_WARM_UP_TIME; sMenu_Variable.u16GENWarmUpTime = mTempVal_u16[4]; WriteEEPROM_Word(sSetting_Values[_GEN_WARM_UP_TIME].addrEEPROM,sMenu_Variable.u16GENWarmUpTime); break;
-			case 5: sMenu_Variable.changedVal = _GEN_COOL_DOWN_TIME; sMenu_Variable.u16GENCoolDownTime = mTempVal_u16[5]; WriteEEPROM_Word(sSetting_Values[_GEN_COOL_DOWN_TIME].addrEEPROM,sMenu_Variable.u16GENCoolDownTime); break;
-			case 6: sMenu_Variable.changedVal = _GEN_NIGHT_EN; sMenu_Variable.u16GENNightEnable = mTempVal_u16[6]; WriteEEPROM_Word(sSetting_Values[_GEN_NIGHT_EN].addrEEPROM,sMenu_Variable.u16GENNightEnable); break;
-			case 7: sMenu_Variable.changedVal = _GEN_NIGHT_BEGIN; sMenu_Variable.u16GENNightStart = mTempVal_u16[7]; WriteEEPROM_Word(sSetting_Values[_GEN_NIGHT_BEGIN].addrEEPROM,sMenu_Variable.u16GENNightStart); break;
-			case 8: sMenu_Variable.changedVal = _GEN_NIGHT_END; sMenu_Variable.u16GENNightEnd = mTempVal_u16[8]; WriteEEPROM_Word(sSetting_Values[_GEN_NIGHT_END].addrEEPROM,sMenu_Variable.u16GENNightEnd); break;
-			case 9: sMenu_Variable.changedVal = _DC_LOW_INPUT; sMenu_Variable.u16GENDCLowInput = mTempVal_u16[9]; WriteEEPROM_Word(sSetting_Values[_DC_LOW_INPUT].addrEEPROM,sMenu_Variable.u16GENDCLowInput); break;
-			case 10: sMenu_Variable.changedVal = _DC_LOW_VOLT; sMenu_Variable.u16GENDCLowVolt = mTempVal_u16[10]; WriteEEPROM_Word(sSetting_Values[_DC_LOW_VOLT].addrEEPROM,sMenu_Variable.u16GENDCLowVolt); break;
+			case 0: 
+                          sMenu_Variable.changedVal = _GEN_MAX_RUNTIME; 
+                          sMenu_Variable.u16GENMaxRuntime = mTempVal_u16[0]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_GEN_MAX_RUNTIME].addrEEPROM,sMenu_Variable.u16GENMaxRuntime);                          
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 1: 
+                          sMenu_Variable.changedVal = _GEN_UNDER_VOLT; 
+                          sMenu_Variable.u16GENUnderVolt = mTempVal_u16[1]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_GEN_UNDER_VOLT].addrEEPROM,sMenu_Variable.u16GENUnderVolt); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 2: 
+                          sMenu_Variable.changedVal = _GEN_ERROR_RESET_EN; 
+                          sMenu_Variable.u16GENErrorResetEnable = mTempVal_u16[2]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_GEN_ERROR_RESET_EN].addrEEPROM,sMenu_Variable.u16GENErrorResetEnable); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 3: 
+                          sMenu_Variable.changedVal = _GEN_ERROR_RESET_MIN; 
+                          sMenu_Variable.u16GENErrorResetTime = mTempVal_u16[3]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_GEN_ERROR_RESET_MIN].addrEEPROM,sMenu_Variable.u16GENErrorResetTime);
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 4: 
+                          sMenu_Variable.changedVal = _GEN_WARM_UP_TIME; 
+                          sMenu_Variable.u16GENWarmUpTime = mTempVal_u16[4]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_GEN_WARM_UP_TIME].addrEEPROM,sMenu_Variable.u16GENWarmUpTime); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 5: 
+                          sMenu_Variable.changedVal = _GEN_COOL_DOWN_TIME; 
+                          sMenu_Variable.u16GENCoolDownTime = mTempVal_u16[5];
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_GEN_COOL_DOWN_TIME].addrEEPROM,sMenu_Variable.u16GENCoolDownTime); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 6: 
+                          sMenu_Variable.changedVal = _GEN_NIGHT_EN;
+                          sMenu_Variable.u16GENNightEnable = mTempVal_u16[6];
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();                           
+                          WriteEEPROM_Word(sSetting_Values[_GEN_NIGHT_EN].addrEEPROM,sMenu_Variable.u16GENNightEnable); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 7: 
+                          sMenu_Variable.changedVal = _GEN_NIGHT_BEGIN; 
+                          sMenu_Variable.u16GENNightStart = mTempVal_u16[7]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_GEN_NIGHT_BEGIN].addrEEPROM,sMenu_Variable.u16GENNightStart);
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 8: 
+                          sMenu_Variable.changedVal = _GEN_NIGHT_END; 
+                          sMenu_Variable.u16GENNightEnd = mTempVal_u16[8]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_GEN_NIGHT_END].addrEEPROM,sMenu_Variable.u16GENNightEnd); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 9: 
+                          sMenu_Variable.changedVal = _DC_LOW_INPUT;
+                          sMenu_Variable.u16GENDCLowInput = mTempVal_u16[9]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();                          
+                          WriteEEPROM_Word(sSetting_Values[_DC_LOW_INPUT].addrEEPROM,sMenu_Variable.u16GENDCLowInput); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 10: 
+                          sMenu_Variable.changedVal = _DC_LOW_VOLT; 
+                          sMenu_Variable.u16GENDCLowVolt = mTempVal_u16[10]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_DC_LOW_VOLT].addrEEPROM,sMenu_Variable.u16GENDCLowVolt); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
 			default: break;
 			}
 			sMenu_Control.ajustValue = 0;
@@ -1508,12 +1642,48 @@ void Display_ServerAddress_Settings(void)
 		}else{
 			switch(sMenu_Control.index)
 			{
-			case 0: sMenu_Variable.u16ServerIP[0] = mTempVal_u16[0]; WriteEEPROM_Word(sSetting_Values[_SERVER_IP1].addrEEPROM,sMenu_Variable.u16ServerIP[0]); break;
-			case 1: sMenu_Variable.u16ServerIP[1] = mTempVal_u16[1]; WriteEEPROM_Word(sSetting_Values[_SERVER_IP2].addrEEPROM,sMenu_Variable.u16ServerIP[1]); break;
-			case 2: sMenu_Variable.u16ServerIP[2] = mTempVal_u16[2]; WriteEEPROM_Word(sSetting_Values[_SERVER_IP3].addrEEPROM,sMenu_Variable.u16ServerIP[2]); break;
-			case 3: sMenu_Variable.u16ServerIP[3] = mTempVal_u16[3]; WriteEEPROM_Word(sSetting_Values[_SERVER_IP4].addrEEPROM,sMenu_Variable.u16ServerIP[3]); break;
-			case 4: sMenu_Variable.u16ServerPort = mTempVal_u16[4];  WriteEEPROM_Word(sSetting_Values[_SERVER_PORT].addrEEPROM,sMenu_Variable.u16ServerPort); break;
-			default: break;
+			case 0: 
+                          sMenu_Variable.u16ServerIP[0] = mTempVal_u16[0];
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();                          
+                          WriteEEPROM_Word(sSetting_Values[_SERVER_IP1].addrEEPROM,sMenu_Variable.u16ServerIP[0]); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 1: 
+                          sMenu_Variable.u16ServerIP[1] = mTempVal_u16[1]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();  
+                          WriteEEPROM_Word(sSetting_Values[_SERVER_IP2].addrEEPROM,sMenu_Variable.u16ServerIP[1]);
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 2: 
+                          sMenu_Variable.u16ServerIP[2] = mTempVal_u16[2];
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();  
+                          WriteEEPROM_Word(sSetting_Values[_SERVER_IP3].addrEEPROM,sMenu_Variable.u16ServerIP[2]); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 3: 
+                          sMenu_Variable.u16ServerIP[3] = mTempVal_u16[3];                           
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();  
+                          WriteEEPROM_Word(sSetting_Values[_SERVER_IP4].addrEEPROM,sMenu_Variable.u16ServerIP[3]);
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 4: 
+                          sMenu_Variable.u16ServerPort = mTempVal_u16[4];
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();  
+                          WriteEEPROM_Word(sSetting_Values[_SERVER_PORT].addrEEPROM,sMenu_Variable.u16ServerPort);
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			default: 
+                          break;
 			}		
 			sMenu_Control.ajustValue = 0;
 		}
@@ -1944,21 +2114,85 @@ void Display_Setting_Confirm(void)
 		sMenu_Control.refesh = 1;
 		sKey_Control.pressedKey = 0;
 		break;
-	case _ENTER_KEY:
-		
-		sMenu_Variable.sEthernetSetting.u16DevIP[0] = sMenu_Variable.sEthernetSetting_temp.u16DevIP[0]; WriteEEPROM_Word(sSetting_Values[_DEV_IP1].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevIP[0]);
-		sMenu_Variable.sEthernetSetting.u16DevIP[1] = sMenu_Variable.sEthernetSetting_temp.u16DevIP[1]; WriteEEPROM_Word(sSetting_Values[_DEV_IP2].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevIP[1]);
-		sMenu_Variable.sEthernetSetting.u16DevIP[2] = sMenu_Variable.sEthernetSetting_temp.u16DevIP[2]; WriteEEPROM_Word(sSetting_Values[_DEV_IP3].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevIP[2]);
-		sMenu_Variable.sEthernetSetting.u16DevIP[3] = sMenu_Variable.sEthernetSetting_temp.u16DevIP[3]; WriteEEPROM_Word(sSetting_Values[_DEV_IP4].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevIP[3]);
-		sMenu_Variable.sEthernetSetting.u16DevSubnet[0] = sMenu_Variable.sEthernetSetting_temp.u16DevSubnet[0]; WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET1].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevSubnet[0]);
-		sMenu_Variable.sEthernetSetting.u16DevSubnet[1] = sMenu_Variable.sEthernetSetting_temp.u16DevSubnet[1]; WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET2].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevSubnet[1]);
-		sMenu_Variable.sEthernetSetting.u16DevSubnet[2] = sMenu_Variable.sEthernetSetting_temp.u16DevSubnet[2]; WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET3].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevSubnet[2]);
-		sMenu_Variable.sEthernetSetting.u16DevSubnet[3] = sMenu_Variable.sEthernetSetting_temp.u16DevSubnet[3]; WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET4].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevSubnet[3]);
-		sMenu_Variable.sEthernetSetting.u16DevGateway[0] = sMenu_Variable.sEthernetSetting_temp.u16DevGateway[0]; WriteEEPROM_Word(sSetting_Values[_DEV_GATEW1].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevGateway[0]);
-		sMenu_Variable.sEthernetSetting.u16DevGateway[1] = sMenu_Variable.sEthernetSetting_temp.u16DevGateway[1]; WriteEEPROM_Word(sSetting_Values[_DEV_GATEW2].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevGateway[1]);
-		sMenu_Variable.sEthernetSetting.u16DevGateway[2] = sMenu_Variable.sEthernetSetting_temp.u16DevGateway[2]; WriteEEPROM_Word(sSetting_Values[_DEV_GATEW3].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevGateway[2]);
-		sMenu_Variable.sEthernetSetting.u16DevGateway[3] = sMenu_Variable.sEthernetSetting_temp.u16DevGateway[3]; WriteEEPROM_Word(sSetting_Values[_DEV_GATEW4].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevGateway[3]);
-		sMenu_Variable.sEthernetSetting.u16DevPort = sMenu_Variable.sEthernetSetting_temp.u16DevPort; WriteEEPROM_Word(sSetting_Values[_DEV_PORT].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevPort);
+	case _ENTER_KEY:		
+		sMenu_Variable.sEthernetSetting.u16DevIP[0] = sMenu_Variable.sEthernetSetting_temp.u16DevIP[0]; 
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_IP1].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevIP[0]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevIP[1] = sMenu_Variable.sEthernetSetting_temp.u16DevIP[1]; 
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_IP2].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevIP[1]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevIP[2] = sMenu_Variable.sEthernetSetting_temp.u16DevIP[2]; 
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_IP3].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevIP[2]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevIP[3] = sMenu_Variable.sEthernetSetting_temp.u16DevIP[3]; 
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_IP4].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevIP[3]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevSubnet[0] = sMenu_Variable.sEthernetSetting_temp.u16DevSubnet[0]; 
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET1].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevSubnet[0]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevSubnet[1] = sMenu_Variable.sEthernetSetting_temp.u16DevSubnet[1]; 
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET2].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevSubnet[1]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevSubnet[2] = sMenu_Variable.sEthernetSetting_temp.u16DevSubnet[2];
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET3].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevSubnet[2]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevSubnet[3] = sMenu_Variable.sEthernetSetting_temp.u16DevSubnet[3];
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET4].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevSubnet[3]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevGateway[0] = sMenu_Variable.sEthernetSetting_temp.u16DevGateway[0];
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW1].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevGateway[0]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevGateway[1] = sMenu_Variable.sEthernetSetting_temp.u16DevGateway[1];
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW2].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevGateway[1]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevGateway[2] = sMenu_Variable.sEthernetSetting_temp.u16DevGateway[2];
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW3].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevGateway[2]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevGateway[3] = sMenu_Variable.sEthernetSetting_temp.u16DevGateway[3];
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW4].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevGateway[3]);
+                xTaskResumeAll();
+                I2C_Release_Lock();
+		sMenu_Variable.sEthernetSetting.u16DevPort = sMenu_Variable.sEthernetSetting_temp.u16DevPort;
+                I2C_Get_Lock();
+                vTaskSuspendAll();
+                WriteEEPROM_Word(sSetting_Values[_DEV_PORT].addrEEPROM,sMenu_Variable.sEthernetSetting.u16DevPort);
+                xTaskResumeAll();
+                I2C_Release_Lock();
 		
 		//	sMenu_Variable.u32IP =  (sMenu_Variable.sEthernetSetting.u16DevIP[3] << 24)|(sMenu_Variable.sEthernetSetting.u16DevIP[2] << 16)|(sMenu_Variable.sEthernetSetting.u16DevIP[1] << 8)|(sMenu_Variable.sEthernetSetting.u16DevIP[0]);
 		//	sMenu_Variable.u32SN =  (sMenu_Variable.sEthernetSetting.u16DevSubnet[3] << 24)|(sMenu_Variable.sEthernetSetting.u16DevSubnet[2] << 16)|(sMenu_Variable.sEthernetSetting.u16DevSubnet[1] << 8)|(sMenu_Variable.sEthernetSetting.u16DevSubnet[0]);
@@ -2246,12 +2480,60 @@ void Display_AirCon_Setting(void)
 		}else{
 			switch(sMenu_Control.index)
 			{
-			case 0: sMenu_Variable.changedVal = _AIRCON_TIME1; sMenu_Variable.u16AirConTime1 = mTempVal_u16[0]; WriteEEPROM_Word(sSetting_Values[_AIRCON_TIME1].addrEEPROM,sMenu_Variable.u16AirConTime1); break;
-			case 1: sMenu_Variable.changedVal = _AIRCON_TIME2; sMenu_Variable.u16AirConTime2 = mTempVal_u16[1]; WriteEEPROM_Word(sSetting_Values[_AIRCON_TIME2].addrEEPROM,sMenu_Variable.u16AirConTime2); break;
-			case 2: sMenu_Variable.changedVal = _AIRCON_TEMP1; sMenu_Variable.u16AirConTemp[0] = mTempVal_u16[2]; WriteEEPROM_Word(sSetting_Values[_AIRCON_TEMP1].addrEEPROM,sMenu_Variable.u16AirConTemp[0]); break;
-			case 3: sMenu_Variable.changedVal = _AIRCON_TEMP2; sMenu_Variable.u16AirConTemp[1] = mTempVal_u16[3]; WriteEEPROM_Word(sSetting_Values[_AIRCON_TEMP2].addrEEPROM,sMenu_Variable.u16AirConTemp[1]); break;
-			case 4: sMenu_Variable.changedVal = _AIRCON_TEMP3; sMenu_Variable.u16AirConTemp[2] = mTempVal_u16[4]; WriteEEPROM_Word(sSetting_Values[_AIRCON_TEMP3].addrEEPROM,sMenu_Variable.u16AirConTemp[2]); break;
-			case 5: sMenu_Variable.changedVal = _AIRCON_TEMP4; sMenu_Variable.u16AirConTemp[3] = mTempVal_u16[5]; WriteEEPROM_Word(sSetting_Values[_AIRCON_TEMP4].addrEEPROM,sMenu_Variable.u16AirConTemp[3]); break;
+			case 0: 
+                          sMenu_Variable.changedVal = _AIRCON_TIME1; 
+                          sMenu_Variable.u16AirConTime1 = mTempVal_u16[0]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_AIRCON_TIME1].addrEEPROM,sMenu_Variable.u16AirConTime1); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 1: 
+                          sMenu_Variable.changedVal = _AIRCON_TIME2; 
+                          sMenu_Variable.u16AirConTime2 = mTempVal_u16[1];
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_AIRCON_TIME2].addrEEPROM,sMenu_Variable.u16AirConTime2); 
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 2: 
+                          sMenu_Variable.changedVal = _AIRCON_TEMP1; 
+                          sMenu_Variable.u16AirConTemp[0] = mTempVal_u16[2]; 
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_AIRCON_TEMP1].addrEEPROM,sMenu_Variable.u16AirConTemp[0]);
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 3: 
+                          sMenu_Variable.changedVal = _AIRCON_TEMP2;
+                          sMenu_Variable.u16AirConTemp[1] = mTempVal_u16[3];
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_AIRCON_TEMP2].addrEEPROM,sMenu_Variable.u16AirConTemp[1]);
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 4: 
+                          sMenu_Variable.changedVal = _AIRCON_TEMP3;
+                          sMenu_Variable.u16AirConTemp[2] = mTempVal_u16[4];
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_AIRCON_TEMP3].addrEEPROM,sMenu_Variable.u16AirConTemp[2]);
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
+			case 5:
+                          sMenu_Variable.changedVal = _AIRCON_TEMP4;
+                          sMenu_Variable.u16AirConTemp[3] = mTempVal_u16[5];
+                          I2C_Get_Lock();
+                          vTaskSuspendAll();
+                          WriteEEPROM_Word(sSetting_Values[_AIRCON_TEMP4].addrEEPROM,sMenu_Variable.u16AirConTemp[3]);
+                          xTaskResumeAll();
+                          I2C_Release_Lock();
+                          break;
 			default: break;
 			}		
 			sMenu_Control.ajustValue = 0;

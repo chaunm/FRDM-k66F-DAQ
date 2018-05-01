@@ -32,18 +32,7 @@ extern uint16_t u16Temper;
 extern uint16_t u16CRC;
 
 //**********************************//
-void AM2320_Delay(volatile long time);
-void AM2320_SDA_Output(void);
-void AM2320_SDA_Input(void);
-
-void AM2320_Start(void);
-void AM2320_Stop(void);
-void AM2320_WriteI2C(uint8_t Data,uint8_t ACK_Bit);
-uint8_t AM2320_ReadI2C(uint8_t ACK_Bit);
-
 void AM2320_I2C_Init(void);
-void Wake_AM2320(void);
-void Trigger_AM2320(void);
 void Write_AM2320(uint8_t Addr,uint8_t ACK_Bit);
 void Getdata_AM2320(void);
 

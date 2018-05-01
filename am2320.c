@@ -3,6 +3,18 @@
 #include "fsl_gpio.h"
 #include "eeprom_rtc.h"
 #include "am2320.h"
+#include "i2c_lock.h"
+
+static void AM2320_Delay(volatile long time);
+static void AM2320_SDA_Output(void);
+static void AM2320_SDA_Input(void);
+
+static void AM2320_Start(void);
+static void AM2320_Stop(void);
+static void AM2320_WriteI2C(uint8_t Data,uint8_t ACK_Bit);
+static uint8_t AM2320_ReadI2C(uint8_t ACK_Bit);
+static void Wake_AM2320(void);
+static void Trigger_AM2320(void);
 
 void AM2320_SDA_Output(void)
 {

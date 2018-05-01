@@ -20,6 +20,9 @@
 #include "variables.h"
 #include "access_control.h"
 #include "am2320.h"
+#include "freeRTOS.h"
+#include "task.h"
+#include "i2c_lock.h"
 
 uint32_t setCount_test;
 //Mutex preventing simultaneous access to the private MIB base
@@ -999,6 +1002,7 @@ error_t privateMibSetAccessoriesGroup(const MibObject *object, const uint8_t *oi
     entry->airConSetTemp4= value->integer;
     sMenu_Variable.changedVal = _AIRCON_TEMP4; 
     sMenu_Variable.u16AirConTemp[3] = entry->airConSetTemp4; 
+    
     WriteEEPROM_Word(sSetting_Values[_AIRCON_TEMP4].addrEEPROM,sMenu_Variable.u16AirConTemp[3]);
   }
   //ledControlStatus object?

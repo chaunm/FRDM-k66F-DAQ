@@ -27,6 +27,7 @@
 #include "ftp.h"
 #endif
 
+#include "i2c_lock.h"
 #include "am2320.h"
 
 /******************* DEFINITIONS *************************/
@@ -184,17 +185,21 @@ static void hello_task(void *pvParameters) {
   for (;;) {
     vTaskDelay(10);
     if(countReadAM2320 > 100){
+      I2C_Get_Lock();
       vTaskSuspendAll();
       Getdata_AM2320();
       xTaskResumeAll();
+      I2C_Release_Lock();
       countReadAM2320 = 0;
     }
     if (getTimeCount > 50)
     {
       getTimeCount = 0;
+      I2C_Get_Lock();
       vTaskSuspendAll();
       GTime = GetTime();
       xTaskResumeAll();
+      I2C_Release_Lock();
     }
     Key_Scane(); 
     Menu_Scane();

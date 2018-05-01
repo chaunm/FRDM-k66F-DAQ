@@ -88,10 +88,8 @@ int_t main(void)
 #endif
     
 #if (USERDEF_ADC_TASK == ENABLED)
-    //ADC initialization
     AppInitAdc();
 #endif
-    // Init Ethernet module
     interface = EthernetInit();
 
 #if (USERDEF_CLIENT_SNMP == ENABLED)
