@@ -138,6 +138,13 @@
 //Number of sockets that can be opened simultaneously
 #define SOCKET_MAX_COUNT 10
 
+//PPP support
+#define PPP_SUPPORT ENABLED
+//PAP authentication support
+#define PAP_SUPPORT ENABLED
+//CHAP authentication support
+#define CHAP_SUPPORT ENABLED
+
 //Server Side Includes support
 #define HTTP_SERVER_SSI_SUPPORT ENABLED
 //HTTP Server user-defined
@@ -159,19 +166,21 @@
    
 /********** USER DEFINITION ************/
 //FTP client user-defined
-#define USERDEF_CLIENT_FTP DISABLED
+#define USERDEF_CLIENT_FTP      DISABLED
 //SW TIMER user-defined
-#define USERDEF_SW_TIMER ENABLED
+#define USERDEF_SW_TIMER        ENABLED
 //ADC Task user-defined
-#define USERDEF_ADC_TASK ENABLED
+#define USERDEF_ADC_TASK        ENABLED
 //USER INTERFACE user-defined
-#define USERDEF_USER_INTERFACE ENABLED
+#define USERDEF_USER_INTERFACE  ENABLED
 //IO INTERFACE user-defined
-#define USERDEF_IO_INTERFACE ENABLED
+#define USERDEF_IO_INTERFACE    ENABLED
 //GPRS user-defined
-#define USERDEF_GPRS ENABLED
+#define USERDEF_GPRS            DISABLED
+//PPP user-defined
+#define USERDEF_PPP             DISABLED
 //Connection manager user-defined
-#define USERDEF_SNMPCONNECT_MANAGER ENABLED
+#define USERDEF_SNMPCONNECT_MANAGER DISABLED
 
 // chaunm
 #define USERDEF_CHAUNM_TEST          DISABLED //enable to use specific network configuration for testing purpose

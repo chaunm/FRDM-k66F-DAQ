@@ -2353,7 +2353,13 @@
       <name>$PROJ_DIR$\..\CMSIS\Include\cmsis_armcc_V6.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\CMSIS\Include\cmsis_compiler.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\CMSIS\Include\cmsis_gcc.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\CMSIS\Include\cmsis_iccarm.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\CMSIS\Include\core_cm4.h</name>
@@ -2875,6 +2881,24 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\menu.h</name>
+      </file>
+    </group>
+    <group>
+      <name>modem</name>
+      <file>
+        <name>$PROJ_DIR$\..\modem.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\modem.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\modem_ports.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\uart_driver.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\uart_driver.h</name>
       </file>
     </group>
     <group>
@@ -3501,6 +3525,69 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\netbios\nbns_responder.h</name>
+        </file>
+      </group>
+      <group>
+        <name>ppp</name>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\chap.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\chap.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ipcp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ipcp.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ipv6cp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ipv6cp.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\lcp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\lcp.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\pap.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\pap.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_debug.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_debug.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_fsm.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_fsm.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_hdlc.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_hdlc.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_misc.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_misc.h</name>
         </file>
       </group>
       <group>
