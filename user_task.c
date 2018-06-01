@@ -121,12 +121,13 @@ void adcTask(void *param)
       {
       }
       adcValue[4] = ADC16_GetChannelConversionValue(BOARD_ADC16_1_BASE, BOARD_ADC16_1_CHANNEL_GROUP);
-      
+ /*
       PRINTF("ADC Value1: %d\r\n",adcValue[0]);
       PRINTF("ADC Value2: %d\r\n",adcValue[1]);
       PRINTF("ADC Value3: %d\r\n",adcValue[2]);
       PRINTF("ADC Value4: %d\r\n",adcValue[3]);
       PRINTF("ADC Value5: %d\r\n",adcValue[4]);
+*/
       //Loop delay
       osDelayTask(1000);
     }

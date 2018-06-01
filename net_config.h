@@ -63,7 +63,7 @@
 #define GPRS_TRACE_LEVEL 5
 
 //Number of network adapters
-#define NET_INTERFACE_COUNT 1
+#define NET_INTERFACE_COUNT 2
 
 //Size of the multicast MAC filter
 #define MAC_MULTICAST_FILTER_SIZE 12

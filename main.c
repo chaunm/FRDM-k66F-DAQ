@@ -36,11 +36,35 @@
 #include "snmp_client.h"
 #endif
 
+// inclusion for ppp
+#include "modem_interface.h"
+#include "modem.h"
+
 /**
 * @brief Main entry point
 * @return Unused value
 **/
 NetInterface *interface;
+
+void modemTask(void* pParam)
+{
+  error_t error;
+  // test ppp interface
+    interface = ModemInterfaceInit();
+    if (interface == NULL)
+      TRACE_ERROR("ppp interface initialization failed\r\n");
+    
+    error = modemInit(interface);
+    if (error)
+      TRACE_ERROR("Modem initialization failed\r\n");
+    
+    error = modemConnect(interface);
+    if (error)
+      TRACE_ERROR("Modem connect failed\r\n");
+    else
+      TRACE_ERROR("Modem connected\r\n");
+    while(1);
+}
 
 int_t main(void)
 {
@@ -91,7 +115,10 @@ int_t main(void)
     AppInitAdc();
 #endif
     interface = EthernetInit();
-
+    
+    // test ppp
+    osCreateTask("ppp setup", modemTask, NULL, 200, OS_TASK_PRIORITY_NORMAL);
+        
 #if (USERDEF_CLIENT_SNMP == ENABLED)
     SnmpInitMib();
     error = SnmpInitClient(interface);

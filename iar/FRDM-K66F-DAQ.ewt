@@ -2892,13 +2892,19 @@
         <name>$PROJ_DIR$\..\modem.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\modem_interface.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\modem_interface.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\modem_ports.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\uart_driver.c</name>
+        <name>$PROJ_DIR$\..\uart_driver.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\uart_driver.h</name>
+        <name>$PROJ_DIR$\..\uart_driver.h</name>
       </file>
     </group>
     <group>

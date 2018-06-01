@@ -70,17 +70,13 @@ error_t modemInit(NetInterface *interface)
    //Configure (MODEM_PWRKEY) as an output
    MODEM_PWR_INIT(0);
    //Power up sequence
-   MODEM_EN_ON();
-   MODEM_PWR_ON();
-   osDelayTask(250);
-   MODEM_EN_OFF();
-   osDelayTask(250);
-   MODEM_EN_ON();
-   osDelayTask(250);
-   MODEM_PWR_OFF();
-   osDelayTask(250);
-   MODEM_PWR_ON();
-   osDelayTask(5000);
+   vTaskDelay(1000 / portTICK_PERIOD_MS);
+   GPRS_PWR_ON();
+   vTaskDelay(3000 / portTICK_PERIOD_MS);
+   GPRS_EN_OFF();
+   vTaskDelay(3000/ portTICK_PERIOD_MS);
+   GPRS_EN_ON();
+   vTaskDelay(1000 / portTICK_PERIOD_MS);
 
    //Debug message
    TRACE_INFO("Initializing modem...\r\n");
