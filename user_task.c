@@ -50,7 +50,7 @@ uint32_t adcValue[10];
 TimerHandle_t SwTimerHandle = NULL;
 #endif
 
-extern NetInterface *interface;
+extern NetInterface *ethernetInterface;
 /**
 * @brief LED blinking task
 **/
@@ -166,7 +166,7 @@ void ftpTranferTask(void *param)
 static void hello_task(void *pvParameters) {
   static uint16_t countReadAM2320;
   static uint16_t getTimeCount;
-  TRACE_ERROR("User interface task stared\r\n");
+  TRACE_ERROR("User ethernetInterface task stared\r\n");
   glcd_init();
   //  vTaskDelay(100);
   //  Init_I2CE();
@@ -427,9 +427,9 @@ void vApplicationTickHook(void)
       LED_CON_GPRS_TOGGLE();
     else
       LED_CON_GPRS_OFF();
-    if (interface !=NULL)
+    if (ethernetInterface !=NULL)
     {
-      if (interface->linkState)
+      if (ethernetInterface->linkState)
         LED_CON_ETH_ON();
       else
         LED_CON_ETH_OFF();
@@ -631,7 +631,7 @@ void UserTaskInit()
   
 #if (USERDEF_USER_INTERFACE == ENABLED)
   //	 /* Create RTOS task */
-  //Create a task to active user interface
+  //Create a task to active user ethernetInterface
   task = osCreateTask("Hello_task", hello_task, NULL, 600, 4);
   //Failed to create the task?
   if(task == OS_INVALID_HANDLE)

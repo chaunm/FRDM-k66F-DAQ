@@ -18,8 +18,8 @@ void ACS_SaveUserID(uint16_t EEPROM_Addr, uint8_t* UserID)
     I2C_Get_Lock();
     vTaskSuspendAll();
     WriteEEPROM_Byte(EEPROM_Addr+i,*(UserID+i));
-    I2C_Release_Lock();
     xTaskResumeAll();
+    I2C_Release_Lock();
   }
 }
 
@@ -31,9 +31,9 @@ void ACS_DeleteUserID(uint16_t EEPROM_Addr, uint8_t* UserID)
   {
     I2C_Get_Lock();
     vTaskSuspendAll();
-    WriteEEPROM_Byte(EEPROM_Addr+i,0xFF);
-    I2C_Release_Lock();
+    WriteEEPROM_Byte(EEPROM_Addr+i,0xFF);    
     xTaskResumeAll();
+    I2C_Release_Lock();
   }
 }
 

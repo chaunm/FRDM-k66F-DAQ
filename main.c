@@ -13,6 +13,7 @@
 #include "frdm_k66f.h"
 #include "os_port.h"
 #include "core/net.h"
+#include "core/ping.h"
 #include "ipv6/slaac.h"
 #include "http/http_server.h"
 #include "http/mime.h"
@@ -37,33 +38,47 @@
 #endif
 
 // inclusion for ppp
-#include "modem_interface.h"
+#include "modem_Interface.h"
 #include "modem.h"
 
 /**
 * @brief Main entry point
 * @return Unused value
 **/
-NetInterface *interface;
+NetInterface *ethernetInterface;
 
 void modemTask(void* pParam)
 {
-  error_t error;
-  // test ppp interface
-    interface = ModemInterfaceInit();
-    if (interface == NULL)
-      TRACE_ERROR("ppp interface initialization failed\r\n");
-    
-    error = modemInit(interface);
-    if (error)
-      TRACE_ERROR("Modem initialization failed\r\n");
-    
-    error = modemConnect(interface);
+  IpAddr ipaddr;
+  error_t error, status;
+  static NetInterface *pppInterface;
+  uint32_t timeout = 30000;
+  uint32_t rtt_time;
+  
+  pppInterface = ModemInterfaceInit();
+  ipStringToAddr("8.8.8.8", &ipaddr); 
+  if (pppInterface == NULL)
+    TRACE_ERROR("ppp ethernetInterface initialization failed\r\n");
+  
+  error = modemInit(pppInterface);
+  if (error)
+    TRACE_ERROR("Modem initialization failed\r\n");
+  error = ERROR_FAILURE;
+  while (error)
+  {
+    error = modemConnect(pppInterface);
     if (error)
       TRACE_ERROR("Modem connect failed\r\n");
     else
       TRACE_ERROR("Modem connected\r\n");
-    while(1);
+  }
+  while(1)
+  {
+//    status = ping(pppInterface, &ipaddr, 32, 255, timeout, &rtt_time);
+//    if (status != NO_ERROR)
+//      TRACE_ERROR("ppp ping failed\r\n");
+//    vTaskDelay(5000/ portTICK_PERIOD_MS);
+  }
 }
 
 int_t main(void)
@@ -108,20 +123,20 @@ int_t main(void)
 #endif  
     
 #if (USERDEF_GPRS == ENABLED)
-    gprs_init();
+    gprs_init();connec
 #endif
     
 #if (USERDEF_ADC_TASK == ENABLED)
     AppInitAdc();
 #endif
-    interface = EthernetInit();
+    ethernetInterface = EthernetInit();
     
     // test ppp
     osCreateTask("ppp setup", modemTask, NULL, 200, OS_TASK_PRIORITY_NORMAL);
         
 #if (USERDEF_CLIENT_SNMP == ENABLED)
     SnmpInitMib();
-    error = SnmpInitClient(interface);
+    error = SnmpInitClient(ethernetInterface);
     //Create TrapSend task
     if (error == NO_ERROR)
     {

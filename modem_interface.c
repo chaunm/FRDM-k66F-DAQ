@@ -11,17 +11,7 @@ NetInterface* ModemInterfaceInit()
 {
   NetInterface* interface;
   error_t error;
-  
-  //TCP/IP stack initialization
-  error = netInit();
-  //Any error to report?
-  if(error)
-  {
-    //Debug message
-    TRACE_ERROR("Failed to initialize TCP/IP stack!\r\n");
-    return NULL;
-  }
-  
+
   //Configure the first Ethernet interface
   interface = &netInterface[1];
   //Get default PPP settings
