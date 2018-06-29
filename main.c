@@ -46,12 +46,12 @@
 * @return Unused value
 **/
 NetInterface *ethernetInterface;
+NetInterface *pppInterface;
 
 void modemTask(void* pParam)
 {
   IpAddr ipaddr;
   error_t error, status;
-  static NetInterface *pppInterface;
   uint32_t timeout = 30000;
   uint32_t rtt_time;
   
@@ -63,6 +63,8 @@ void modemTask(void* pParam)
   error = modemInit(pppInterface);
   if (error)
     TRACE_ERROR("Modem initialization failed\r\n");
+  else 
+    TRACE_ERROR("ppp modem initialzation succedd\r\n");
   error = ERROR_FAILURE;
   while (error)
   {
