@@ -417,7 +417,7 @@ void vApplicationTickHook(void)
 {
   sysCountTest++;
   sMenu_Control.refreshMainPageCount++;
-  if(sysCountTest >= 300)
+  if(sysCountTest >= 1000)
   {
     GPIO_TogglePinsOutput(GPIOC,1<<4u);
     LED_RUN_TOGGLE();

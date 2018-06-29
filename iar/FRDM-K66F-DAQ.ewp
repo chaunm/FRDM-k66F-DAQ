@@ -2058,12 +2058,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmp.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmp.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmt.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmt.h</name>
@@ -2076,12 +2082,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_crc.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_crc.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dac.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dac.h</name>
@@ -2094,18 +2106,27 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_edma.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_edma.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_freertos.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_freertos.h</name>
@@ -2127,12 +2148,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ewm.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ewm.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flash.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flash.h</name>
@@ -2145,12 +2172,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexcan.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexcan.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ftm.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ftm.h</name>
@@ -2181,18 +2214,27 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_llwu.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_llwu.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lmem_cache.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lmem_cache.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lptmr.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lptmr.h</name>
@@ -2205,12 +2247,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_edma.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_edma.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_freertos.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_freertos.h</name>
@@ -2223,12 +2271,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pdb.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pdb.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pit.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pit.h</name>
@@ -2244,6 +2298,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rcm.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rcm.h</name>
@@ -2262,18 +2319,27 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai_edma.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai_edma.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sdhc.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sdhc.h</name>
@@ -2298,12 +2364,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tpm.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tpm.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tsi_v4.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tsi_v4.h</name>
