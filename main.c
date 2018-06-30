@@ -77,6 +77,7 @@ int_t main(void)
     TRACE_INFO("*** Site Monitoring Device ***\r\n");
     TRACE_INFO("**********************************\r\n");
     TRACE_INFO("\r\n");
+    TRACE_INFO("Reset cause SRS0: 0x%02X SRS1: 0x%02X\r\n", RCM->SRS0, RCM->SRS1);
     // Init Led
     AppLedInit();
     // Init IO Pin

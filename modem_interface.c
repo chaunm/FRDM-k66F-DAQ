@@ -59,7 +59,9 @@ error_t ModemInterfaceConnect()
   error_t error = ERROR_FAILURE;      
   interface = &netInterface[1];
   while (error)
-  {
+  {   
+    modemTurnOn();
+    osDelayTask(1000);
     error = modemInit(interface);
     if (error)
       TRACE_ERROR("Modem initialization failed\r\n");
@@ -72,9 +74,16 @@ error_t ModemInterfaceConnect()
       TRACE_ERROR("Modem connect failed\r\n");
       modemDisconnect(interface);
       osDelayTask(2000);
+      modemTurnOff();
+      osDelayTask(5000);     
     }
     else
+    {
+      osDelayTask(1000);
       TRACE_ERROR("Modem connected\r\n");
+    }
+    if (interfaceManage.setState == MODEM_INTERFACE_STATE_CONNECTED)
+      break;
   }
   return error;
 }
@@ -84,6 +93,9 @@ void ModemInterfaceDisconnect()
   NetInterface* interface;
   interface = &netInterface[1];
   modemDisconnect(interface);
+  osDelayTask(2000);
+  modemTurnOff();
+  osDelayTask(5000);
 }
 
 void ModemInterfaceSetState(modem_interface_state_t state)
@@ -99,10 +111,11 @@ uint8_t ModemInterfaceGetState()
 void ModemInterfaceTask(void* param)
 {
   static uint8_t pingCount = 0;
+  static uint8_t pingLostCount = 0;
   IpAddr ipaddr;
   error_t error, status;
   uint32_t rtt_time;
-  modemTurnOn();
+//  modemTurnOn();
   while (1)
   {
     if ((interfaceManage.setState == MODEM_INTERFACE_STATE_CONNECTED) && (interfaceManage.currentState == MODEM_INTERFACE_STATE_DISCONNECTED))
@@ -123,12 +136,17 @@ void ModemInterfaceTask(void* param)
       if (pingCount >= PPP_PING_PERIOD)
       {
         ipStringToAddr("8.8.8.8", &ipaddr); 
-        status = ping(&netInterface[1], &ipaddr, 32, 255, 50000, &rtt_time);
+        status = ping(&netInterface[1], &ipaddr, 32, 255, 5000, &rtt_time);
         if (status != NO_ERROR)
         {
           TRACE_ERROR("ppp ping failed\r\n");
-          ModemInterfaceDisconnect();
-          interfaceManage.currentState = MODEM_INTERFACE_STATE_DISCONNECTED;        
+          pingLostCount++;
+          if (pingLostCount > 3)
+          {
+            pingLostCount = 0;
+            ModemInterfaceDisconnect();
+            interfaceManage.currentState = MODEM_INTERFACE_STATE_DISCONNECTED;        
+          }
         }
         pingCount = 0;
       }
