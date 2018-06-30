@@ -13,11 +13,11 @@
 #define AM2320_SDA_DATA_READ   GPIO_ReadPinInput(SDA_PORT,SDA_PIN)
 
 //**********************************//
-#define AM2320us   40 //~6.125us pulse on && ~12.37us pulse off  f=80,08 Hz ( AM2320 Max clock = 100kHz)
+#define AM2320us   100 //~6.125us pulse on && ~12.37us pulse off  f=80,08 Hz ( AM2320 Max clock = 100kHz)
 
-#define _AM2320_800us  8000
-#define _AM2320_30us   300
-#define _AM2320_1500   15000
+#define _AM2320_800us  12000
+#define _AM2320_30us   500
+#define _AM2320_1500   25000
 
 //BH1750 I2C Address
 #define AM2320_ADDR_R	0xB9

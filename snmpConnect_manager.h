@@ -23,7 +23,6 @@
 #include "ipv6/icmpv6.h"
 #include "core/socket.h"
 #include "debug.h"
-#include "quectel_m26.h"
 #include "variables.h"
 
 #if (USERDEF_CLIENT_SNMP == ENABLED)
@@ -47,7 +46,7 @@ typedef struct
   OsMutex mutex;                                        ///<Mutex preventing simultaneous access to SNMP agent context
 }SNMPConnectManager;
 
-#define PING_SEND_PERIOD 3
+#define PING_SEND_PERIOD        5
 
 //=======================================
 //Function declearation

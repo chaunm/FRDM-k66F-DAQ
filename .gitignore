@@ -60,3 +60,4 @@ iar/debug/*
 iar/release/*
 iar/settings
 iar/settings/*
+clock_config_1.*
