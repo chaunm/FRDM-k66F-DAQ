@@ -15,12 +15,12 @@
 #include "error.h"
 
 // Definition
-#define GPRS_UART                                         UART1
-#define GPRS_UART_CLKSRC                          SYS_CLK
-#define GPRS_UART_IRQn                              UART1_RX_TX_IRQn
+#define GPRS_UART                               UART1
+#define GPRS_UART_CLKSRC                        UART1_CLK_SRC
+#define GPRS_UART_IRQn                          UART1_RX_TX_IRQn
 #define GPRS_UART_IRQHandler                    UART1_RX_TX_IRQHandler
 
-#define GPRS_UART_BAUDRATE			172827//115200//518400// => 115200bps
+#define GPRS_UART_BAUDRATE			115200
 
 typedef enum gprs_op_status_e
 {
