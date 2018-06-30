@@ -56,9 +56,9 @@ processor_version: 3.0.1
 #define SIM_PLLFLLSEL_MCGFLLCLK_CLK                       0U  /*!< PLLFLL select: MCGFLLCLK clock */
 #define SIM_SDHC_CLK_SEL_OSCERCLK_CLK                     2U  /*!< SDHC clock select: OSCERCLK clock */
 #define SIM_TPM_CLK_SEL_OSCERCLK_CLK                      2U  /*!< TPM clock select: OSCERCLK clock */
-#define SIM_TRACE_CLK_DIV_1                               0U  /*!< Trace clock divider divisor: divided by 1 */
+#define SIM_TRACE_CLK_DIV_2                               1U  /*!< Trace clock divider divisor: divided by 2 */
 #define SIM_TRACE_CLK_FRAC_1                              0U  /*!< Trace clock divider fraction: multiplied by 1 */
-#define SIM_TRACE_CLK_SEL_CORE_SYSTEM_CLK                 1U  /*!< Trace clock select: Core/system clock */
+#define SIM_TRACE_CLK_SEL_MCGOUTCLK_CLK                   0U  /*!< Trace clock select: FlexBus clock */
 
 /*******************************************************************************
  * Variables
@@ -98,9 +98,9 @@ name: BOARD_BootClockHSRUN
 outputs:
 - {id: Bus_clock.outFreq, value: 60 MHz}
 - {id: CLKOUT.outFreq, value: 60 MHz}
-- {id: Core_clock.outFreq, value: 120 MHz}
+- {id: Core_clock.outFreq, value: 180 MHz}
 - {id: ENET1588TSCLK.outFreq, value: 50 MHz}
-- {id: Flash_clock.outFreq, value: 24 MHz}
+- {id: Flash_clock.outFreq, value: 22.5 MHz}
 - {id: FlexBus_clock.outFreq, value: 60 MHz}
 - {id: LPO_clock.outFreq, value: 1 kHz}
 - {id: LPUARTCLK.outFreq, value: 8 MHz}
@@ -110,21 +110,21 @@ outputs:
 - {id: OSCERCLK_UNDIV.outFreq, value: 8 MHz}
 - {id: RMIICLK.outFreq, value: 50 MHz}
 - {id: SDHCCLK.outFreq, value: 8 MHz}
-- {id: System_clock.outFreq, value: 120 MHz}
+- {id: System_clock.outFreq, value: 180 MHz}
 - {id: TPMCLK.outFreq, value: 8 MHz}
-- {id: TRACECLKIN.outFreq, value: 120 MHz}
+- {id: TRACECLKIN.outFreq, value: 90 MHz}
 settings:
 - {id: MCGMode, value: PEE}
 - {id: powerMode, value: HSRUN}
 - {id: CLKOUTConfig, value: 'yes'}
 - {id: ENETTimeSrcConfig, value: 'yes'}
 - {id: LPUARTClkConfig, value: 'yes'}
-- {id: MCG.FRDIV.scale, value: '32'}
+- {id: MCG.FRDIV.scale, value: '32', locked: true}
 - {id: MCG.IRCS.sel, value: MCG.FCRDIV}
 - {id: MCG.IREFS.sel, value: MCG.FRDIV}
 - {id: MCG.PLLS.sel, value: MCG.PLLCS}
 - {id: MCG.PRDIV.scale, value: '1', locked: true}
-- {id: MCG.VDIV.scale, value: '30', locked: true}
+- {id: MCG.VDIV.scale, value: '45', locked: true}
 - {id: MCG_C1_IRCLKEN_CFG, value: Enabled}
 - {id: MCG_C2_OSC_MODE_CFG, value: ModeOscLowPower}
 - {id: MCG_C2_RANGE0_CFG, value: Very_high}
@@ -137,13 +137,16 @@ settings:
 - {id: RTC_CR_OSC_CAP_LOAD_CFG, value: SC22PF}
 - {id: SDHCClkConfig, value: 'yes'}
 - {id: SIM.LPUARTSRCSEL.sel, value: OSC.OSCERCLK}
-- {id: SIM.OUTDIV2.scale, value: '2', locked: true}
-- {id: SIM.OUTDIV3.scale, value: '2', locked: true}
-- {id: SIM.OUTDIV4.scale, value: '5', locked: true}
+- {id: SIM.OUTDIV1.scale, value: '1', locked: true}
+- {id: SIM.OUTDIV2.scale, value: '3', locked: true}
+- {id: SIM.OUTDIV3.scale, value: '3', locked: true}
+- {id: SIM.OUTDIV4.scale, value: '8', locked: true}
 - {id: SIM.RMIICLKSEL.sel, value: SIM.ENET_1588_CLK_EXT}
 - {id: SIM.SDHCSRCSEL.sel, value: OSC.OSCERCLK}
 - {id: SIM.TIMESRCSEL.sel, value: SIM.ENET_1588_CLK_EXT}
 - {id: SIM.TPMSRCSEL.sel, value: OSC.OSCERCLK}
+- {id: SIM.TRACECLKSEL.sel, value: SIM.TRACEDIV}
+- {id: SIM.TRACEDIV.scale, value: '2', locked: true}
 - {id: TPMClkConfig, value: 'yes'}
 - {id: TraceClkConfig, value: 'yes'}
 sources:
@@ -169,7 +172,7 @@ const mcg_config_t mcgConfig_BOARD_BootClockHSRUN =
             {
                 .enableMode = MCG_PLL_DISABLE,    /* MCGPLLCLK disabled */
                 .prdiv = 0x0U,                    /* PLL Reference divider: divided by 1 */
-                .vdiv = 0xeU,                     /* VCO divider: multiplied by 30 */
+                .vdiv = 0x1dU,                    /* VCO divider: multiplied by 45 */
             },
         .pllcs = kMCG_PllClkSelPll0,              /* PLL0 output clock is selected */
     };
@@ -179,7 +182,7 @@ const sim_clock_config_t simConfig_BOARD_BootClockHSRUN =
         .pllFllDiv = 0,                           /* PLLFLLSEL clock divider divisor: divided by 1 */
         .pllFllFrac = 0,                          /* PLLFLLSEL clock divider fraction: multiplied by 1 */
         .er32kSrc = SIM_OSC32KSEL_OSC32KCLK_CLK,  /* OSC32KSEL select: OSC32KCLK clock */
-        .clkdiv1 = 0x1140000U,                    /* SIM_CLKDIV1 - OUTDIV1: /1, OUTDIV2: /2, OUTDIV3: /2, OUTDIV4: /5 */
+        .clkdiv1 = 0x2270000U,                    /* SIM_CLKDIV1 - OUTDIV1: /1, OUTDIV2: /3, OUTDIV3: /3, OUTDIV4: /8 */
     };
 const osc_config_t oscConfig_BOARD_BootClockHSRUN =
     {
@@ -236,6 +239,6 @@ void BOARD_BootClockHSRUN(void)
     /* Set CLKOUT source. */
     CLOCK_SetClkOutClock(SIM_CLKOUT_SEL_FLEXBUS_CLK);
     /* Set debug trace clock source. */
-    CLOCK_SetTraceClock(SIM_TRACE_CLK_SEL_CORE_SYSTEM_CLK, SIM_TRACE_CLK_DIV_1, SIM_TRACE_CLK_FRAC_1);
+    CLOCK_SetTraceClock(SIM_TRACE_CLK_SEL_MCGOUTCLK_CLK, SIM_TRACE_CLK_DIV_2, SIM_TRACE_CLK_FRAC_1);
 }
 

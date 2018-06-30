@@ -560,22 +560,10 @@ error_t socketSendTo(Socket *socket, const IpAddr *destIpAddr, uint16_t destPort
    //Connectionless socket?
      if(socket->type == SOCKET_TYPE_DGRAM)
      {
-       //Send UDP datagram - chaunm - check and send GPRS socket here
-#if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
-       if (snmpConnectCheckStatus() == ETHERNET_CONNECTED)
-       {
-#endif
+       //Send UDP datagram 
          //Send SNMP trap message
          error = udpSendDatagram(socket, destIpAddr,
-                               destPort, data, length, written);
-#if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
-       } else if (snmpConnectCheckStatus() == GPRS_CONNECTED)
-       {
-         //ChauNM - 03/04: Send UDP message through GPRS
-         error = gprsSendMsg(data, length);
-       }
-#endif
-       
+                               destPort, data, length, written);       
      }
      else
 #endif

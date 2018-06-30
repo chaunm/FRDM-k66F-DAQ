@@ -13,13 +13,15 @@
 #include "variables.h"
 #include "core/net.h"
 #include "snmp_client.h"
+#include "snmpConnect_manager.h"
 
 #if (USERDEF_CLIENT_SNMP == ENABLED)
 #define APP_SNMP_ENTERPRISE_OID "1.3.6.1.4.1.45796.1.16"//"1.3.6.1.4.1.8072.9999.9998"//
 #define APP_SNMP_CONTEXT_ENGINE "\x80\x00\x00\x00\x01\x02\x03\x04"
 #define APP_SNMP_TRAP_DEST_IP_ADDR "192.168.100.25"//"117.6.55.97"//
 SnmpAgentSettings snmpAgentSettings;
-SnmpAgentContext snmpAgentContext;
+SnmpAgentContext ethernetSnmpAgentContext;
+SnmpAgentContext pppSnmpAgentContext;
 size_t oidLen;
 uint8_t oid[SNMP_MAX_OID_SIZE];  
 #endif //(USERDEF_CLIENT_SNMP == ENABLED)
@@ -48,80 +50,6 @@ static error_t snmpAgentRandCallback(uint8_t *data, size_t length)
 }
 
 
-static void SnmpSendTrapType1(SnmpAgentContext *context, const IpAddr *destIpAddr,
-                             SnmpVersion version, const char_t *username, uint_t genericTrapType,
-                             uint_t specificTrapCode, const SnmpTrapObject *objectList, uint_t objectListSize ,
-                             const char_t *str, uint8_t *oid, size_t maxOidLen, size_t *oidLen,
-                             uint32_t* pui32value, uint16_t number, uint8_t alarmVal1, uint8_t alarmVal2, uint8_t normalVal)
-{  
-  //	trap_flag[number] = 0;
-  if (((*pui32value == alarmVal1)||(*pui32value == alarmVal2)) && (trap_flag[number] == 0))
-  {
-    trap_flag[number] = 1;
-  }
-  if ((trap_flag[number] == 1))
-  {
-    switch(number)
-    {
-      // ================ Main Specs ================//
-      // Send Trap 1: Fire Alarm
-      // Send Trap 2: Smoke Alarm
-      // Send Trap 3: MotionDetect Alarm
-      // Send Trap 4: FloodDetect Alarm
-      // Send Trap 5: DoorOpen Alarm
-      // Send Trap 6: GenFailure Alarm
-      // Send Trap 7: DcThres Alarm
-      // Send Trap 8: GenStop Alarm
-      // Send Trap 9: AcThres Alarm
-      // Send Trap 10: 
-      // Send Trap 11 .. 18: DigitalInputAlarm1 .. 8
-      // Send Trap 19: 
-    case 1:
-    case 2:  
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:    
-      {
-        //Add the battery2ThresVolt.0 object to the variable binding list of the message
-        oidFromString(str,oid,maxOidLen, oidLen);
-        
-        //Send a SNMP trap
-        snmpAgentSendTrap(context, destIpAddr, version,
-                          username,genericTrapType , specificTrapCode, objectList, objectListSize); //
-        
-      }break;						
-    }
-    trap_flag[number] = 2;
-    
-  } else if ((trap_flag[number] == 2) && (*pui32value == normalVal))
-  {
-    switch(number)
-    { 
-    case 1:
-    case 2:  
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-      {
-        //Add the battery2ThresVolt.0 object to the variable binding list of the message
-        oidFromString(str,oid,maxOidLen, oidLen);
-        
-        //Send a SNMP trap
-        snmpAgentSendTrap(context, destIpAddr, version,
-                          username,genericTrapType , specificTrapCode, objectList, objectListSize); //
-        
-      }break;	
-    }
-    trap_flag[number] = 0;
-  }
-}
-
 static void SnmpSendTrapType2(SnmpAgentContext *context, const IpAddr *destIpAddr,
                              SnmpVersion version, const char_t *username, uint_t genericTrapType,
                              uint_t specificTrapCode, const SnmpTrapObject *objectList, uint_t objectListSize ,
@@ -139,13 +67,24 @@ static void SnmpSendTrapType2(SnmpAgentContext *context, const IpAddr *destIpAdd
 
 static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
 {
+  SnmpAgentContext* snmpAgentContext;
+  if (snmpConnectCheckStatus() == ETHERNET_CONNECTED)
+  {
+    snmpAgentContext = &ethernetSnmpAgentContext;
+  }
+  else if (snmpConnectCheckStatus() == GPRS_CONNECTED)
+  {
+    snmpAgentContext = &pppSnmpAgentContext;
+  }
+  else
+    return;
   //Add the alarmSmokeAlarms.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.15.1.0", trapObjects[0].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[0].oidLen);
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+  SnmpSendTrapType2(snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
                     "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,1, trapObjects, 2,                             
                     &privateMibBase.alarmGroup.alarmFireAlarms, 
                     &privateMibBase.alarmGroup.alarmFireAlarms_old);
@@ -156,7 +95,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[0].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+  SnmpSendTrapType2(snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
                     "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,2, trapObjects, 2,                              
                     &privateMibBase.alarmGroup.alarmSmokeAlarms, 
                     &privateMibBase.alarmGroup.alarmSmokeAlarms_old);
@@ -167,7 +106,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);       
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+  SnmpSendTrapType2(snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
                     "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,3, trapObjects, 2,                             
                     &privateMibBase.alarmGroup.alarmMotionDetectAlarms, 
                     &privateMibBase.alarmGroup.alarmMotionDetectAlarms_old);
@@ -178,7 +117,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+  SnmpSendTrapType2(snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
                     "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,4, trapObjects, 2,                             
                     &privateMibBase.alarmGroup.alarmFloodDetectAlarms, 
                     &privateMibBase.alarmGroup.alarmFloodDetectAlarms_old);
@@ -189,7 +128,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+  SnmpSendTrapType2(snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
                     "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,5, trapObjects, 2,
                     &privateMibBase.alarmGroup.alarmDoorOpenAlarms, 
                     &privateMibBase.alarmGroup.alarmDoorOpenAlarms_old);
@@ -200,7 +139,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen); 
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+  SnmpSendTrapType2(snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
                     "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,6, trapObjects, 2,
                     &privateMibBase.alarmGroup.alarmGenFailureAlarms, 
                     &privateMibBase.alarmGroup.alarmGenFailureAlarms_old);
@@ -211,7 +150,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);  
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+  SnmpSendTrapType2(snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
                     "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,7, trapObjects, 2,
                     &privateMibBase.alarmGroup.alarmDcThresAlarms, 
                     &privateMibBase.alarmGroup.alarmDcThresAlarms_old);
@@ -222,7 +161,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);  
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+  SnmpSendTrapType2(snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
                     "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,8, trapObjects, 2,
                     &privateMibBase.alarmGroup.alarmMachineStopAlarms, 
                     &privateMibBase.alarmGroup.alarmMachineStopAlarms_old);
@@ -233,7 +172,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[1].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[1].oidLen);  
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+  SnmpSendTrapType2(snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
                     "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,9, trapObjects, 2,
                     &privateMibBase.alarmGroup.alarmAcThresAlarms, 
                     &privateMibBase.alarmGroup.alarmAcThresAlarms_old);
@@ -247,7 +186,7 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[2].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[2].oidLen);  
-  SnmpSendTrapType2(&snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
+  SnmpSendTrapType2(snmpAgentContext, &destIpAddr,SNMP_VERSION_2C,
                     "public", SNMP_TRAP_ENTERPRISE_SPECIFIC,9, trapObjects, 3,
                     &privateMibBase.alarmGroup.alarmAccessAlarms, 
                     &privateMibBase.alarmGroup.alarmAccessAlarms_old);  
@@ -256,6 +195,17 @@ static void SnmpSendAlarmTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
 static void SnmpSendSiteInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
 {
   error_t error;
+  SnmpAgentContext* snmpAgentContext;
+  if (snmpConnectCheckStatus() == ETHERNET_CONNECTED)
+  {
+    snmpAgentContext = &ethernetSnmpAgentContext;
+  }
+  else if (snmpConnectCheckStatus() == GPRS_CONNECTED)
+  {
+    snmpAgentContext = &pppSnmpAgentContext;
+  }
+  else
+    return;
   //============================= Site Info ============================================//
   //Add the siteInfoBTSCode.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[0].oid,
@@ -286,7 +236,7 @@ static void SnmpSendSiteInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
                 SNMP_MAX_OID_SIZE, &trapObjects[8].oidLen);
   
   //Send a SNMP trap
-  error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
+  error = snmpAgentSendTrap(snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                             "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 11, trapObjects, 9); //
   //Failed to send trap message?
   if(error)
@@ -303,6 +253,17 @@ static void SnmpSendSiteInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
 static void SnmpSendAcInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
 {
   error_t error;
+  SnmpAgentContext* snmpAgentContext;
+  if (snmpConnectCheckStatus() == ETHERNET_CONNECTED)
+  {
+    snmpAgentContext = &ethernetSnmpAgentContext;
+  }
+  else if (snmpConnectCheckStatus() == GPRS_CONNECTED)
+  {
+    snmpAgentContext = &pppSnmpAgentContext;
+  }
+  else
+    return;
   //============================= AC Info ============================================//
   //Add the acPhaseNumber.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.2.1.0", trapObjects[0].oid,
@@ -333,7 +294,7 @@ static void SnmpSendAcInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
                 SNMP_MAX_OID_SIZE, &trapObjects[8].oidLen);
   
   //Send a SNMP trap
-  error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
+  error = snmpAgentSendTrap(snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                             "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 12, trapObjects, 9); //
   //Failed to send trap message?
   if(error)
@@ -350,6 +311,17 @@ static void SnmpSendAcInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
 static void SnmpSendBatteryInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
 {
   error_t error;
+  SnmpAgentContext* snmpAgentContext;
+  if (snmpConnectCheckStatus() == ETHERNET_CONNECTED)
+  {
+    snmpAgentContext = &ethernetSnmpAgentContext;
+  }
+  else if (snmpConnectCheckStatus() == GPRS_CONNECTED)
+  {
+    snmpAgentContext = &pppSnmpAgentContext;
+  }
+  else
+    return;
   //============================= Battery Info ============================================//
   //Add the battery1Voltage.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.3.1.0", trapObjects[0].oid,
@@ -374,7 +346,7 @@ static void SnmpSendBatteryInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAd
                 SNMP_MAX_OID_SIZE, &trapObjects[6].oidLen);
   
   //Send a SNMP trap
-  error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
+  error = snmpAgentSendTrap(snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                             "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 13, trapObjects, 7); //
   //Failed to send trap message?
   if(error)
@@ -391,6 +363,17 @@ static void SnmpSendBatteryInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAd
 static void SnmpSendAccessoriesInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
 {
   error_t error;
+  SnmpAgentContext* snmpAgentContext;
+  if (snmpConnectCheckStatus() == ETHERNET_CONNECTED)
+  {
+    snmpAgentContext = &ethernetSnmpAgentContext;
+  }
+  else if (snmpConnectCheckStatus() == GPRS_CONNECTED)
+  {
+    snmpAgentContext = &pppSnmpAgentContext;
+  }
+  else
+    return;
   //============================= Accessories Info ============================================//
   //Add the airCon1Status.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.4.1.0", trapObjects[0].oid,
@@ -441,7 +424,7 @@ static void SnmpSendAccessoriesInfoTrap(SnmpTrapObject* trapObjects, IpAddr dest
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[15].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[15].oidLen);  
   //Send a SNMP trap
-  error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
+  error = snmpAgentSendTrap(snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                             "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 14, trapObjects, 16); //
   //Failed to send trap message?
   if(error)
@@ -458,6 +441,17 @@ static void SnmpSendAccessoriesInfoTrap(SnmpTrapObject* trapObjects, IpAddr dest
 static void SnmpSendConfigurationInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
 {
   error_t error;
+  SnmpAgentContext* snmpAgentContext;
+  if (snmpConnectCheckStatus() == ETHERNET_CONNECTED)
+  {
+    snmpAgentContext = &ethernetSnmpAgentContext;
+  }
+  else if (snmpConnectCheckStatus() == GPRS_CONNECTED)
+  {
+    snmpAgentContext = &pppSnmpAgentContext;
+  }
+  else
+    return;
   //============================= Configuration Info ============================================//
   //Add the configDevIPAddr.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.14.1.0", trapObjects[0].oid,
@@ -586,7 +580,7 @@ static void SnmpSendConfigurationInfoTrap(SnmpTrapObject* trapObjects, IpAddr de
   
   
   //Send a SNMP trap
-  error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
+  error = snmpAgentSendTrap(snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                             "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 15, trapObjects, 39); //
   //Failed to send trap message?
   if(error)
@@ -603,6 +597,17 @@ static void SnmpSendConfigurationInfoTrap(SnmpTrapObject* trapObjects, IpAddr de
 static void SnmpSendAlarmInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr)
 {
   error_t error;
+  SnmpAgentContext* snmpAgentContext;
+  if (snmpConnectCheckStatus() == ETHERNET_CONNECTED)
+  {
+    snmpAgentContext = &ethernetSnmpAgentContext;
+  }
+  else if (snmpConnectCheckStatus() == GPRS_CONNECTED)
+  {
+    snmpAgentContext = &pppSnmpAgentContext;
+  }
+  else
+    return;
   //============================= Alarm Info ============================================//
   //Add the battery1Voltage.0 object to the variable binding list of the message
   oidFromString("1.3.6.1.4.1.45796.1.15.1.0", trapObjects[0].oid,
@@ -635,7 +640,7 @@ static void SnmpSendAlarmInfoTrap(SnmpTrapObject* trapObjects, IpAddr destIpAddr
   oidFromString("1.3.6.1.4.1.45796.1.1.1.0", trapObjects[9].oid,
                 SNMP_MAX_OID_SIZE, &trapObjects[9].oidLen);
   //Send a SNMP trap
-  error = snmpAgentSendTrap(&snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
+  error = snmpAgentSendTrap(snmpAgentContext, &destIpAddr, SNMP_VERSION_2C,
                             "public",SNMP_TRAP_ENTERPRISE_SPECIFIC , 16, trapObjects, 10); //
   //        osDelayTask(100);
   //Failed to send trap message?
@@ -714,6 +719,7 @@ void SnmpInitMib()
 
 error_t SnmpInitClient(NetInterface* interface)
 {
+  SnmpAgentContext* snmpAgentContext;
   error_t error;
   // if interface = NULL then can not iit snmpAgent --> print error and while
   if (interface == NULL)
@@ -722,6 +728,10 @@ error_t SnmpInitClient(NetInterface* interface)
     while(1);
   }    
   snmpAgentGetDefaultSettings(&snmpAgentSettings);
+  if (interface == &netInterface[0])
+    snmpAgentContext = &ethernetSnmpAgentContext;
+  if (interface == &netInterface[1])
+    snmpAgentContext = &pppSnmpAgentContext; 
   snmpAgentSettings.interface = interface;
   snmpAgentSettings.versionMin = SNMP_VERSION_1;
   snmpAgentSettings.versionMax = SNMP_VERSION_2C;
@@ -732,7 +742,7 @@ error_t SnmpInitClient(NetInterface* interface)
 #endif //(SNMP_V3_SUPPORT == ENABLED)
   
   //SNMP agent initialization
-  error = snmpAgentInit(&snmpAgentContext, &snmpAgentSettings);
+  error = snmpAgentInit(snmpAgentContext, &snmpAgentSettings);
   if(error)
   {
     //Debug message
@@ -740,19 +750,19 @@ error_t SnmpInitClient(NetInterface* interface)
     return error;
   }
   //Load standard MIB-II
-  snmpAgentLoadMib(&snmpAgentContext, &mib2Module);
+  snmpAgentLoadMib(snmpAgentContext, &mib2Module);
   //Load private MIB
-  snmpAgentLoadMib(&snmpAgentContext, &privateMibModule);
+  snmpAgentLoadMib(snmpAgentContext, &privateMibModule);
   oidFromString(APP_SNMP_ENTERPRISE_OID, oid, sizeof(oid), &oidLen);
   //Set enterprise OID
-  snmpAgentSetEnterpriseOid(&snmpAgentContext, oid, oidLen);
+  snmpAgentSetEnterpriseOid(snmpAgentContext, oid, oidLen);
   
   //Set read-only community string
-  snmpAgentCreateCommunity(&snmpAgentContext, "public",
+  snmpAgentCreateCommunity(snmpAgentContext, "public",
                            SNMP_ACCESS_READ_ONLY);
   
   //Set read-write community string
-  snmpAgentCreateCommunity(&snmpAgentContext, "private",
+  snmpAgentCreateCommunity(snmpAgentContext, "private",
                            SNMP_ACCESS_READ_WRITE);
   
 #if (SNMP_V3_SUPPORT == ENABLED)
@@ -774,7 +784,7 @@ error_t SnmpInitClient(NetInterface* interface)
 #endif //(SNMP_V3_SUPPORT == ENABLED)
   
   //Start SNMP agent
-  error = snmpAgentStart(&snmpAgentContext);
+  error = snmpAgentStart(snmpAgentContext);
   //Failed to start SNMP agent?
   if(error)
   {

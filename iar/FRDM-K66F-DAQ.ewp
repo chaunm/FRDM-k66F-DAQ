@@ -2587,18 +2587,6 @@
       <file>
         <name>$PROJ_DIR$\..\lm2068.c</name>
       </file>
-      <file>
-        <name>$PROJ_DIR$\..\quectel_m26.c</name>
-        <excluded>
-          <configuration>Debug</configuration>
-        </excluded>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\quectel_m26.h</name>
-        <excluded>
-          <configuration>Debug</configuration>
-        </excluded>
-      </file>
     </group>
     <group>
       <name>ftp</name>

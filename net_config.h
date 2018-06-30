@@ -178,9 +178,9 @@
 //GPRS user-defined
 #define USERDEF_GPRS            DISABLED
 //PPP user-defined
-#define USERDEF_PPP             DISABLED
+#define USERDEF_PPP             ENABLED
 //Connection manager user-defined
-#define USERDEF_SNMPCONNECT_MANAGER DISABLED
+#define USERDEF_SNMPCONNECT_MANAGER ENABLED
 
 // chaunm
 #define USERDEF_CHAUNM_TEST          DISABLED //enable to use specific network configuration for testing purpose

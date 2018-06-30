@@ -62,10 +62,6 @@
 #include "snmpConnect_manager.h"
 #endif 
 
-#if (USERDEF_GPRS == ENABLED)
-#include "quectel_m26.h"
-#endif
-
 //Check TCP/IP stack configuration
 #if (SNMP_AGENT_SUPPORT == ENABLED)
 

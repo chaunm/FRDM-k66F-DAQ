@@ -27,7 +27,6 @@
 #include "app_init.h"
 #include "ethernet.h"
 #include "test.h"
-#include "quectel_m26.h"
 
 #include "clock_config.h"
 #include "pin_mux.h"
@@ -47,41 +46,6 @@
 **/
 NetInterface *ethernetInterface;
 NetInterface *pppInterface;
-
-void modemTask(void* pParam)
-{
-  IpAddr ipaddr;
-  error_t error, status;
-  uint32_t timeout = 30000;
-  uint32_t rtt_time;
-  
-  pppInterface = ModemInterfaceInit();
-  ipStringToAddr("8.8.8.8", &ipaddr); 
-  if (pppInterface == NULL)
-    TRACE_ERROR("ppp ethernetInterface initialization failed\r\n");
-  
-  error = modemInit(pppInterface);
-  if (error)
-    TRACE_ERROR("Modem initialization failed\r\n");
-  else 
-    TRACE_ERROR("ppp modem initialzation succedd\r\n");
-  error = ERROR_FAILURE;
-  while (error)
-  {
-    error = modemConnect(pppInterface);
-    if (error)
-      TRACE_ERROR("Modem connect failed\r\n");
-    else
-      TRACE_ERROR("Modem connected\r\n");
-  }
-  while(1)
-  {
-//    status = ping(pppInterface, &ipaddr, 32, 255, timeout, &rtt_time);
-//    if (status != NO_ERROR)
-//      TRACE_ERROR("ppp ping failed\r\n");
-//    vTaskDelay(5000/ portTICK_PERIOD_MS);
-  }
-}
 
 int_t main(void)
 {
@@ -125,20 +89,19 @@ int_t main(void)
 #endif  
     
 #if (USERDEF_GPRS == ENABLED)
-    gprs_init();connec
+    gprs_init();
 #endif
     
 #if (USERDEF_ADC_TASK == ENABLED)
     AppInitAdc();
 #endif
     ethernetInterface = EthernetInit();
-    
-    // test ppp
-    osCreateTask("ppp setup", modemTask, NULL, 200, OS_TASK_PRIORITY_NORMAL);
+    pppInterface = ModemInterfaceInit();
         
 #if (USERDEF_CLIENT_SNMP == ENABLED)
     SnmpInitMib();
     error = SnmpInitClient(ethernetInterface);
+    error = SnmpInitClient(pppInterface);
     //Create TrapSend task
     if (error == NO_ERROR)
     {

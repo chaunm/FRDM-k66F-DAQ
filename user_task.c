@@ -27,6 +27,10 @@
 #include "ftp.h"
 #endif
 
+#if (USERDEF_PPP == ENABLED)
+#include "modem_interface.h"
+#endif
+
 #include "i2c_lock.h"
 #include "am2320.h"
 
@@ -430,7 +434,16 @@ void vApplicationTickHook(void)
     if (ethernetInterface !=NULL)
     {
       if (ethernetInterface->linkState)
-        LED_CON_ETH_ON();
+      {
+        if (snmpConnectCheckStatus() ==  ETHERNET_CONNECTED)
+        {
+            LED_CON_ETH_ON();
+        }
+        else
+        {
+          LED_CON_ETH_TOGGLE();
+        }
+      }
       else
         LED_CON_ETH_OFF();
     }
@@ -675,29 +688,16 @@ void UserTaskInit()
   }
 #endif	//USERDEF_SNMPCONNECT_MANAGER== ENABLED
   
-#if (USERDEF_GPRS == ENABLED)
-  // Test code
-  //gprs_turnon();
-  GPRS_PWR_ON();
+#if (USERDEF_PPP == ENABLED)  
   //Create a task to handle the GPRS operation
-  task = osCreateTask("GPRS", gprs_task, NULL, 1000, OS_TASK_PRIORITY_NORMAL);
+  task = osCreateTask("PPP Task", ModemInterfaceTask, NULL, 1000, OS_TASK_PRIORITY_NORMAL);
   //Failed to create the task?
   if(task == OS_INVALID_HANDLE)
   {
     //Debug message
-    TRACE_ERROR("Failed to create GPRS task!\r\n");
+    TRACE_ERROR("Failed to create PPP task!\r\n");
   }
-#endif	// USERDEF_GPRS== ENABLED
-  
-#if (USERDEF_CHAUNM_TEST_GPRS == ENABLED)
-  task = osCreateTask("GPRS TEST", TestM26Gprs, NULL, 200, OS_TASK_PRIORITY_NORMAL);
-  //Failed to create the task?
-  if(task == OS_INVALID_HANDLE)
-  {
-    //Debug message
-    TRACE_ERROR("Failed to create GPRS test task!\r\n");
-  }
-#endif // USERDEF_CHAUNM_TEST_GPRS
+#endif
   
 #if (USERDEF_CHAUNM_TEST_DOOR == ENABLED)
   task = osCreateTask("DOOR TEST", TestOpenDoorUpdate, NULL, 100, OS_TASK_PRIORITY_NORMAL);

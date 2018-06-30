@@ -3,6 +3,7 @@
    <common>
       <processor>MK66FN2M0xxx18</processor>
       <package>MK66FN2M0VLQ18</package>
+      <board></board>
       <mcu_data>ksdk2_0</mcu_data>
       <cores selected="core0">
          <core name="Cortex-M4F" id="core0" description="M4 core"/>
@@ -90,9 +91,9 @@
                <clock_outputs>
                   <clock_output id="Bus_clock.outFreq" value="60 MHz" locked="false" accuracy=""/>
                   <clock_output id="CLKOUT.outFreq" value="60 MHz" locked="false" accuracy=""/>
-                  <clock_output id="Core_clock.outFreq" value="120 MHz" locked="false" accuracy=""/>
+                  <clock_output id="Core_clock.outFreq" value="180 MHz" locked="false" accuracy=""/>
                   <clock_output id="ENET1588TSCLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
-                  <clock_output id="Flash_clock.outFreq" value="24 MHz" locked="false" accuracy=""/>
+                  <clock_output id="Flash_clock.outFreq" value="22.5 MHz" locked="false" accuracy=""/>
                   <clock_output id="FlexBus_clock.outFreq" value="60 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPO_clock.outFreq" value="1 kHz" locked="false" accuracy=""/>
                   <clock_output id="LPUARTCLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
@@ -102,9 +103,9 @@
                   <clock_output id="OSCERCLK_UNDIV.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="RMIICLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
                   <clock_output id="SDHCCLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
-                  <clock_output id="System_clock.outFreq" value="120 MHz" locked="false" accuracy=""/>
+                  <clock_output id="System_clock.outFreq" value="180 MHz" locked="false" accuracy=""/>
                   <clock_output id="TPMCLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
-                  <clock_output id="TRACECLKIN.outFreq" value="120 MHz" locked="false" accuracy=""/>
+                  <clock_output id="TRACECLKIN.outFreq" value="90 MHz" locked="false" accuracy=""/>
                </clock_outputs>
                <clock_settings>
                   <setting id="MCGMode" value="PEE" locked="false"/>
@@ -112,12 +113,12 @@
                   <setting id="CLKOUTConfig" value="yes" locked="false"/>
                   <setting id="ENETTimeSrcConfig" value="yes" locked="false"/>
                   <setting id="LPUARTClkConfig" value="yes" locked="false"/>
-                  <setting id="MCG.FRDIV.scale" value="32" locked="false"/>
+                  <setting id="MCG.FRDIV.scale" value="32" locked="true"/>
                   <setting id="MCG.IRCS.sel" value="MCG.FCRDIV" locked="false"/>
                   <setting id="MCG.IREFS.sel" value="MCG.FRDIV" locked="false"/>
                   <setting id="MCG.PLLS.sel" value="MCG.PLLCS" locked="false"/>
                   <setting id="MCG.PRDIV.scale" value="1" locked="true"/>
-                  <setting id="MCG.VDIV.scale" value="30" locked="true"/>
+                  <setting id="MCG.VDIV.scale" value="45" locked="true"/>
                   <setting id="MCG_C1_IRCLKEN_CFG" value="Enabled" locked="false"/>
                   <setting id="MCG_C2_OSC_MODE_CFG" value="ModeOscLowPower" locked="false"/>
                   <setting id="MCG_C2_RANGE0_CFG" value="Very_high" locked="false"/>
@@ -130,13 +131,16 @@
                   <setting id="RTC_CR_OSC_CAP_LOAD_CFG" value="SC22PF" locked="false"/>
                   <setting id="SDHCClkConfig" value="yes" locked="false"/>
                   <setting id="SIM.LPUARTSRCSEL.sel" value="OSC.OSCERCLK" locked="false"/>
-                  <setting id="SIM.OUTDIV2.scale" value="2" locked="true"/>
-                  <setting id="SIM.OUTDIV3.scale" value="2" locked="true"/>
-                  <setting id="SIM.OUTDIV4.scale" value="5" locked="true"/>
+                  <setting id="SIM.OUTDIV1.scale" value="1" locked="true"/>
+                  <setting id="SIM.OUTDIV2.scale" value="3" locked="true"/>
+                  <setting id="SIM.OUTDIV3.scale" value="3" locked="true"/>
+                  <setting id="SIM.OUTDIV4.scale" value="8" locked="true"/>
                   <setting id="SIM.RMIICLKSEL.sel" value="SIM.ENET_1588_CLK_EXT" locked="false"/>
                   <setting id="SIM.SDHCSRCSEL.sel" value="OSC.OSCERCLK" locked="false"/>
                   <setting id="SIM.TIMESRCSEL.sel" value="SIM.ENET_1588_CLK_EXT" locked="false"/>
                   <setting id="SIM.TPMSRCSEL.sel" value="OSC.OSCERCLK" locked="false"/>
+                  <setting id="SIM.TRACECLKSEL.sel" value="SIM.TRACEDIV" locked="false"/>
+                  <setting id="SIM.TRACEDIV.scale" value="2" locked="true"/>
                   <setting id="TPMClkConfig" value="yes" locked="false"/>
                   <setting id="TraceClkConfig" value="yes" locked="false"/>
                </clock_settings>
@@ -145,18 +149,6 @@
          </clock_configurations>
       </clocks>
       <periphs name="Peripherals" version="1.0" update_project_code="true">
-         <dependencies>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.uart" description="UART Driver not found in the toolchain/IDE project." problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.uart" description="Unsupported version of the UART Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}." problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="compatible">
-                  <data type="Version">2.1.5</data>
-               </feature>
-            </dependency>
-         </dependencies>
          <peripherals_profile>
             <processor_version>3.0.1</processor_version>
          </peripherals_profile>
@@ -164,34 +156,8 @@
             <functional_group name="BOARD_InitPeripherals" called_from_default_init="true" id_prefix="" core="core0">
                <description></description>
                <options/>
-               <dependencies>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="UART4.uart_tx" description="Signal TX of the peripheral UART4 is not routed." problem_level="1" source="Peripherals: BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="UART4.uart_rx" description="Signal RX of the peripheral UART4 is not routed." problem_level="1" source="Peripherals: BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-               </dependencies>
-               <instances>
-                  <instance name="UART_4" type="uart" type_id="uart_cd31a12aa8c79051fda42cc851a27c37" mode="polling" peripheral="UART4" enabled="true">
-                     <config_set name="uartConfig_t" quick_selection="QuickSelection1">
-                        <struct name="uartConfig">
-                           <setting name="baudRate_Bps" value="115200"/>
-                           <setting name="parityMode" value="kUART_ParityDisabled"/>
-                           <setting name="stopBitCount" value="kUART_OneStopBit"/>
-                           <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="0"/>
-                           <setting name="idleType" value="kUART_IdleTypeStartBit"/>
-                           <setting name="enableTx" value="true"/>
-                           <setting name="enableRx" value="true"/>
-                        </struct>
-                     </config_set>
-                  </instance>
-               </instances>
+               <dependencies/>
+               <instances/>
             </functional_group>
          </functional_groups>
          <components>

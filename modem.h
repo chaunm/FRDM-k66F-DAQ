@@ -37,6 +37,9 @@
 #endif
 
 //Modem related functions
+void modemInitGPIO();
+void modemTurnOn();
+void modemTurnOff();
 error_t modemInit(NetInterface *interface);
 error_t modemConnect(NetInterface *interface);
 error_t modemDisconnect(NetInterface *interface);
