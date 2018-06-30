@@ -27,6 +27,9 @@
 #ifndef _OS_PORT_CONFIG_H
 #define _OS_PORT_CONFIG_H
 
+//Dependencies
+#include "MK66F18.h"
+#include "core_cm4.h"
 //Select underlying RTOS
 #define USE_FREERTOS
 

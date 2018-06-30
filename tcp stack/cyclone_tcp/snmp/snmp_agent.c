@@ -62,10 +62,6 @@
 #include "snmpConnect_manager.h"
 #endif 
 
-#if (USERDEF_GPRS == ENABLED)
-#include "quectel_m26.h"
-#endif
-
 //Check TCP/IP stack configuration
 #if (SNMP_AGENT_SUPPORT == ENABLED)
 
@@ -954,20 +950,9 @@ error_t snmpAgentSendTrap(SnmpAgentContext *context, const IpAddr *destIpAddr,
       //Display ASN.1 structure
       asn1DumpObject(context->response.pos, context->response.length, 0);
 
-//#if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
-//	if (snmpConnectCheckStatus() == ETHERNET_CONNECTED)
-//	{
-//#endif
       //Send SNMP trap message
       error = socketSendTo(context->socket, destIpAddr, context->settings.trapPort,
          context->response.pos, context->response.length, NULL, 0);
-//#if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
-//	} else if (snmpConnectCheckStatus() == GPRS_CONNECTED)
-//	{
-//	  //CanhLT - 25/12: Send SNMP trap message through GPRS
-//	  error = gprsSendMsg(context->response.pos, context->response.length);
-//	}
-//#endif
       //End of exception handling block
    } while(0);
 

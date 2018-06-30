@@ -13,6 +13,7 @@
 #include "frdm_k66f.h"
 #include "os_port.h"
 #include "core/net.h"
+#include "core/ping.h"
 #include "ipv6/slaac.h"
 #include "http/http_server.h"
 #include "http/mime.h"
@@ -26,7 +27,6 @@
 #include "app_init.h"
 #include "ethernet.h"
 #include "test.h"
-#include "quectel_m26.h"
 
 #include "clock_config.h"
 #include "pin_mux.h"
@@ -36,11 +36,16 @@
 #include "snmp_client.h"
 #endif
 
+// inclusion for ppp
+#include "modem_Interface.h"
+#include "modem.h"
+
 /**
 * @brief Main entry point
 * @return Unused value
 **/
-NetInterface *interface;
+NetInterface *ethernetInterface;
+NetInterface *pppInterface;
 
 int_t main(void)
 {
@@ -90,11 +95,13 @@ int_t main(void)
 #if (USERDEF_ADC_TASK == ENABLED)
     AppInitAdc();
 #endif
-    interface = EthernetInit();
-
+    ethernetInterface = EthernetInit();
+    pppInterface = ModemInterfaceInit();
+        
 #if (USERDEF_CLIENT_SNMP == ENABLED)
     SnmpInitMib();
-    error = SnmpInitClient(interface);
+    error = SnmpInitClient(ethernetInterface);
+    error = SnmpInitClient(pppInterface);
     //Create TrapSend task
     if (error == NO_ERROR)
     {

@@ -128,7 +128,7 @@
         <option>
           <name>GBECoreSlave</name>
           <version>24</version>
-          <state>40</state>
+          <state>39</state>
         </option>
         <option>
           <name>OGUseCmsis</name>
@@ -333,7 +333,7 @@
           <state>$PROJ_DIR$/../</state>
           <state>$PROJ_DIR$/../tcp stack/common</state>
           <state>$PROJ_DIR$/../tcp stack/cyclone_crypto</state>
-          <state>$PROJ_DIR$/..//tcp stack/cyclone_tcp</state>
+          <state>$PROJ_DIR$/../tcp stack/cyclone_tcp</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -749,7 +749,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>lnk0t.icf</state>
+          <state>$TOOLKIT_DIR$\config\linker\NXP\MK66xN2M_18.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -809,7 +809,7 @@
         </option>
         <option>
           <name>IlinkProgramEntryLabel</name>
-          <state></state>
+          <state>__iar_program_start</state>
         </option>
         <option>
           <name>DoFill</name>
@@ -2012,7 +2012,13 @@
       <name>$PROJ_DIR$\..\CMSIS\Include\cmsis_armcc_V6.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\CMSIS\Include\cmsis_compiler.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\CMSIS\Include\cmsis_gcc.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\CMSIS\Include\cmsis_iccarm.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\CMSIS\Include\core_cm4.h</name>
@@ -2052,12 +2058,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmp.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmp.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmt.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmt.h</name>
@@ -2070,12 +2082,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_crc.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_crc.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dac.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dac.h</name>
@@ -2088,18 +2106,27 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_edma.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_edma.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_freertos.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_freertos.h</name>
@@ -2121,12 +2148,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ewm.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ewm.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flash.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flash.h</name>
@@ -2139,12 +2172,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexcan.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexcan.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ftm.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ftm.h</name>
@@ -2175,18 +2214,27 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_llwu.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_llwu.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lmem_cache.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lmem_cache.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lptmr.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lptmr.h</name>
@@ -2199,12 +2247,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_edma.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_edma.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_freertos.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_freertos.h</name>
@@ -2217,12 +2271,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pdb.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pdb.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pit.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pit.h</name>
@@ -2238,6 +2298,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rcm.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rcm.h</name>
@@ -2256,18 +2319,27 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai_edma.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai_edma.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sdhc.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sdhc.h</name>
@@ -2292,12 +2364,18 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tpm.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tpm.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tsi_v4.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tsi_v4.h</name>
@@ -2509,12 +2587,6 @@
       <file>
         <name>$PROJ_DIR$\..\lm2068.c</name>
       </file>
-      <file>
-        <name>$PROJ_DIR$\..\quectel_m26.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\quectel_m26.h</name>
-      </file>
     </group>
     <group>
       <name>ftp</name>
@@ -2553,6 +2625,30 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\menu.h</name>
+      </file>
+    </group>
+    <group>
+      <name>modem</name>
+      <file>
+        <name>$PROJ_DIR$\..\modem.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\modem.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\modem_interface.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\modem_interface.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\modem_ports.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\uart_driver.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\uart_driver.h</name>
       </file>
     </group>
     <group>
@@ -3215,6 +3311,69 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\netbios\nbns_responder.h</name>
+        </file>
+      </group>
+      <group>
+        <name>ppp</name>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\chap.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\chap.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ipcp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ipcp.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ipv6cp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ipv6cp.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\lcp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\lcp.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\pap.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\pap.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_debug.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_debug.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_fsm.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_fsm.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_hdlc.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_hdlc.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_misc.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\ppp\ppp_misc.h</name>
         </file>
       </group>
       <group>

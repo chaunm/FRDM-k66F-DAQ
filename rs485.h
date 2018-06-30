@@ -14,8 +14,13 @@
 #define RS4852_UART_IRQn 		UART4_RX_TX_IRQn
 #define RS4852_UART_IRQHandler 		UART4_RX_TX_IRQHandler
 
+<<<<<<< HEAD
 #define RS4851_UART_BAUDRATE            28800
 #define RS4852_UART_BAUDRATE            28800
+=======
+#define RS4851_UART_BAUDRATE            28800  //43200//28800
+#define RS4852_UART_BAUDRATE            28800  //43200//28800
+>>>>>>> 0756e03e4d4040e42ed173e1a592ef31fbd9fbc3
 
 enum
 {

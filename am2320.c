@@ -69,7 +69,7 @@ void AM2320_WriteI2C(uint8_t Data,uint8_t ACK_Bit){
       AM2320_SDA_OFF;
     else 
       AM2320_SDA_ON;
-    AM2320_Delay(10);
+    AM2320_Delay(20);
     AM2320_SCL_ON;
     AM2320_Delay(AM2320us);
     AM2320_SCL_OFF;
@@ -79,7 +79,7 @@ void AM2320_WriteI2C(uint8_t Data,uint8_t ACK_Bit){
   AM2320_SDA_ON;
 
   AM2320_SDA_Input();
-  AM2320_Delay(10);
+  AM2320_Delay(20);
   AM2320_SCL_ON;
   AM2320_Delay(AM2320us);
   AM2320_SCL_OFF;
@@ -112,21 +112,21 @@ uint8_t AM2320_ReadI2C(uint8_t ACK_Bit){
   if (ACK_Bit == 1)
   {
     AM2320_SDA_OFF; // Send ACK
-    AM2320_Delay(10);
+    AM2320_Delay(20);
     AM2320_SCL_ON;
     AM2320_Delay(AM2320us);
     AM2320_SCL_OFF;
-    AM2320_Delay(10);
+    AM2320_Delay(20);
     AM2320_SDA_ON;
   }
   else
   {
     AM2320_SDA_ON;  // Send NO 
-    AM2320_Delay(10);
+    AM2320_Delay(20);
     AM2320_SCL_ON;
     AM2320_Delay(AM2320us);
     AM2320_SCL_OFF;
-    AM2320_Delay(10);
+    AM2320_Delay(20);
     AM2320_SDA_ON;
   }
 
