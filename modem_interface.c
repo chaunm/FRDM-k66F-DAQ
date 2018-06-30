@@ -148,6 +148,8 @@ void ModemInterfaceTask(void* param)
             interfaceManage.currentState = MODEM_INTERFACE_STATE_DISCONNECTED;        
           }
         }
+        else
+          pingLostCount = 0;
         pingCount = 0;
       }
     }
