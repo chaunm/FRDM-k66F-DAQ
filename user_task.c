@@ -78,7 +78,7 @@ void blinkTask(void *param)
 **/
 void adcTask(void *param)
 {
-  static adc16_config_t adc16ConfigStruct;
+//  static adc16_config_t adc16ConfigStruct;
   static adc16_channel_config_t adc16ChannelConfigStruct;
   TRACE_ERROR("ADC Task started\r\n");
     //Endless loop

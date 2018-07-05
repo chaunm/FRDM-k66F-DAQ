@@ -25,7 +25,7 @@
 #include "variables.h"
 #include "user_task.h"
 #include "app_init.h"
-#include "ethernet.h"
+#include "app_ethernet.h"
 #include "test.h"
 
 #include "clock_config.h"

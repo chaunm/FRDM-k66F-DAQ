@@ -37,14 +37,13 @@ uint8_t oid[SNMP_MAX_OID_SIZE];
 * @return Error code
 **/
 
-static error_t snmpAgentRandCallback(uint8_t *data, size_t length)
+error_t snmpAgentRandCallback(uint8_t *data, size_t length)
 {
     size_t i;
     
     //Generate some random data
     for(i = 0; i < length; i++)
         data[i] = rand();
-    
     //No error to report
     return NO_ERROR;
 }

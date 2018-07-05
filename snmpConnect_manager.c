@@ -38,7 +38,6 @@ void snmpConnectManagerTask (void *param)
   error_t status;
   uint16_t pingRetry = 0;
   bool pingRequested = false;
-  char ipaddrStr[24];
 //  TRACE_INFO("SNMP connect manager task started\r\n");
   ipStringToAddr((const char*)sMenu_Variable.ucSIP, &ipaddr); 
 //  ipStringToAddr("192.168.1.161", &ipaddr); 
