@@ -1149,7 +1149,7 @@
         </option>
         <option>
           <name>GenRtcEnable</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>GenRtcCheckPtrsNonInstrFunc</name>
@@ -2631,10 +2631,10 @@
     <group>
       <name>ethernet</name>
       <file>
-        <name>$PROJ_DIR$\..\ethernet.c</name>
+        <name>$PROJ_DIR$\..\app_ethernet.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\ethernet.h</name>
+        <name>$PROJ_DIR$\..\app_ethernet.h</name>
       </file>
     </group>
     <group>

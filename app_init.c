@@ -55,7 +55,9 @@ void AppInitUserInterface()
 void AppInitAdc()
 {
   adc16_config_t adc16ConfigStruct;
+#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
   adc16_channel_config_t adc16ChannelConfigStruct;
+#endif
   /*
   * adc16ConfigStruct.referenceVoltageSource = kADC16_ReferenceVoltageSourceVref;
   * adc16ConfigStruct.clockSource = kADC16_ClockSourceAsynchronousClock;
@@ -97,10 +99,10 @@ void AppInitAdc()
     PRINTF("ADC16_DoAutoCalibration() Failed.\r\n");
   }
 #endif /* FSL_FEATURE_ADC16_HAS_CALIBRATION */
-  
+
+#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
   adc16ChannelConfigStruct.channelNumber = BOARD_ADC16_1_USER_CHANNEL1;
   adc16ChannelConfigStruct.enableInterruptOnConversionCompleted = false;
-#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
   adc16ChannelConfigStruct.enableDifferentialConversion = false;
 #endif /* FSL_FEATURE_ADC16_HAS_DIFF_MODE */
 }

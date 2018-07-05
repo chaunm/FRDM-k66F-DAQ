@@ -5,7 +5,7 @@
 #include "drivers/ksz8081.h"
 #include "debug.h"
 #include "variables.h"
-#include "ethernet.h"
+#include "app_ethernet.h"
 
 static MacAddr macAddr;
 #if (APP_USE_DHCP == DISABLED)

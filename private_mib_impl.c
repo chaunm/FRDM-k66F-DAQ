@@ -1516,7 +1516,7 @@ error_t privateMibGetConfigInfoGroup(const MibObject *object, const uint8_t *oid
                                      size_t oidLen, MibVariant *value, size_t *valueLen)
 {
   error_t error = NO_ERROR;
-  size_t n;
+//  size_t n;
   uint_t index;
   Ipv4Addr ipAddr;
   NetInterface *interface;

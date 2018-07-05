@@ -1,5 +1,5 @@
-#ifndef __ETHERNET_H__
-#define __ETHERNET_H__
+#ifndef __APP_ETHERNET_H__
+#define __APP_ETHERNET_H__
 #include <stdint.h>
 //Ethernet configuration
 #define APP_MAC_ADDR "00-AB-CD-EF-00-65"
