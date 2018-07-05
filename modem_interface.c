@@ -55,34 +55,38 @@ NetInterface* ModemInterfaceInit()
 
 error_t ModemInterfaceConnect()
 { 
+  static uint8_t nRetry;
   NetInterface* interface;
   error_t error = ERROR_FAILURE;      
   interface = &netInterface[1];
-  while (error)
+  nRetry = 5;
+  while ((error) && (nRetry > 0))
   {   
+    nRetry--;
     modemTurnOn();
     osDelayTask(1000);
     error = modemInit(interface);
     if (error)
       TRACE_ERROR("Modem initialization failed\r\n");
     else 
+    {
       TRACE_ERROR("ppp modem initialzation succedd\r\n");
-    if (!error)
-        error = modemConnect(interface);
-    if (error)
-    {
-      TRACE_ERROR("Modem connect failed\r\n");
-      modemDisconnect(interface);
-      osDelayTask(2000);
-      modemTurnOff();
-      osDelayTask(5000);     
+      error = modemConnect(interface);
+      if (error)
+      {
+        TRACE_ERROR("Modem connect failed\r\n");
+        modemDisconnect(interface);
+        osDelayTask(2000);
+        modemTurnOff();
+        osDelayTask(5000);     
+      }
+      else
+      {
+        osDelayTask(1000);
+        TRACE_ERROR("Modem connected\r\n");
+      }
     }
-    else
-    {
-      osDelayTask(1000);
-      TRACE_ERROR("Modem connected\r\n");
-    }
-    if (interfaceManage.setState == MODEM_INTERFACE_STATE_CONNECTED)
+    if (interfaceManage.setState == MODEM_INTERFACE_STATE_DISCONNECTED)
       break;
   }
   return error;

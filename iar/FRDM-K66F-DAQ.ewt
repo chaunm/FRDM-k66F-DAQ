@@ -1149,7 +1149,7 @@
         </option>
         <option>
           <name>GenRtcEnable</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GenRtcCheckPtrsNonInstrFunc</name>
@@ -2398,64 +2398,10 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_clock.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmp.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmp.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmt.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_cmt.h</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_common.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_common.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_crc.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_crc.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dac.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dac.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dmamux.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dmamux.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_edma.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_edma.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_freertos.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_dspi_freertos.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_edma.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_edma.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_enet.c</name>
@@ -2464,34 +2410,10 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_enet.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ewm.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ewm.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flash.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flash.h</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexbus.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexbus.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexcan.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexcan.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ftm.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_ftm.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_gpio.c</name>
@@ -2506,52 +2428,10 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_i2c.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_i2c_edma.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_i2c_edma.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_i2c_freertos.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_i2c_freertos.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_llwu.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_llwu.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lmem_cache.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lmem_cache.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lptmr.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lptmr.h</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_edma.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_edma.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_freertos.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_lpuart_freertos.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_mpu.c</name>
@@ -2560,31 +2440,7 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_mpu.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pdb.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pdb.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pit.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pit.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pmc.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_pmc.h</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_port.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rcm.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rcm.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rnga.c</name>
@@ -2597,24 +2453,6 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_rtc.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai_edma.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sai_edma.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sdhc.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sdhc.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_sdramc.c</name>
@@ -2635,34 +2473,10 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_smc.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tpm.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tpm.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tsi_v4.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_tsi_v4.h</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_uart.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_uart.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_uart_edma.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_uart_edma.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_uart_freertos.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_uart_freertos.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_vref.c</name>
@@ -2822,9 +2636,6 @@
       <file>
         <name>$PROJ_DIR$\..\ethernet.h</name>
       </file>
-      <file>
-        <name>$PROJ_DIR$\..\lm2068.h</name>
-      </file>
     </group>
     <group>
       <name>ExternalDrivers</name>
@@ -2836,6 +2647,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\lm2068.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\lm2068.h</name>
       </file>
     </group>
     <group>

@@ -10,7 +10,7 @@
 //Dependencies
 #include <stdlib.h>
 #include "mk66f18.h"
-#include "frdm_k66f.h"
+//#include "frdm_k66f.h"
 #include "os_port.h"
 #include "core/net.h"
 #include "core/ping.h"

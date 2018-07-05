@@ -154,8 +154,12 @@ error_t modemInit(NetInterface *interface)
   }
   
   //Wait for the module to be registered
+  static uint8_t nRetry = 5;
   while(1)
   {
+    if (nRetry == 0)
+      return ERROR_FAILURE;
+    nRetry--;
     //Check if the module is registered
     error = modemSendAtCommand(interface, "AT+CREG?\r", buffer, sizeof(buffer));
     //Any error to report?

@@ -44,7 +44,7 @@
 /*! @brief The board name */
 #define BOARD_NAME "FRDM-K66F"
 
- // CanhLT - 23/12 -- chaunm - disable debug console
+ // CanhLT - 23/12 -- chaunm - disable debug console by undef this 
 #define DEBUG_CONSOLE_UART4
  
 #ifndef DEBUG_UART
@@ -61,22 +61,13 @@
 #elif (DEBUG_UART == 4)
 #define BOARD_DEBUG_UART_TYPE DEBUG_CONSOLE_DEVICE_TYPE_UART
 #define BOARD_DEBUG_UART_BASEADDR (uint32_t) UART4
-<<<<<<< HEAD
 #define BOARD_DEBUG_UART_CLKSRC UART4_CLK_SRC
 #define BOARD_DEBUG_UART_CLK_FREQ CLOCK_GetBusClkFreq()
-=======
-#define BOARD_DEBUG_UART_CLKSRC UART4_CLK_SRC                   //SYS_CLK///
-#define BOARD_DEBUG_UART_CLK_FREQ CLOCK_GetBusClkFreq()   //CLOCK_GetCoreSysClkFreq()
->>>>>>> 0756e03e4d4040e42ed173e1a592ef31fbd9fbc3
 #define BOARD_UART_IRQ UART4_RX_TX_IRQn
 #define BOARD_UART_IRQ_HANDLER UART4_RX_TX_IRQHandler
 #endif
 #ifndef BOARD_DEBUG_UART_BAUDRATE
-<<<<<<< HEAD
 #define BOARD_DEBUG_UART_BAUDRATE 115200
-=======
-#define BOARD_DEBUG_UART_BAUDRATE 115200// chaunm - 518400//115200
->>>>>>> 0756e03e4d4040e42ed173e1a592ef31fbd9fbc3
 #endif /* BOARD_DEBUG_UART_BAUDRATE */
 
 #define BOARD_ACCEL_I2C_BASE I2C0

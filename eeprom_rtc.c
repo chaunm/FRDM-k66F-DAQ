@@ -222,13 +222,8 @@ void WriteEEPROM_Byte(uint16_t uiAdrress,uint8_t ucData){
 	unsigned char High_Adrr;
 	unsigned char Low_Adrr;
 	
-<<<<<<< HEAD
 	//vTaskDelay(10);	//Waiting time for write data :10ms
 	Delay_us(10000);
-=======
-//	vTaskDelay(10);	//Waiting time for write data :10ms
-        Delay_us(10000);
->>>>>>> 0756e03e4d4040e42ed173e1a592ef31fbd9fbc3
 	Low_Adrr  =(unsigned char) uiAdrress;
 	High_Adrr =(unsigned char) (uiAdrress>>8);
 
@@ -238,13 +233,7 @@ void WriteEEPROM_Byte(uint16_t uiAdrress,uint8_t ucData){
 	WriteI2C(Low_Adrr);
 	WriteI2C(ucData);
 	Stop();
-<<<<<<< HEAD
-	Delay_us(10000);
-	//vTaskDelay(10);	//Waiting time for write data :10ms
-=======
         Delay_us(10000);
-//	vTaskDelay(10);	//Waiting time for write data :10ms
->>>>>>> 0756e03e4d4040e42ed173e1a592ef31fbd9fbc3
 }
 
 uint8_t ReadEEPROM_Byte(uint16_t uiAdrress){
