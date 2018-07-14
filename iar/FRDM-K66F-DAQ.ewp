@@ -319,7 +319,7 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$/../rtos/freertos_9.0.0/Source/portable/MemMang</state>
           <state>$PROJ_DIR$/../rtos/freertos_9.0.0/Source/portable/IAR/ARM_CM4F</state>
-          <state>$PROJ_DIR$/../rtos/freertos_9.0.0/License</state>
+          <state>$PROJ_DIR$/..//rtos/freertos_9.0.0/License</state>
           <state>$PROJ_DIR$/../devices/MK66F18/iar</state>
           <state>$PROJ_DIR$/../rtos/freertos_9.0.0/Source</state>
           <state>$PROJ_DIR$/../rtos/freertos_9.0.0</state>
@@ -330,8 +330,8 @@
           <state>$PROJ_DIR$/../rtos/freertos_9.0.0/Source/include</state>
           <state>$PROJ_DIR$/../devices/MK66F18/utilities</state>
           <state>$PROJ_DIR$/../rtos/freertos_9.0.0/Source/portable/Keil</state>
-          <state>$PROJ_DIR$/../../..</state>
           <state>$PROJ_DIR$/../</state>
+          <state>$PROJ_DIR$/</state>
           <state>$PROJ_DIR$/../tcp stack/common</state>
           <state>$PROJ_DIR$/../tcp stack/cyclone_crypto</state>
           <state>$PROJ_DIR$/../tcp stack/cyclone_tcp</state>

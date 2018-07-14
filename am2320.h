@@ -13,7 +13,7 @@
 #define AM2320_SDA_DATA_READ   GPIO_ReadPinInput(SDA_PORT,SDA_PIN)
 
 //**********************************//
-#define AM2320us   260 //~6.125us pulse on && ~12.37us pulse off  f=80,08 Hz ( AM2320 Max clock = 100kHz)
+#define AM2320us   520 //~6.125us pulse on && ~12.37us pulse off  f=80,08 Hz ( AM2320 Max clock = 100kHz)
 
 #define _AM2320_800us  20800
 #define _AM2320_30us   780

@@ -83,6 +83,7 @@ error_t modemInit(NetInterface *interface)
 {
   error_t error;
   char_t buffer[128];
+  uint8_t nRetry;
   
   //Set timeout for blocking operations
   pppSetTimeout(interface, APP_PPP_TIMEOUT);
@@ -154,7 +155,7 @@ error_t modemInit(NetInterface *interface)
   }
   
   //Wait for the module to be registered
-  static uint8_t nRetry = 5;
+  nRetry = 5;
   while(1)
   {
     if (nRetry == 0)
@@ -336,9 +337,11 @@ error_t modemSendAtCommand(NetInterface *interface,
                  strstr(response, "NO ANSWER"))
       {
         if (strstr(response, "OK"))
-            error = NO_ERROR;
-        //Debug message
-        TRACE_INFO("AT response: %s\r\n", response);
+          error = NO_ERROR;
+        else if (strstr(response, "ERROR"))
+          error = ERROR_FAILURE; 
+            //Debug message
+            TRACE_INFO("AT response: %s\r\n", response);
         //Exit immediately
         break;
       }
