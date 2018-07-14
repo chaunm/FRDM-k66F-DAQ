@@ -63,14 +63,19 @@ error_t ModemInterfaceConnect()
   while ((error) && (nRetry > 0))
   {   
     nRetry--;
+    TRACE_ERROR("Turn on sequence\r\n");
     modemTurnOn();
     osDelayTask(1000);
     error = modemInit(interface);
     if (error)
-      TRACE_ERROR("Modem initialization failed\r\n");
+    {
+      TRACE_ERROR("Modem initialization failed - retry left %d\r\n", nRetry);
+      modemTurnOff();
+      osDelayTask(1000);
+    }
     else 
     {
-      TRACE_ERROR("ppp modem initialzation succedd\r\n");
+      TRACE_ERROR("ppp modem initialization succeed\r\n");
       error = modemConnect(interface);
       if (error)
       {
@@ -82,7 +87,7 @@ error_t ModemInterfaceConnect()
       }
       else
       {
-        osDelayTask(1000);
+        osDelayTask(2000);
         TRACE_ERROR("Modem connected\r\n");
       }
     }

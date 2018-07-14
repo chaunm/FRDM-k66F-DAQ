@@ -172,24 +172,11 @@ static void hello_task(void *pvParameters) {
   static uint16_t getTimeCount;
   TRACE_ERROR("User ethernetInterface task stared\r\n");
   glcd_init();
-  //  vTaskDelay(100);
-  //  Init_I2CE();
-  //  vTaskDelay(100);
-  //  Init_All_Variable();
-  //  vTaskDelay(100);
-  /*//SIM
-  GPIO_SetPinsOutput(GPIOA,1<<27u);
-  GPIO_ClearPinsOutput(GPIOA,1<<26u);
-  vTaskDelay(3000);
-  GPIO_SetPinsOutput(GPIOA,1<<26u);
-  vTaskDelay(3000);
-  GPIO_ClearPinsOutput(GPIOA,1<<26u);*/
-  //GLCD
   glcd_writeString("Hello World !",1,3);
   sMenu_Control.init = 1;
   for (;;) {
     vTaskDelay(10);
-    if(countReadAM2320 > 100){
+    if(countReadAM2320 > 500){
       I2C_Get_Lock();
       vTaskSuspendAll();
       Getdata_AM2320();

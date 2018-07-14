@@ -16,7 +16,7 @@ static uint8_t AM2320_ReadI2C(uint8_t ACK_Bit);
 static void Wake_AM2320(void);
 static void Trigger_AM2320(void);
 
-void AM2320_SDA_Output(void)
+inline void AM2320_SDA_Output(void)
 {
   /* Define the init structure */
   gpio_pin_config_t AM2320_SDA_out_config = {
@@ -33,13 +33,13 @@ void AM2320_SDA_Input(void)
   GPIO_PinInit(SDA_PORT, SDA_PIN, &AM2320_SDA_in_config);
 }
 
-void AM2320_Delay(volatile long time)  {
+inline void AM2320_Delay(volatile long time)  {
   for(;time > 0; time--);
 }
 //======================================================================================//
 //=========================== SOFTWARE I2C =============================================//
 //======================================================================================//
-void AM2320_Start(void){
+inline void AM2320_Start(void){
   AM2320_SDA_ON;
   AM2320_Delay(AM2320us);
   AM2320_SCL_ON;
@@ -50,7 +50,7 @@ void AM2320_Start(void){
   AM2320_Delay(AM2320us);
 }
 
-void AM2320_Stop(void){
+inline void AM2320_Stop(void){
   AM2320_SDA_OFF;
   AM2320_Delay(AM2320us);
   AM2320_SCL_ON;
@@ -59,7 +59,7 @@ void AM2320_Stop(void){
   AM2320_Delay(AM2320us);
 }
 
-void AM2320_WriteI2C(uint8_t Data,uint8_t ACK_Bit){   
+inline void AM2320_WriteI2C(uint8_t Data,uint8_t ACK_Bit){
   uint8_t i; 
   AM2320_SDA_Output();
 
@@ -88,7 +88,7 @@ void AM2320_WriteI2C(uint8_t Data,uint8_t ACK_Bit){
   AM2320_SDA_ON;
 }
 
-uint8_t AM2320_ReadI2C(uint8_t ACK_Bit){
+inline uint8_t AM2320_ReadI2C(uint8_t ACK_Bit){
   uint8_t i;
   uint8_t Data=0;
   
@@ -143,7 +143,7 @@ void AM2320_I2C_Init(void){
   AM2320_Delay(_AM2320_800us); // Delay min = 800us
   Trigger_AM2320();
 }
-void Wake_AM2320(void){
+inline void Wake_AM2320(void){
   AM2320_Start();
   AM2320_WriteI2C(AM2320_ADDR_W,AM2320_NO_ACK);
   AM2320_SDA_OFF;

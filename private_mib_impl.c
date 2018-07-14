@@ -390,13 +390,13 @@ error_t privateMibGetNextLedEntry(const MibObject *object, const uint8_t *oid,
 error_t privateMibSetSiteInfoGroup(const MibObject *object, const uint8_t *oid,
                                    size_t oidLen, const MibVariant *value, size_t valueLen)
 {
-  error_t error;
-  size_t n;
-  uint_t index;
+//  error_t error;
+//  size_t n;
+//  uint_t index;
   PrivateMibSiteInfoGroup *entry;
   
   //Point to the end of the OID prefix
-  n = object->oidLen;
+//  n = object->oidLen;
   
   //   //Get the instance identifier
   //   error = mibDecodeIndex(oid, oidLen, &n, &index);
@@ -480,7 +480,7 @@ error_t privateMibGetSiteInfoGroup(const MibObject *object, const uint8_t *oid,
                                    size_t oidLen, MibVariant *value, size_t *valueLen)
 {
   error_t error = NO_ERROR;
-  size_t n;
+//  size_t n;
   //	uint_t index;
   //	Ipv4Addr ipAddr;
   //	NetInterface *interface;
@@ -810,12 +810,12 @@ error_t privateMibGetNextAcPhaseEntry(const MibObject *object, const uint8_t *oi
 error_t privateMibSetBatteryGroup(const MibObject *object, const uint8_t *oid,
                                   size_t oidLen, const MibVariant *value, size_t valueLen)
 {
-  error_t error = NO_ERROR;
-  size_t n;
+//  error_t error = NO_ERROR;
+//  size_t n;
   PrivateMibBatteryGroup *entry;
   
   //Point to the end of the OID prefix
-  n = object->oidLen;
+//  n = object->oidLen;
   
   //	Point to the siteInfoGroup entry
   entry = &privateMibBase.batteryGroup;
@@ -860,11 +860,11 @@ error_t privateMibGetBatteryGroup(const MibObject *object, const uint8_t *oid,
                                   size_t oidLen, MibVariant *value, size_t *valueLen)
 {
   error_t error = NO_ERROR;
-  size_t n;
+//  size_t n;
   //	uint_t index;
   //	Ipv4Addr ipAddr;
   //	NetInterface *interface;
-  PrivateMibBatteryGroup *entry;
+//  PrivateMibBatteryGroup *entry;
   //	interface = &netInterface[0];
   //Point to the instance identifier
   //	n = object->oidLen;
@@ -943,13 +943,13 @@ error_t privateMibGetBatteryGroup(const MibObject *object, const uint8_t *oid,
 error_t privateMibSetAccessoriesGroup(const MibObject *object, const uint8_t *oid,
                                       size_t oidLen, const MibVariant *value, size_t valueLen)
 {
-  error_t error;
-  size_t n;
-  uint_t index;
+//  error_t error;
+//  size_t n;
+//  uint_t index;
   PrivateMibAccessoriesGroup *entry;
   
   //Point to the end of the OID prefix
-  n = object->oidLen;
+//  n = object->oidLen;
   
   //	Point to the siteInfoGroup entry
   entry = &privateMibBase.accessoriesGroup;
@@ -1042,7 +1042,7 @@ error_t privateMibGetAccessoriesGroup(const MibObject *object, const uint8_t *oi
                                       size_t oidLen, MibVariant *value, size_t *valueLen)
 {
   error_t error = NO_ERROR;
-  size_t n;
+//  size_t n;
   PrivateMibAccessoriesGroup *entry;
   
   entry = &privateMibBase.accessoriesGroup;
@@ -1517,10 +1517,10 @@ error_t privateMibGetConfigInfoGroup(const MibObject *object, const uint8_t *oid
 {
   error_t error = NO_ERROR;
 //  size_t n;
-  uint_t index;
-  Ipv4Addr ipAddr;
+//  uint_t index;
+//  Ipv4Addr ipAddr;
   NetInterface *interface;
-  ArpCacheEntry *entry;
+//  ArpCacheEntry *entry;
   interface = &netInterface[0];
   //	//Point to the instance identifier
   //	n = object->oidLen;
@@ -1614,11 +1614,11 @@ error_t privateMibGetAlarmGroup(const MibObject *object, const uint8_t *oid,
                                 size_t oidLen, MibVariant *value, size_t *valueLen)
 {
   error_t error = NO_ERROR;
-  size_t n;
+//  size_t n;
   //	uint_t index;
   //	Ipv4Addr ipAddr;
   //	NetInterface *interface;
-  PrivateMibAlarmGroup *entry;
+//  PrivateMibAlarmGroup *entry;
   //	interface = &netInterface[0];
   //Point to the instance identifier
   //	n = object->oidLen;
