@@ -160,7 +160,7 @@
 //Netmem pool support
 #define NET_MEM_POOL_SUPPORT DISABLED
 //Netmem pool support
-#define DNS_CLIENT_SUPPORT DISABLED
+#define DNS_CLIENT_SUPPORT ENABLED
 //SNMP stack size user-defined
 #define SNMP_CLIENT_STACK_SIZE 400
    
@@ -179,6 +179,8 @@
 #define USERDEF_GPRS            DISABLED
 //PPP user-defined
 #define USERDEF_PPP             ENABLED
+//MQTT CLIENT user-defined
+#define USERDEF_MQTT_CLIENT     ENABLED
 //Connection manager user-defined
 #define USERDEF_SNMPCONNECT_MANAGER ENABLED
 

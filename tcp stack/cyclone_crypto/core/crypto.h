@@ -32,7 +32,7 @@
 #include "os_port.h"
 #include "crypto_config.h"
 #include "crypto_legacy.h"
-#include "cpu_endian.h"
+#include "endian.h" // chaunm
 #include "error.h"
 
 

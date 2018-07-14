@@ -2716,6 +2716,15 @@
       </file>
     </group>
     <group>
+      <name>mqtt_client</name>
+      <file>
+        <name>$PROJ_DIR$\..\mqtt_client\app_mqtt_client.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\mqtt_client\app_mqtt_client.h</name>
+      </file>
+    </group>
+    <group>
       <name>network</name>
       <file>
         <name>$PROJ_DIR$\..\crypto_config.h</name>
@@ -2935,6 +2944,12 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\sha1.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\yarrow.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\tcp stack\cyclone_crypto\yarrow.h</name>
       </file>
     </group>
     <group>
@@ -3318,6 +3333,36 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mibs\mib_common.h</name>
+        </file>
+      </group>
+      <group>
+        <name>mqtt</name>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mqtt\mqtt_client.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mqtt\mqtt_client.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mqtt\mqtt_client_misc.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mqtt\mqtt_client_misc.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mqtt\mqtt_client_packet.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mqtt\mqtt_client_packet.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mqtt\mqtt_client_transport.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mqtt\mqtt_client_transport.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\tcp stack\cyclone_tcp\mqtt\mqtt_common.h</name>
         </file>
       </group>
       <group>

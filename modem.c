@@ -335,6 +335,8 @@ error_t modemSendAtCommand(NetInterface *interface,
                strstr(response, "ERROR") ||
                  strstr(response, "NO ANSWER"))
       {
+        if (strstr(response, "OK"))
+            error = NO_ERROR;
         //Debug message
         TRACE_INFO("AT response: %s\r\n", response);
         //Exit immediately

@@ -36,6 +36,10 @@
 #include "snmp_client.h"
 #endif
 
+#if (USERDEF_MQTT_CLIENT == ENABLED)
+#include "mqtt_client/app_mqtt_client.h"
+#endif
+
 // inclusion for ppp
 #include "modem_Interface.h"
 #include "modem.h"
@@ -53,8 +57,6 @@ int_t main(void)
     OsTask *task;
     
     BOARD_BootClockHSRUN();
-    //Update system core clock
-    //   SystemCoreClockUpdate(
     BOARD_InitPins();
     BOARD_InitLEDs();
     BOARD_InitLCD();
@@ -98,7 +100,7 @@ int_t main(void)
 #endif
     ethernetInterface = EthernetInit();
     pppInterface = ModemInterfaceInit();
-        
+/********** Create SNMP Task *************/
 #if (USERDEF_CLIENT_SNMP == ENABLED)
     SnmpInitMib();
     error = SnmpInitClient(ethernetInterface);
@@ -107,6 +109,21 @@ int_t main(void)
     if (error == NO_ERROR)
     {
       task = osCreateTask("TrapSend", SnmpSendTrapTask, NULL, 500, OS_TASK_PRIORITY_NORMAL);
+      //Failed to create the task?
+      if(task == OS_INVALID_HANDLE)
+      {
+        //Debug message
+        TRACE_ERROR("Failed to create task!\r\n");
+      }
+    }
+    else
+      TRACE_ERROR("Failed to create SNMP Client!\r\n");
+#endif
+ /********** Create MQTT Task ***********/
+#if (USERDEF_MQTT_CLIENT == ENABLED)
+    if (error == NO_ERROR)
+    {
+      task = osCreateTask("mqtt_task", mqttTestTask, NULL, 2048, OS_TASK_PRIORITY_NORMAL);
       //Failed to create the task?
       if(task == OS_INVALID_HANDLE)
       {

@@ -79,6 +79,7 @@ void snmpConnectManagerTask (void *param)
       }
       else if (ModemInterfaceGetState() == MODEM_INTERFACE_STATE_DISCONNECTED)
       {
+        snmpConnectManager.status = DISCONNECTED;
         ModemInterfaceSetState(MODEM_INTERFACE_STATE_CONNECTED);
         TRACE_INFO("Turn GPRS on... %d\r\n", ModemInterfaceGetState());
       }
