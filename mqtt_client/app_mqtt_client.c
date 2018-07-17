@@ -4,6 +4,7 @@
 #include "mqtt/mqtt_client.h"
 #include "yarrow.h"
 #include "debug.h"
+#include "snmpConnect_manager.h"
 #include <string.h>
 
 //Connection states
@@ -214,7 +215,10 @@ void mqttTestTask (void *param)
          mqttConnectionState = APP_STATE_CONNECTING;
 
          //Try to connect to the MQTT server using ppp interface
-         error = mqttConnect(&netInterface[1]);
+         if (interfaceManagerGetActiveInterface() != NULL)
+           error = mqttConnect(interfaceManagerGetActiveInterface());
+         else
+           error = ERROR_FAILURE;
 
          //Failed to connect to the MQTT server?
          if(error)

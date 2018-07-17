@@ -55,5 +55,5 @@ void snmpConnectManagerTask (void *param);
 connection_status_t snmpConnectCheckStatus (void);
 void snmpConnectIncreaseTick(void);
 void snmpConnectManagerSendPing (void);
-
+NetInterface* interfaceManagerGetActiveInterface();
 #endif
