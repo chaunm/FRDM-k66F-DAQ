@@ -189,6 +189,8 @@
           <state>MK66F18</state>
           <state>_DLIB_FILE_DESCRIPTOR</state>
           <state>EVAL_LICENSE_TERMS_ACCEPTED</state>
+          <state>HAVE_CONFIG_H</state>
+          <state>HAVE_STDINT_H</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -335,6 +337,7 @@
           <state>$PROJ_DIR$/../tcp stack/common</state>
           <state>$PROJ_DIR$/../tcp stack/cyclone_crypto</state>
           <state>$PROJ_DIR$/../tcp stack/cyclone_tcp</state>
+          <state>$PROJ_DIR$/../cJSON-1.7.7</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -746,11 +749,11 @@
         </option>
         <option>
           <name>IlinkIcfOverride</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$TOOLKIT_DIR$\config\linker\NXP\MK66xN2M_18.icf</state>
+          <state>$PROJ_DIR$\MK66FN2M0xxx18_flash.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -901,7 +904,7 @@
         </option>
         <option>
           <name>IlinkOptInline</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>IlinkOptExceptionsAllow</name>
@@ -1990,6 +1993,15 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\pin_mux.h</name>
+    </file>
+  </group>
+  <group>
+    <name>cJSON-1.7.7</name>
+    <file>
+      <name>$PROJ_DIR$\..\cJSON-1.7.7\cJSON.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\cJSON-1.7.7\cJSON.h</name>
     </file>
   </group>
   <group>

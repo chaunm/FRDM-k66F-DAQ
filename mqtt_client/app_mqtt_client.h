@@ -4,6 +4,7 @@
 #include "core/net.h"
 #include "error.h"
 
+#define JSON_LIB        CJSON
 //MQTT server name
 #define APP_SERVER_NAME "iot.eclipse.org"
 
