@@ -29,6 +29,9 @@ static char* mqtt_json_make_response(char* boxID, unsigned int messageID, char* 
 	return responseMessage;
 }
 
+/***********************************************************************************************************
+ *                                        CONFIGURE MESSAGE PARSING                                        *
+ ***********************************************************************************************************/
 /* Parse configuration message */
 static mqtt_json_parse_result_t mqtt_json_parse_configure_message(cJSON* jsonMessage)
 {
@@ -85,6 +88,41 @@ static mqtt_json_parse_result_t mqtt_json_parse_configure_message(cJSON* jsonMes
 	return MQTT_PARSE_SUCCESS;
 }
 
+/***********************************************************************************************************
+ *                                        CONTROL MESSAGE PARSING                                          *
+ ***********************************************************************************************************/
+/* Parse control door data */
+static mqtt_json_parse_result_t mqtt_json_parse_control_door(char* data)
+{
+	if (!strcmp(data, "open"))
+	{
+		printf("door open command succeed\r\n");
+	}
+	else if (!strcmp(data, "close"))
+	{
+		printf("door close command succeed\r\n");
+	}
+	else
+		return MQTT_PARSE_DATA_ERROR;
+	return MQTT_PARSE_SUCCESS;
+}
+
+/* Parse control alarm data */
+static mqtt_json_parse_result_t mqtt_json_parse_control_alarm(char* data)
+{
+	if (!strcmp(data, "on"))
+	{
+		printf("alarm on command succeed\r\n");
+	}
+	else if (!strcmp(data, "off"))
+	{
+		printf("alarm off command succeed\r\n");
+	}
+	else
+		return MQTT_PARSE_DATA_ERROR;
+	return MQTT_PARSE_SUCCESS;
+}
+
 /* parse control message */
 static mqtt_json_parse_result_t mqtt_json_parse_control_message(cJSON* jsonMessage)
 {
@@ -98,16 +136,22 @@ static mqtt_json_parse_result_t mqtt_json_parse_control_message(cJSON* jsonMessa
 			jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
 			if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
 			{
-				printf("Configure param: %s, value: %s\r\n", jsonParameter->valuestring, jsonMsgData->valuestring);
+				printf("Control param: %s, value: %s\r\n", jsonParameter->valuestring, jsonMsgData->valuestring);
+				return mqtt_json_parse_control_door(jsonMsgData->valuestring);
 			}
+			else
+				return MQTT_PARSE_DATA_ERROR;
 		}
 		else if (!strcmp(jsonParameter->valuestring, "alarm"))
 		{
 			jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
 			if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
 			{
-				printf("Configure param: %s, value: %s\r\n", jsonParameter->valuestring, jsonMsgData->valuestring);
+				printf("Control param: %s, value: %s\r\n", jsonParameter->valuestring, jsonMsgData->valuestring);
+				return mqtt_json_parse_control_alarm(jsonMsgData->valuestring);
 			}
+			else
+				return MQTT_PARSE_DATA_ERROR;
 		}
 		else
 			return MQTT_PARSE_PARAM_ERROR;
