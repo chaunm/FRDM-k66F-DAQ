@@ -1,3 +1,4 @@
+#include "variables.h"
 #include "app_mqtt_client.h"
 #include "os_port_config.h"
 #include "core/net.h"
@@ -159,7 +160,7 @@ error_t mqttConnect(NetInterface *interface)
   mqttClientSetUri(&mqttClientContext, APP_SERVER_URI);
 #endif
   //Set client identifier
-  mqttClientSetIdentifier(&mqttClientContext, "BOX0001");
+  mqttClientSetIdentifier(&mqttClientContext, deviceName);
   
   //Set user name and password
   //mqttClientSetAuthInfo(&mqttClientContext, "username", "password");
@@ -262,7 +263,7 @@ void mqttTestTask (void *param)
         error = NO_ERROR;           
         //Send PUBLISH packet    
         jsonMessage = cJSON_CreateObject();
-        jsonName = cJSON_CreateString("BOX0001");
+        jsonName = cJSON_CreateString(deviceName);
         cJSON_AddItemToObject(jsonMessage, "name", jsonName);
         jsonStatus = cJSON_CreateString("active");
         cJSON_AddItemToObject(jsonMessage, "status", jsonStatus);

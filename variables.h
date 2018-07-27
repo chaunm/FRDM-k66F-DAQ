@@ -12,7 +12,10 @@
 #include <stdint.h>
 #include "eeprom_rtc.h"
 #include "menu.h"
-#define ACTIVE_ALARM_NUMBER 18
+
+#define ACTIVE_ALARM_NUMBER         18
+#define DEVICE_NAME_EEPROM_ADDR     86
+#define DEVICE_NAME_MAX_LENGTH      16
 
 typedef struct TimeFormat
 {
@@ -93,7 +96,7 @@ typedef enum
     _GEN_MAX_RUNTIME, _GEN_UNDER_VOLT, _GEN_ERROR_RESET_EN, _GEN_ERROR_RESET_MIN, _GEN_WARM_UP_TIME, _GEN_COOL_DOWN_TIME,
     _GEN_NIGHT_EN, _GEN_NIGHT_BEGIN, _GEN_NIGHT_END, _DC_LOW_INPUT, _DC_LOW_VOLT,
     _AIRCON_TEMP1,_AIRCON_TEMP2,_AIRCON_TEMP3,_AIRCON_TEMP4,_AIRCON_TIME1,_AIRCON_TIME2,
-    _HOUR, _MINS, _SECS, _DATE, _MONTH, _YEAR, _DEFAULT_WRITE, _DEV_NAME_LENGTH, _DEV_NAME
+    _HOUR, _MINS, _SECS, _DATE, _MONTH, _YEAR, _DEFAULT_WRITE, _DEV_NAME_LENGTH
 }setting_values;
 
 typedef struct
@@ -229,16 +232,18 @@ typedef struct
     uint8_t	secs;
 }sAirCon_Variable_Struct;
 
+#define NUMBER_OF_SETTING   50
+
 extern sActive_Alarm_Struct		sActive_Alarm[ACTIVE_ALARM_NUMBER];
-extern sKey_Control_Struct    sKey_Control;
+extern sKey_Control_Struct      sKey_Control;
 extern sMenu_Object_Struct		sMenu_Object[19];
 extern sMenu_Control_Struct		sMenu_Control;
-extern sSetting_Values_Struct		sSetting_Values[49];
+extern sSetting_Values_Struct    sSetting_Values[NUMBER_OF_SETTING];
 extern sMenu_Variable_Struct	sMenu_Variable;
-extern sATS_Variable_Struct	sATS_Variable;
-extern sAirCon_Variable_Struct   sAirCon_Variable;
-extern TimeFormat GTime;
-extern TimeFormat STime;
+extern sATS_Variable_Struct	    sATS_Variable;
+extern sAirCon_Variable_Struct  sAirCon_Variable;
+extern TimeFormat               GTime;
+extern TimeFormat               STime;
 
 
 void SetTime(TimeFormat Time);
@@ -249,6 +254,7 @@ extern uint8_t trap_flag[20];
 extern uint32_t setCount_test;
 extern uint32_t trapStatus_TimePeriod;
 extern uint8_t DigitalInput[10];
+extern char deviceName[DEVICE_NAME_MAX_LENGTH + 1];
 
 
 #endif /* SOURCE_VARIABLES_H_ */

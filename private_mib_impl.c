@@ -71,7 +71,7 @@ error_t privateMibInit(void)
   privateMibBase.ledTable[2].ledState = 0;
   
   //Default value for testString object
-  strcpy(privateMibBase.siteInfoGroup.siteInfoBTSCode, "BOX0002");
+  strcpy(privateMibBase.siteInfoGroup.siteInfoBTSCode, deviceName); // chaunm - device name load from EEPROM
   privateMibBase.siteInfoGroup.siteInfoBTSCodeLen = strlen(privateMibBase.siteInfoGroup.siteInfoBTSCode);       
   
   privateMibBase.siteInfoGroup.siteInfoThresTemp1 = 50;
@@ -419,8 +419,14 @@ error_t privateMibSetSiteInfoGroup(const MibObject *object, const uint8_t *oid,
     
     //Copy object value
     memset(entry->siteInfoBTSCode,0,sizeof(privateMibBase.siteInfoGroup.siteInfoBTSCode));
+    memcpy(entry->siteInfoBTSCode, value->octetString, valueLen);
+    memset(deviceName, 0, sizeof(deviceName));
+    memcpy(deviceName, value->octetString, valueLen);
     entry->siteInfoBTSCodeLen = valueLen;
-    //Debug message
+    //save to eeprom - chaunm
+    WriteEEPROM_Word(sSetting_Values[_DEV_NAME_LENGTH].addrEEPROM, valueLen);
+    for (uint8_t i = 0; i < valueLen; i++)
+        WriteEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i, deviceName[i]);
   }
   //siteInfoThresTemp1 object?
   else if(!strcmp(object->name, "siteInfoThresTemp1"))
