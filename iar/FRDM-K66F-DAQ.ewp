@@ -2417,6 +2417,21 @@
       <file>
         <name>$PROJ_DIR$\..\mqtt_client\app_mqtt_client.h</name>
       </file>
+      <file>
+        <name>$PROJ_DIR$\..\mqtt_client\mqtt_json_make.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\mqtt_client\mqtt_json_make.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\mqtt_client\mqtt_json_parse.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\mqtt_client\mqtt_json_parse.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\mqtt_client\mqtt_json_type.h</name>
+      </file>
     </group>
     <group>
       <name>network</name>
