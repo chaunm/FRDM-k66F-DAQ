@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "debug.h"
+#include "hal_system.h"
 #include "mqtt_json_parse.h"
 #include "mqtt_json_make.h"
 #include "mqtt_json_type.h"
@@ -487,6 +488,7 @@ void mqtt_json_parse_message(char* message, unsigned int length)
     else if (!strcmp(jsonMsgType->valuestring, "reset"))
     {
         TRACE_INFO("Resetting ...\r\n");
+        hal_system_reset();
     }
     else
         result = MQTT_PARSE_TYPE_ERROR;

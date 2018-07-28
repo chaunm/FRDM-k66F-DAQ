@@ -27,6 +27,7 @@
 #include "app_init.h"
 #include "app_ethernet.h"
 #include "test.h"
+#include "hal_system.h"
 
 #include "clock_config.h"
 #include "pin_mux.h"
@@ -123,7 +124,7 @@ int_t main(void)
 #if (USERDEF_MQTT_CLIENT == ENABLED)
     if (error == NO_ERROR)
     {
-      task = osCreateTask("mqtt_task", mqttTestTask, NULL, 2048, OS_TASK_PRIORITY_NORMAL);
+        task = osCreateTask("mqtt_task", mqttClientTask, NULL, 2048, OS_TASK_PRIORITY_NORMAL);
       //Failed to create the task?
       if(task == OS_INVALID_HANDLE)
       {
@@ -136,6 +137,7 @@ int_t main(void)
 #endif
     // Declare application Task and timer
     UserTaskInit();
+    
     //Start the execution of tasks
     osStartKernel();
     //This function should never return

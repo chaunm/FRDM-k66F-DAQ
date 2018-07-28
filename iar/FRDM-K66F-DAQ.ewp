@@ -2356,6 +2356,15 @@
       </file>
     </group>
     <group>
+      <name>hal</name>
+      <file>
+        <name>$PROJ_DIR$\..\hal_system.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\hal_system.h</name>
+      </file>
+    </group>
+    <group>
       <name>i2c</name>
       <file>
         <name>$PROJ_DIR$\..\i2c_lock.c</name>

@@ -644,7 +644,7 @@ void UserTaskInit()
     TRACE_ERROR("Successfully create LCD task!\r\n");
   }
   //Create a task to active RS485 communication
-  task = osCreateTask("RS485_task", rs485_task, NULL, 150, OS_TASK_PRIORITY_NORMAL);
+  task = osCreateTask("RS485_task", rs485_task, NULL, 512, OS_TASK_PRIORITY_NORMAL);
   //Failed to create the task?
   if(task == OS_INVALID_HANDLE)
   {
