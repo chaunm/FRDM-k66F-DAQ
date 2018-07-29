@@ -16,7 +16,7 @@
 #define AM2320us   520 //~6.125us pulse on && ~12.37us pulse off  f=80,08 Hz ( AM2320 Max clock = 100kHz)
 
 #define _AM2320_800us  20800
-#define _AM2320_30us   780
+#define _AM2320_30us   1040
 #define _AM2320_1500   39000
 
 //BH1750 I2C Address

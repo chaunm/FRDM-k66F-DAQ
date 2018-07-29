@@ -2759,20 +2759,20 @@
     </group>
     <group>
       <name>network</name>
+      <group>
+        <name>rs485</name>
+        <file>
+          <name>$PROJ_DIR$\..\rs485.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\rs485.h</name>
+        </file>
+      </group>
       <file>
         <name>$PROJ_DIR$\..\crypto_config.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\net_config.h</name>
-      </file>
-    </group>
-    <group>
-      <name>rs485</name>
-      <file>
-        <name>$PROJ_DIR$\..\rs485.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\rs485.h</name>
       </file>
     </group>
     <group>

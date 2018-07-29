@@ -142,6 +142,7 @@ void AM2320_I2C_Init(void){
   Wake_AM2320();
   AM2320_Delay(_AM2320_800us); // Delay min = 800us
   Trigger_AM2320();
+  AM2320_Delay(_AM2320_1500);
 }
 inline void Wake_AM2320(void){
   AM2320_Start();

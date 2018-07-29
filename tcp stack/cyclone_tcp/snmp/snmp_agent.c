@@ -945,8 +945,8 @@ error_t snmpAgentSendTrap(SnmpAgentContext *context, const IpAddr *destIpAddr,
          ipAddrToString(destIpAddr, NULL),
          context->settings.trapPort, context->response.length);
 
-      //Display the contents of the SNMP message
-      TRACE_DEBUG_ARRAY("  ", context->response.pos, context->response.length);
+      //Display the contents of the SNMP message - chaunm
+//      TRACE_DEBUG_ARRAY("  ", context->response.pos, context->response.length);
       //Display ASN.1 structure
       asn1DumpObject(context->response.pos, context->response.length, 0);
 

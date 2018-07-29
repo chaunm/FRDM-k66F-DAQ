@@ -47,9 +47,11 @@ void AppInitUserInterface()
   GPIO_PinInit(KEY_4_PORT, KEY_4_PIN, &in_config);
   I2C_Lock_Init();
   Init_I2CE();
+  AM2320_I2C_Init();
+  Getdata_AM2320();
   Init_All_Variable();
   Init_RS485_UART();
-  AM2320_I2C_Init();
+  
 }
 
 void AppInitAdc()

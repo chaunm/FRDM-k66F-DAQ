@@ -2660,7 +2660,7 @@ void Init_All_Variable (void)
         // init device name
         deviceNameLength = 7;
         WriteEEPROM_Word(sSetting_Values[_DEV_NAME_LENGTH].addrEEPROM, 7);
-        memcpy(deviceName, "BOX0005", 7);
+        memcpy(deviceName, "BOX0001", 7);
         for (i = 0; i < 7; i++)
         {
             WriteEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i, deviceName[i]);

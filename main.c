@@ -85,13 +85,13 @@ int_t main(void)
     AppLedInit();
     // Init IO Pin
     AppIoInit();
-    //Initialize kernel
-    osInitKernel();
 
 #if (USERDEF_USER_INTERFACE == ENABLED)  
     AppInitUserInterface();
 #endif  
-    
+        
+    //Initialize kernel
+    osInitKernel();
 #if (USERDEF_GPRS == ENABLED)
     gprs_init();
 #endif

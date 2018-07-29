@@ -15,6 +15,9 @@
 #include "task.h"
 #include "semphr.h"
 
+#include "mqtt_json_parse.h"
+#include "mqtt_json_make.h"
+
 #include <string.h>
 #include <stdlib.h>
 
@@ -30,8 +33,10 @@ uint8_t mqttConnectionState = APP_STATE_NOT_CONNECTED;
 cJSON* jsonMessage = NULL;
 cJSON* jsonStatus = NULL;
 cJSON* jsonName = NULL;
-char* publishMessage;
+
 QueueHandle_t mqttRcvQueue;
+QueueHandle_t mqttPubQueue;
+char subscribeTopic[32];
 
 #if APP_SERVER_PORT == 8883
 /**
@@ -87,7 +92,7 @@ void mqttPublishCallback(MqttClientContext *context,
                          const char_t *topic, const uint8_t *message, size_t length,
                          bool_t dup, MqttQosLevel qos, bool_t retain, uint16_t packetId)
 {
-    mqtt_buffer_t mqttBuffer;
+    mqtt_recv_buffer_t mqttBuffer;
         //Debug message
         TRACE_INFO("PUBLISH packet received...\r\n");
     TRACE_INFO("  Dup: %u\r\n", dup);
@@ -96,24 +101,44 @@ void mqttPublishCallback(MqttClientContext *context,
     TRACE_INFO("  Packet Identifier: %u\r\n", packetId);
     TRACE_INFO("  Topic: %s\r\n", topic);
     TRACE_INFO("  Message (%" PRIuSIZE " bytes):\r\n", length);
-    /*
-    for (int i = 0; i < length; i ++)
-    TRACE_INFO("%c", message[i]);
-    TRACE_INFO("\r\n");  
-    */
+    if (length > MQTT_CLIENT_MSG_MAX_SIZE)
+    {
+        TRACE_INFO("received message's length is too large\r\n");
+        return;
+    }
     mqttBuffer.size = length;
     memset(mqttBuffer.message, 0, sizeof(mqttBuffer.message));
     memcpy(mqttBuffer.message, message, length);
-    if (xQueueSend(mqttRcvQueue, &mqttBuffer, (TickType_t)10) != pdPASS)
+    if (xQueueSend(mqttRcvQueue, &mqttBuffer, (TickType_t)100) != pdPASS)
     {
         TRACE_INFO("Can't send message to mqttRcvQueue\r\n");
     }
 }
 
-void mqttMsgHandle(void * param)
+/* Publish message */
+void mqttPublishMsg(char* topic, char* message, uint16_t msgSize)
 {
-    mqtt_buffer_t mqttBuffer;
-    mqttRcvQueue = xQueueCreate(MQTT_CLIENT_QUEUE_SIZE, sizeof(mqtt_buffer_t));
+    mqtt_pub_buffer_t mqttPubMsg;
+    if ((strlen(topic) > MQTT_CLIENT_TOPIC_MAX_SIZE) || (msgSize > MQTT_CLIENT_MSG_MAX_SIZE) || (topic == NULL) || (message == NULL))
+    {
+        TRACE_INFO("publish message parameters invalid\r\n");
+        return;
+    }
+    memset(&mqttPubMsg, 0, sizeof(mqtt_pub_buffer_t));
+    memcpy(mqttPubMsg.topic, topic, strlen(topic));
+    memcpy(mqttPubMsg.message, message, msgSize);
+    if (xQueueSend(mqttPubQueue, &mqttPubMsg, (TickType_t)100) != pdPASS)
+    {
+        TRACE_INFO("Can't send message to mqttRcvQueue\r\n");
+    }
+}
+
+/* Handle MQTT message on topic DAQ/box_name */
+void mqttMsgHandleTask(void * param)
+{
+    mqtt_recv_buffer_t mqttBuffer;
+    char* responseMsg = NULL;
+    mqttRcvQueue = xQueueCreate(MQTT_CLIENT_QUEUE_SIZE, sizeof(mqtt_recv_buffer_t));
     if (mqttRcvQueue == NULL)
     {
         TRACE_INFO("Can't create mqtt receive queue\r\n");
@@ -123,9 +148,14 @@ void mqttMsgHandle(void * param)
     {
         if (xQueueReceive(mqttRcvQueue, &mqttBuffer, portMAX_DELAY) == pdTRUE)
         {
-            for (int i = 0; i < mqttBuffer.size; i ++)
-                TRACE_INFO("%c", mqttBuffer.message[i]);
-            TRACE_INFO("\r\n");  
+            TRACE_INFO("Message:\r\n%s\r\n", mqttBuffer.message);
+            responseMsg = mqtt_json_parse_message(mqttBuffer.message, mqttBuffer.size);
+            if (responseMsg != NULL)
+            {
+                TRACE_INFO ("response:\r\n%s\r\n", responseMsg);
+                mqttPublishMsg(MQTT_RESPONSE_TOPIC, responseMsg, strlen(responseMsg));
+                free(responseMsg);
+            }
         }
     }
 }
@@ -203,8 +233,8 @@ error_t mqttConnect(NetInterface *interface)
     //mqttClientSetAuthInfo(&mqttClientContext, "username", "password");
     
     //Set Will message
-    mqttClientSetWillMessage(&mqttClientContext, "board/status",
-                             "offline", 7, MQTT_QOS_LEVEL_0, FALSE);
+//    mqttClientSetWillMessage(&mqttClientContext, "DAQ/event",
+//                             "offline", 7, MQTT_QOS_LEVEL_0, FALSE);
     
     //Debug message
     TRACE_INFO("Connecting to MQTT server %s...\r\n", ipAddrToString(&ipAddr, NULL));
@@ -220,19 +250,24 @@ error_t mqttConnect(NetInterface *interface)
             break;
         
         //Subscribe to the desired topics
+        TRACE_INFO("Subscribe to topic: %s\r\n", subscribeTopic);
         error = mqttClientSubscribe(&mqttClientContext,
-                                    "board/status", MQTT_QOS_LEVEL_1, NULL);
+                                    subscribeTopic, MQTT_QOS_LEVEL_1, NULL);
         //Any error to report?
         if(error)
             break;
         
         //Send PUBLISH packet
-        error = mqttClientPublish(&mqttClientContext, "board/status",
-                                  "online", 6, MQTT_QOS_LEVEL_1, TRUE, NULL);
-        //Any error to report?
-        if(error)
-            break;
-        
+        char *onlineMsg = mqtt_json_make_online_message(deviceName);
+        if (onlineMsg != NULL)
+        {
+            error = mqttClientPublish(&mqttClientContext, MQTT_EVENT_TOPIC,
+                                      onlineMsg, strlen(onlineMsg), MQTT_QOS_LEVEL_1, FALSE, NULL);
+            free(onlineMsg);
+            //Any error to report?
+            if(error)
+                break;
+        }       
         //End of exception handling block
     } while(0);
     
@@ -250,8 +285,16 @@ error_t mqttConnect(NetInterface *interface)
 void mqttClientTask (void *param)
 {
     error_t error;
+    mqtt_pub_buffer_t mqttPubBuffer;
+    sprintf(subscribeTopic, "DAQ/%s", deviceName);
     // Start receive handle task
-    if (xTaskCreate(mqttMsgHandle, "mqtt_handle_receive", MQTT_RECV_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL) != pdPASS)
+    mqttPubQueue = xQueueCreate(MQTT_CLIENT_QUEUE_SIZE, sizeof(mqtt_pub_buffer_t));
+    if (mqttPubQueue == NULL)
+    {
+        TRACE_INFO("Can't create publish queue\r\n");
+        vTaskDelete(NULL);
+    }
+    if (xTaskCreate(mqttMsgHandleTask, "mqtt_handle_receive", MQTT_RECV_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL) != pdPASS)
         vTaskDelete(NULL);
     //Endless loop
     while(1)
@@ -297,21 +340,40 @@ void mqttClientTask (void *param)
                 //Recovery delay
                 osDelayTask(2000);
             }
+
             else
             {
+                error = NO_ERROR;
+                if (xQueueReceive(mqttPubQueue, &mqttPubBuffer, OS_MS_TO_SYSTICKS(10)) == pdTRUE)
+                {                    
+                    error = mqttClientPublish(&mqttClientContext, mqttPubBuffer.topic,
+                                              mqttPubBuffer.message, strlen(mqttPubBuffer.message), MQTT_QOS_LEVEL_1, FALSE, NULL);
+                    //Failed to publish data?
+                    if(error)
+                    {
+                        //Close connection
+                        mqttClientClose(&mqttClientContext);
+                        //Update connection state
+                        mqttConnectionState = APP_STATE_NOT_CONNECTED;
+                        //Recovery delay
+                        osDelayTask(10000);
+                    }
+                }
+#if (MQTT_SEND_TEST_MSG == ENABLED)
                 //Initialize status code
-                error = NO_ERROR;           
+                           
                 //Send PUBLISH packet    
                 jsonMessage = cJSON_CreateObject();
                 jsonName = cJSON_CreateString(deviceName);
-                cJSON_AddItemToObject(jsonMessage, "name", jsonName);
-                jsonStatus = cJSON_CreateString("active");
-                cJSON_AddItemToObject(jsonMessage, "status", jsonStatus);
+                cJSON_AddItemToObject(jsonMessage, "id", jsonName);
+                jsonStatus = cJSON_CreateNumber(1234);
+                cJSON_AddItemToObject(jsonMessage, "message_id", jsonStatus);
+                char* publishMessage;
                 publishMessage = cJSON_Print(jsonMessage);
                 cJSON_Delete(jsonMessage);
                 
-                error = mqttClientPublish(&mqttClientContext, "board/status",
-                                          publishMessage, strlen(publishMessage), MQTT_QOS_LEVEL_1, TRUE, NULL);
+                error = mqttClientPublish(&mqttClientContext, subscribeTopic,
+                                          publishMessage, strlen(publishMessage), MQTT_QOS_LEVEL_1, FALSE, NULL);
                 free(publishMessage);
                 //Failed to publish data?
                 if(error)
@@ -324,6 +386,7 @@ void mqttClientTask (void *param)
                     osDelayTask(10000);
                 }
                 osDelayTask(3000);
+#endif            
             }
         }
     }

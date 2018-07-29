@@ -212,7 +212,14 @@ static mqtt_json_result_t mqtt_json_parse_configure_message(cJSON* jsonMessage)
                 // save ip_addr to eeprom
                 I2C_Get_Lock();
                 vTaskSuspendAll();
-                WriteEEPROM_long(_DEV_IP1, ipAddr.ipv4Addr);
+                WriteEEPROM_Word(sSetting_Values[_DEV_IP1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
+                WriteEEPROM_Word(sSetting_Values[_DEV_IP2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
+                WriteEEPROM_Word(sSetting_Values[_DEV_IP3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
+                WriteEEPROM_Word(sSetting_Values[_DEV_IP4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));
+                ReadMemory(_DEV_IP1,&sMenu_Variable.sEthernetSetting.u16DevIP[0]);
+                ReadMemory(_DEV_IP2,&sMenu_Variable.sEthernetSetting.u16DevIP[1]);
+                ReadMemory(_DEV_IP3,&sMenu_Variable.sEthernetSetting.u16DevIP[2]);
+                ReadMemory(_DEV_IP4,&sMenu_Variable.sEthernetSetting.u16DevIP[3]);
                 xTaskResumeAll();
                 I2C_Release_Lock();
             }
@@ -230,7 +237,14 @@ static mqtt_json_result_t mqtt_json_parse_configure_message(cJSON* jsonMessage)
                 // save ip_addr to eeprom
                 I2C_Get_Lock();
                 vTaskSuspendAll();
-                WriteEEPROM_long(_DEV_SUBNET1, ipAddr.ipv4Addr);
+                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
+                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
+                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
+                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));
+                ReadMemory(_DEV_SUBNET1,&sMenu_Variable.sEthernetSetting.u16DevSubnet[0]);
+                ReadMemory(_DEV_SUBNET2,&sMenu_Variable.sEthernetSetting.u16DevSubnet[1]);
+                ReadMemory(_DEV_SUBNET3,&sMenu_Variable.sEthernetSetting.u16DevSubnet[2]);
+                ReadMemory(_DEV_SUBNET4,&sMenu_Variable.sEthernetSetting.u16DevSubnet[3]);
                 xTaskResumeAll();
                 I2C_Release_Lock();
             }
@@ -248,7 +262,14 @@ static mqtt_json_result_t mqtt_json_parse_configure_message(cJSON* jsonMessage)
                 // save ip_addr to eeprom
                 I2C_Get_Lock();
                 vTaskSuspendAll();
-                WriteEEPROM_long(_DEV_GATEW1, ipAddr.ipv4Addr);
+                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
+                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
+                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
+                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));
+                ReadMemory(_DEV_GATEW1,&sMenu_Variable.sEthernetSetting.u16DevGateway[0]);
+                ReadMemory(_DEV_GATEW2,&sMenu_Variable.sEthernetSetting.u16DevGateway[1]);
+                ReadMemory(_DEV_GATEW3,&sMenu_Variable.sEthernetSetting.u16DevGateway[2]);
+                ReadMemory(_DEV_GATEW4,&sMenu_Variable.sEthernetSetting.u16DevGateway[3]);
                 xTaskResumeAll();
                 I2C_Release_Lock();
             }
@@ -266,7 +287,14 @@ static mqtt_json_result_t mqtt_json_parse_configure_message(cJSON* jsonMessage)
                 // save ip_addr to eeprom
                 I2C_Get_Lock();
                 vTaskSuspendAll();
-                WriteEEPROM_long(_SERVER_IP1, ipAddr.ipv4Addr);
+                WriteEEPROM_Word(sSetting_Values[_SERVER_IP1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
+                WriteEEPROM_Word(sSetting_Values[_SERVER_IP2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
+                WriteEEPROM_Word(sSetting_Values[_SERVER_IP3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
+                WriteEEPROM_Word(sSetting_Values[_SERVER_IP4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));   
+                ReadMemory(_SERVER_IP1,&sMenu_Variable.u16ServerIP[0]);
+                ReadMemory(_SERVER_IP2,&sMenu_Variable.u16ServerIP[1]);
+                ReadMemory(_SERVER_IP3,&sMenu_Variable.u16ServerIP[2]);
+                ReadMemory(_SERVER_IP4,&sMenu_Variable.u16ServerIP[3]);
                 xTaskResumeAll();
                 I2C_Release_Lock();
             }
@@ -424,7 +452,7 @@ static mqtt_json_result_t mqtt_json_parse_control_message(cJSON* jsonMessage)
 }
 
 /* Parse message receive from MQTT input topic */
-void mqtt_json_parse_message(char* message, unsigned int length)
+char* mqtt_json_parse_message(char* message, unsigned int length)
 {
     cJSON *jsonMessage;
     cJSON *jsonBoxId;
@@ -432,10 +460,9 @@ void mqtt_json_parse_message(char* message, unsigned int length)
     cJSON *jsonMsgType;
     mqtt_json_result_t result = MQTT_PARSE_SUCCESS;
     TRACE_INFO("Parse message with length: %d\r\n", length);
-    
-    char* responseMessage;
+    char* responseMessage = NULL;
     if ((message == NULL) || (length == 0))
-        return;
+        return NULL;
     char* procBuffer = (char*)malloc(length + 1);
     memcpy(procBuffer, message, length);
     procBuffer[length] = 0;
@@ -443,15 +470,22 @@ void mqtt_json_parse_message(char* message, unsigned int length)
     if (jsonMessage == NULL)
     {
         result = MQTT_PARSE_MESSAGE_ERROR;
+        TRACE_INFO("Parse MESSAGE Failure\r\n");
         goto END_PARSE;
     }
     jsonBoxId = cJSON_GetObjectItem(jsonMessage, "id");
     if(cJSON_IsString(jsonBoxId) && (jsonBoxId->valuestring != NULL))
     {
         TRACE_INFO("BOX ID: %s\r\n", jsonBoxId->valuestring);
+        if (strcmp(jsonBoxId->valuestring, deviceName))
+        {
+            result = MQTT_PARSE_BOXID_ERROR;
+            goto END_PARSE;
+        }
     }
     else
     {
+        TRACE_INFO("Parse BOXID Failure\r\n");
         result = MQTT_PARSE_BOXID_ERROR;
         goto END_PARSE;
     }
@@ -463,6 +497,7 @@ void mqtt_json_parse_message(char* message, unsigned int length)
     else
     {
         result = MQTT_PARSE_MSGID_ERROR;
+        TRACE_INFO("Parse MSGID Failure\r\n");
         goto END_PARSE;
     }
     jsonMsgType = cJSON_GetObjectItem(jsonMessage, "type");
@@ -500,12 +535,12 @@ END_PARSE:
             responseMessage = mqtt_json_make_response(jsonBoxId->valuestring, jsonMsgId->valueint, result);
         else
             responseMessage = mqtt_json_make_response(jsonBoxId->valuestring, jsonMsgId->valueint, result);
-        if (responseMessage != NULL)
-        {
-            TRACE_INFO ("response:\n%s\r\n", responseMessage);
-            free(responseMessage);
-        }
+    }
+    else 
+    {
+        responseMessage = mqtt_json_make_response(deviceName, 0, result);
     }
     cJSON_Delete(jsonMessage);
     free(procBuffer);
+    return responseMessage;
 }
