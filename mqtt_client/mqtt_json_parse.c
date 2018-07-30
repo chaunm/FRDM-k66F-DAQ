@@ -21,6 +21,35 @@
 /***********************************************************************************************************
 *                                        CONFIGURE MESSAGE PARSING                                        *
 ***********************************************************************************************************/
+/* parse id set message */
+static mqtt_json_result_t mqtt_json_parse_configure_id(cJSON* jsonMessage)
+{
+	cJSON* jsonMsgData;
+	jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
+	if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
+	{
+		TRACE_INFO("Configure device id, value: %s\r\n", jsonMsgData->valuestring);
+		if (strlen(jsonMsgData->valuestring) > DEVICE_NAME_MAX_LENGTH)
+			return MQTT_PARSE_DATA_ERROR;
+		//save to eeprom
+		uint8_t nameLength = strlen(jsonMsgData->valuestring);
+		memset(deviceName, 0, sizeof(deviceName));
+		memcpy(deviceName, jsonMsgData->valuestring, nameLength);
+		I2C_Get_Lock();
+		vTaskSuspendAll();
+		WriteEEPROM_Word(sSetting_Values[_DEV_NAME_LENGTH].addrEEPROM, nameLength);
+		for (int i = 0;  i < nameLength; i++)
+		{
+			WriteEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i, deviceName[i]);
+		}
+		xTaskResumeAll();
+		I2C_Release_Lock();
+		return MQTT_PARSE_SUCCESS;
+		/* Need to reboot device to apply change */
+	}
+	else
+		return MQTT_PARSE_DATA_ERROR;
+}
 /* parse temperature threshold */
 static mqtt_json_result_t mqtt_json_parse_conigure_temp_threshold(cJSON* jsonMessage)
 {
@@ -103,6 +132,27 @@ static mqtt_json_result_t mqtt_json_parse_configure_battery_threshold(cJSON* jso
     return MQTT_PARSE_SUCCESS;
 }
 
+/* Parse ac phase threshold voltage config message */
+static mqtt_json_result_t mqtt_json_parse_config_phase_threshold(cJSON* jsonMessage)
+{
+	cJSON*  jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
+	if (cJSON_IsNumber(jsonMsgData))
+	{
+		TRACE_INFO("Configure phase threshold voltage, value: %d\r\n", jsonMsgData->valueint);
+		// write to EEPROM
+		sMenu_Variable.u16AcThresVolt[0] = jsonMsgData->valueint; 
+		sMenu_Variable.u16AcThresVolt[1] = jsonMsgData->valueint; 
+		sMenu_Variable.u16AcThresVolt[2] = jsonMsgData->valueint; 
+		I2C_Get_Lock();
+		vTaskSuspendAll();
+		WriteEEPROM_Word(sSetting_Values[_AC_LOW].addrEEPROM,sMenu_Variable.u16AcThresVolt[0]); 
+		xTaskResumeAll();
+		I2C_Release_Lock();
+		return MQTT_PARSE_SUCCESS;
+	}
+	else
+		return MQTT_PARSE_DATA_ERROR;
+}
 /* Parse aircon set temperature configuration message */
 static mqtt_json_result_t mqtt_json_parse_configure_aircon_temperature(cJSON* jsonMessage)
 {
@@ -130,41 +180,133 @@ static mqtt_json_result_t mqtt_json_parse_configure_aircon_temperature(cJSON* js
     return MQTT_PARSE_SUCCESS;
 }
 
+/* Parse ip address set message */
+static mqtt_json_result_t mqtt_json_parse_config_device_ip(cJSON* jsonMessage)
+{
+	IpAddr ipAddr;
+	cJSON* jsonMsgData;
+	jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
+	if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
+	{
+		TRACE_INFO("Configure device ip, value: %s\r\n", jsonMsgData->valuestring);
+		if (ipStringToAddr(jsonMsgData->valuestring, &ipAddr))
+			return MQTT_PARSE_DATA_ERROR;
+		// save ip_addr to eeprom
+		I2C_Get_Lock();
+		vTaskSuspendAll();
+		WriteEEPROM_Word(sSetting_Values[_DEV_IP1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
+		WriteEEPROM_Word(sSetting_Values[_DEV_IP2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
+		WriteEEPROM_Word(sSetting_Values[_DEV_IP3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
+		WriteEEPROM_Word(sSetting_Values[_DEV_IP4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));
+		ReadMemory(_DEV_IP1,&sMenu_Variable.sEthernetSetting.u16DevIP[0]);
+		ReadMemory(_DEV_IP2,&sMenu_Variable.sEthernetSetting.u16DevIP[1]);
+		ReadMemory(_DEV_IP3,&sMenu_Variable.sEthernetSetting.u16DevIP[2]);
+		ReadMemory(_DEV_IP4,&sMenu_Variable.sEthernetSetting.u16DevIP[3]);
+		xTaskResumeAll();
+		I2C_Release_Lock();
+		return MQTT_PARSE_SUCCESS;
+	}
+	else 
+		return MQTT_PARSE_DATA_ERROR;
+}
+
+/* Parse subnet mask set message */
+static mqtt_json_result_t mqtt_json_parse_config_subnet(cJSON* jsonMessage)
+{
+	IpAddr ipAddr;
+	cJSON* jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
+	if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
+	{
+		TRACE_INFO("Configure subnet mask, value: %s\r\n", jsonMsgData->valuestring);
+		if (ipStringToAddr(jsonMsgData->valuestring, &ipAddr))
+			return MQTT_PARSE_DATA_ERROR;
+		// save ip_addr to eeprom
+		I2C_Get_Lock();
+		vTaskSuspendAll();
+		WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
+		WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
+		WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
+		WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));
+		ReadMemory(_DEV_SUBNET1,&sMenu_Variable.sEthernetSetting.u16DevSubnet[0]);
+		ReadMemory(_DEV_SUBNET2,&sMenu_Variable.sEthernetSetting.u16DevSubnet[1]);
+		ReadMemory(_DEV_SUBNET3,&sMenu_Variable.sEthernetSetting.u16DevSubnet[2]);
+		ReadMemory(_DEV_SUBNET4,&sMenu_Variable.sEthernetSetting.u16DevSubnet[3]);
+		xTaskResumeAll();
+		I2C_Release_Lock();
+		return MQTT_PARSE_SUCCESS;
+	}
+	else
+		return MQTT_PARSE_DATA_ERROR;
+}
+
+/* Parse gateway set message */
+static mqtt_json_result_t mqtt_json_parse_config_gateway(cJSON* jsonMessage)
+{
+	IpAddr ipAddr;
+	cJSON* jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
+	if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
+	{
+		TRACE_INFO("Configure gateway, value: %s\r\n", jsonMsgData->valuestring);
+		if (ipStringToAddr(jsonMsgData->valuestring, &ipAddr))
+			return MQTT_PARSE_DATA_ERROR;
+		// save ip_addr to eeprom
+		I2C_Get_Lock();
+		vTaskSuspendAll();
+		WriteEEPROM_Word(sSetting_Values[_DEV_GATEW1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
+		WriteEEPROM_Word(sSetting_Values[_DEV_GATEW2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
+		WriteEEPROM_Word(sSetting_Values[_DEV_GATEW3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
+		WriteEEPROM_Word(sSetting_Values[_DEV_GATEW4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));
+		ReadMemory(_DEV_GATEW1,&sMenu_Variable.sEthernetSetting.u16DevGateway[0]);
+		ReadMemory(_DEV_GATEW2,&sMenu_Variable.sEthernetSetting.u16DevGateway[1]);
+		ReadMemory(_DEV_GATEW3,&sMenu_Variable.sEthernetSetting.u16DevGateway[2]);
+		ReadMemory(_DEV_GATEW4,&sMenu_Variable.sEthernetSetting.u16DevGateway[3]);
+		xTaskResumeAll();
+		I2C_Release_Lock();
+		return MQTT_PARSE_SUCCESS;
+	}
+	else 
+		return MQTT_PARSE_DATA_ERROR;
+}
+
+/* Parse server ip config message */
+static mqtt_json_result_t mqtt_json_parse_config_server(cJSON* jsonMessage)
+{
+	IpAddr ipAddr;
+	cJSON* jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
+	if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
+	{
+		TRACE_INFO("Configure server ip, value: %s\r\n", jsonMsgData->valuestring);
+		if (ipStringToAddr(jsonMsgData->valuestring, &ipAddr))
+			return MQTT_PARSE_DATA_ERROR;
+		// save ip_addr to eeprom
+		I2C_Get_Lock();
+		vTaskSuspendAll();
+		WriteEEPROM_Word(sSetting_Values[_SERVER_IP1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
+		WriteEEPROM_Word(sSetting_Values[_SERVER_IP2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
+		WriteEEPROM_Word(sSetting_Values[_SERVER_IP3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
+		WriteEEPROM_Word(sSetting_Values[_SERVER_IP4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));   
+		ReadMemory(_SERVER_IP1,&sMenu_Variable.u16ServerIP[0]);
+		ReadMemory(_SERVER_IP2,&sMenu_Variable.u16ServerIP[1]);
+		ReadMemory(_SERVER_IP3,&sMenu_Variable.u16ServerIP[2]);
+		ReadMemory(_SERVER_IP4,&sMenu_Variable.u16ServerIP[3]);
+		xTaskResumeAll();
+		I2C_Release_Lock();
+		return MQTT_PARSE_SUCCESS;
+	}
+	else
+		return MQTT_PARSE_DATA_ERROR;
+}
+
 /* Parse configuration message */
 static mqtt_json_result_t mqtt_json_parse_configure_message(cJSON* jsonMessage)
 {
     cJSON *jsonParameter;
-    cJSON *jsonMsgData;
-    IpAddr ipAddr;
-    uint8_t i;
     jsonParameter = cJSON_GetObjectItem(jsonMessage, "parameter");
     if (cJSON_IsString(jsonParameter) && (jsonParameter->valuestring != NULL))
     {
         if (!strcmp(jsonParameter->valuestring, "id"))
         {
-            jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
-            if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
-            {
-                TRACE_INFO("Configure param: %s, value: %s\r\n", jsonParameter->valuestring, jsonMsgData->valuestring);
-                if (strlen(jsonMsgData->valuestring) > DEVICE_NAME_MAX_LENGTH)
-                    return MQTT_PARSE_DATA_ERROR;
-                //save to eeprom
-                uint8_t nameLength = strlen(jsonMsgData->valuestring);
-                memset(deviceName, 0, sizeof(deviceName));
-                memcpy(deviceName, jsonMsgData->valuestring, nameLength);
-                I2C_Get_Lock();
-                vTaskSuspendAll();
-                WriteEEPROM_Word(sSetting_Values[_DEV_NAME_LENGTH].addrEEPROM, nameLength);
-                for (i = 0;  i < nameLength; i++)
-                {
-                    WriteEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i, deviceName[i]);
-                }
-                xTaskResumeAll();
-                I2C_Release_Lock();
-                /* Need to reboot device to apply change */
-            }
-            else
-                return MQTT_PARSE_DATA_ERROR;
+            return mqtt_json_parse_configure_id(jsonMessage);
         }
         else if (!strcmp(jsonParameter->valuestring, "temperature_threshold"))
         {
@@ -176,22 +318,7 @@ static mqtt_json_result_t mqtt_json_parse_configure_message(cJSON* jsonMessage)
         }
         else if (!strcmp(jsonParameter->valuestring, "phase_threshold_voltage"))
         {
-            jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
-            if (cJSON_IsNumber(jsonMsgData))
-            {
-                TRACE_INFO("Configure param: %s, value: %d\r\n", jsonParameter->valuestring, jsonMsgData->valueint);
-                // write to EEPROM
-                sMenu_Variable.u16AcThresVolt[0] = jsonMsgData->valueint; 
-                sMenu_Variable.u16AcThresVolt[1] = jsonMsgData->valueint; 
-                sMenu_Variable.u16AcThresVolt[2] = jsonMsgData->valueint; 
-                I2C_Get_Lock();
-                vTaskSuspendAll();
-                WriteEEPROM_Word(sSetting_Values[_AC_LOW].addrEEPROM,sMenu_Variable.u16AcThresVolt[0]); 
-                xTaskResumeAll();
-                I2C_Release_Lock();
-            }
-            else
-                return MQTT_PARSE_DATA_ERROR;
+           mqtt_json_parse_config_phase_threshold(jsonMessage);
         }
         else if (!strcmp(jsonParameter->valuestring, "battery_threshold"))
         {
@@ -203,110 +330,26 @@ static mqtt_json_result_t mqtt_json_parse_configure_message(cJSON* jsonMessage)
         }
         else if (!strcmp(jsonParameter->valuestring, "device_ip"))
         {
-            jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
-            if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
-            {
-                TRACE_INFO("Configure param: %s, value: %s\r\n", jsonParameter->valuestring, jsonMsgData->valuestring);
-                if (ipStringToAddr(jsonMsgData->valuestring, &ipAddr))
-                    return MQTT_PARSE_DATA_ERROR;
-                // save ip_addr to eeprom
-                I2C_Get_Lock();
-                vTaskSuspendAll();
-                WriteEEPROM_Word(sSetting_Values[_DEV_IP1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
-                WriteEEPROM_Word(sSetting_Values[_DEV_IP2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
-                WriteEEPROM_Word(sSetting_Values[_DEV_IP3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
-                WriteEEPROM_Word(sSetting_Values[_DEV_IP4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));
-                ReadMemory(_DEV_IP1,&sMenu_Variable.sEthernetSetting.u16DevIP[0]);
-                ReadMemory(_DEV_IP2,&sMenu_Variable.sEthernetSetting.u16DevIP[1]);
-                ReadMemory(_DEV_IP3,&sMenu_Variable.sEthernetSetting.u16DevIP[2]);
-                ReadMemory(_DEV_IP4,&sMenu_Variable.sEthernetSetting.u16DevIP[3]);
-                xTaskResumeAll();
-                I2C_Release_Lock();
-            }
-            else 
-                return MQTT_PARSE_DATA_ERROR;
+            return mqtt_json_parse_config_device_ip(jsonMessage);
         }
         else if (!strcmp(jsonParameter->valuestring, "subnet_mask"))
         {
-            jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
-            if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
-            {
-                TRACE_INFO("Configure param: %s, value: %s\r\n", jsonParameter->valuestring, jsonMsgData->valuestring);
-                if (ipStringToAddr(jsonMsgData->valuestring, &ipAddr))
-                    return MQTT_PARSE_DATA_ERROR;
-                // save ip_addr to eeprom
-                I2C_Get_Lock();
-                vTaskSuspendAll();
-                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
-                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
-                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
-                WriteEEPROM_Word(sSetting_Values[_DEV_SUBNET4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));
-                ReadMemory(_DEV_SUBNET1,&sMenu_Variable.sEthernetSetting.u16DevSubnet[0]);
-                ReadMemory(_DEV_SUBNET2,&sMenu_Variable.sEthernetSetting.u16DevSubnet[1]);
-                ReadMemory(_DEV_SUBNET3,&sMenu_Variable.sEthernetSetting.u16DevSubnet[2]);
-                ReadMemory(_DEV_SUBNET4,&sMenu_Variable.sEthernetSetting.u16DevSubnet[3]);
-                xTaskResumeAll();
-                I2C_Release_Lock();
-            }
-            else
-                return MQTT_PARSE_DATA_ERROR;
+            return mqtt_json_parse_config_subnet(jsonMessage);
         }
         else if (!strcmp(jsonParameter->valuestring, "gateway"))
         {
-            jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
-            if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
-            {
-                TRACE_INFO("Configure param: %s, value: %s\r\n", jsonParameter->valuestring, jsonMsgData->valuestring);
-                if (ipStringToAddr(jsonMsgData->valuestring, &ipAddr))
-                    return MQTT_PARSE_DATA_ERROR;
-                // save ip_addr to eeprom
-                I2C_Get_Lock();
-                vTaskSuspendAll();
-                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
-                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
-                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
-                WriteEEPROM_Word(sSetting_Values[_DEV_GATEW4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));
-                ReadMemory(_DEV_GATEW1,&sMenu_Variable.sEthernetSetting.u16DevGateway[0]);
-                ReadMemory(_DEV_GATEW2,&sMenu_Variable.sEthernetSetting.u16DevGateway[1]);
-                ReadMemory(_DEV_GATEW3,&sMenu_Variable.sEthernetSetting.u16DevGateway[2]);
-                ReadMemory(_DEV_GATEW4,&sMenu_Variable.sEthernetSetting.u16DevGateway[3]);
-                xTaskResumeAll();
-                I2C_Release_Lock();
-            }
-            else 
-                return MQTT_PARSE_DATA_ERROR;
+            return mqtt_json_parse_config_gateway(jsonMessage);
         }
         else if (!strcmp(jsonParameter->valuestring, "server_ip"))
         {
-            jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
-            if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
-            {
-                TRACE_INFO("Configure param: %s, value: %s\r\n", jsonParameter->valuestring, jsonMsgData->valuestring);
-                if (ipStringToAddr(jsonMsgData->valuestring, &ipAddr))
-                    return MQTT_PARSE_DATA_ERROR;
-                // save ip_addr to eeprom
-                I2C_Get_Lock();
-                vTaskSuspendAll();
-                WriteEEPROM_Word(sSetting_Values[_SERVER_IP1].addrEEPROM,(uint16_t)(ipAddr.ipv4Addr & 0x000000FF));
-                WriteEEPROM_Word(sSetting_Values[_SERVER_IP2].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x0000FF00) >> 8));
-                WriteEEPROM_Word(sSetting_Values[_SERVER_IP3].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0x00FF0000) >> 16));
-                WriteEEPROM_Word(sSetting_Values[_SERVER_IP4].addrEEPROM,(uint16_t)((ipAddr.ipv4Addr & 0xFF000000) >> 24));   
-                ReadMemory(_SERVER_IP1,&sMenu_Variable.u16ServerIP[0]);
-                ReadMemory(_SERVER_IP2,&sMenu_Variable.u16ServerIP[1]);
-                ReadMemory(_SERVER_IP3,&sMenu_Variable.u16ServerIP[2]);
-                ReadMemory(_SERVER_IP4,&sMenu_Variable.u16ServerIP[3]);
-                xTaskResumeAll();
-                I2C_Release_Lock();
-            }
-            else
-                return MQTT_PARSE_DATA_ERROR;
+            return mqtt_json_parse_config_server(jsonMessage);
         }
         else
             return MQTT_PARSE_PARAM_ERROR;
     }
     else
         return MQTT_PARSE_PARAM_ERROR;
-    return MQTT_PARSE_SUCCESS;
+	return MQTT_PARSE_SUCCESS;
 }
 
 /***********************************************************************************************************
