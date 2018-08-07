@@ -218,7 +218,7 @@ error_t mqttConnect(NetInterface *interface)
 #endif
     
     //Set keep-alive value
-    mqttClientSetKeepAlive(&mqttClientContext, 3600);
+    mqttClientSetKeepAlive(&mqttClientContext, 30);
     
 #if (APP_SERVER_PORT == 80 || APP_SERVER_PORT == 443)
     //Set the hostname of the resource being requested
@@ -328,8 +328,7 @@ void mqttClientTask (void *param)
         else
         {
             //Process incoming events
-            error = mqttClientProcessEvents(&mqttClientContext, 100);
-            
+            error = mqttClientProcessEvents(&mqttClientContext, 10);            
             //Connection to MQTT server lost?
             if(error != NO_ERROR && error != ERROR_TIMEOUT)
             {
@@ -356,24 +355,25 @@ void mqttClientTask (void *param)
                         //Update connection state
                         mqttConnectionState = APP_STATE_NOT_CONNECTED;
                         //Recovery delay
-                        osDelayTask(10000);
+                        osDelayTask(1000);
                     }
                 }
 #if (MQTT_SEND_TEST_MSG == ENABLED)
                 //Initialize status code
-                           
+                static unsigned int packetID = 1;
                 //Send PUBLISH packet    
                 jsonMessage = cJSON_CreateObject();
                 jsonName = cJSON_CreateString(deviceName);
                 cJSON_AddItemToObject(jsonMessage, "id", jsonName);
-                jsonStatus = cJSON_CreateNumber(1234);
+                jsonStatus = cJSON_CreateNumber(packetID);
+                packetID++;
                 cJSON_AddItemToObject(jsonMessage, "message_id", jsonStatus);
                 char* publishMessage;
                 publishMessage = cJSON_Print(jsonMessage);
                 cJSON_Delete(jsonMessage);
                 
                 error = mqttClientPublish(&mqttClientContext, subscribeTopic,
-                                          publishMessage, strlen(publishMessage), MQTT_QOS_LEVEL_1, FALSE, NULL);
+                                          publishMessage, strlen(publishMessage), MQTT_QOS_LEVEL_2, FALSE, NULL);
                 free(publishMessage);
                 //Failed to publish data?
                 if(error)
