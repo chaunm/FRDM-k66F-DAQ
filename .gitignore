@@ -54,6 +54,7 @@ dkms.conf
 #IAR outout file
 iar/Debug
 iar/Release
+iar/Image
 iar/debug
 iar/release
 iar/debug/*

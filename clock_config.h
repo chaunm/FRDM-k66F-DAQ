@@ -32,25 +32,25 @@ void BOARD_InitBootClocks(void);
 #endif /* __cplusplus*/
 
 /*******************************************************************************
- ********************* Configuration BOARD_BootClockHSRUN **********************
+ ********************** Configuration BOARD_BootClockRUN ***********************
  ******************************************************************************/
 /*******************************************************************************
- * Definitions for BOARD_BootClockHSRUN configuration
+ * Definitions for BOARD_BootClockRUN configuration
  ******************************************************************************/
-#define BOARD_BOOTCLOCKHSRUN_CORE_CLOCK           180000000U  /*!< Core clock frequency: 180000000Hz */
+#define BOARD_BOOTCLOCKRUN_CORE_CLOCK             120000000U  /*!< Core clock frequency: 120000000Hz */
 
-/*! @brief MCG set for BOARD_BootClockHSRUN configuration.
+/*! @brief MCG set for BOARD_BootClockRUN configuration.
  */
-extern const mcg_config_t mcgConfig_BOARD_BootClockHSRUN;
-/*! @brief SIM module set for BOARD_BootClockHSRUN configuration.
+extern const mcg_config_t mcgConfig_BOARD_BootClockRUN;
+/*! @brief SIM module set for BOARD_BootClockRUN configuration.
  */
-extern const sim_clock_config_t simConfig_BOARD_BootClockHSRUN;
-/*! @brief OSC set for BOARD_BootClockHSRUN configuration.
+extern const sim_clock_config_t simConfig_BOARD_BootClockRUN;
+/*! @brief OSC set for BOARD_BootClockRUN configuration.
  */
-extern const osc_config_t oscConfig_BOARD_BootClockHSRUN;
+extern const osc_config_t oscConfig_BOARD_BootClockRUN;
 
 /*******************************************************************************
- * API for BOARD_BootClockHSRUN configuration
+ * API for BOARD_BootClockRUN configuration
  ******************************************************************************/
 #if defined(__cplusplus)
 extern "C" {
@@ -60,7 +60,7 @@ extern "C" {
  * @brief This function executes configuration of clocks.
  *
  */
-void BOARD_BootClockHSRUN(void);
+void BOARD_BootClockRUN(void);
 
 #if defined(__cplusplus)
 }

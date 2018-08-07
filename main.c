@@ -57,7 +57,7 @@ int_t main(void)
     error_t error;  
     OsTask *task;
     
-    BOARD_BootClockHSRUN();
+    BOARD_BootClockRUN();
     BOARD_InitPins();
     BOARD_InitLEDs();
     BOARD_InitLCD();
