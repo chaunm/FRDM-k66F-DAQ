@@ -2683,7 +2683,7 @@
         </option>
         <option>
           <name>IlinkRawBinaryFile</name>
-          <state>D:\Firmware zone\Mobifone\version 1\k66F-BOOTLOADER\Release\Exe\BOOTLOADER.bin</state>
+          <state>$PROJ_DIR$\bootloader\BOOTLOADER.bin</state>
         </option>
         <option>
           <name>IlinkRawBinarySymbol</name>
