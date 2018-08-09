@@ -39,6 +39,7 @@
 #endif
 
 /* Copy buffer size must be divided by IMAGE_SIZE and less than 248KB */
-#define COPY_BUFFER_SIZE    122880
+#define COPY_BUFFER_SIZE        122880
+#define FLASH_WRITE_ELEMENT     8
  
 #endif

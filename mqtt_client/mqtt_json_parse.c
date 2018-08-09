@@ -17,6 +17,7 @@
 #include "task.h"
 #include "access_control.h"
 #include "core/net.h"
+#include "ftp.h"
 
 /***********************************************************************************************************
 *                                        CONFIGURE MESSAGE PARSING                                        *
@@ -494,6 +495,24 @@ static mqtt_json_result_t mqtt_json_parse_control_message(cJSON* jsonMessage)
         return MQTT_PARSE_PARAM_ERROR;
 }
 
+/* parse firmware update message */
+static mqtt_json_result_t mqtt_json_parse_firmware_update_message(cJSON* jsonMessage)
+{
+    cJSON *jsonFileName;
+    cJSON *jsonFileSize;
+    cJSON *jsonServerIP;
+    jsonFileName = cJSON_GetObjectItem(jsonMessage, "file");
+    if ((!cJSON_IsString(jsonFileName)) || (jsonFileName->valuestring == NULL))
+        return MQTT_PARSE_DATA_ERROR;
+    jsonServerIP = cJSON_GetObjectItem(jsonMessage, "server");
+    if ((!cJSON_IsString(jsonServerIP)) || (jsonServerIP->valuestring == NULL))
+        return MQTT_PARSE_DATA_ERROR;
+    jsonFileSize = cJSON_GetObjectItem(jsonMessage, "size");
+    if ((!cJSON_IsNumber(jsonFileSize)) || (jsonFileSize->valueint < 0))
+        return MQTT_PARSE_BOXID_ERROR;
+    FTP_StartFirmwareUpdate(jsonFileName->valuestring, jsonServerIP->valuestring, jsonFileSize->valueint);
+    return MQTT_PARSE_SUCCESS;
+}
 /* Parse message receive from MQTT input topic */
 char* mqtt_json_parse_message(char* message, unsigned int length)
 {
@@ -567,6 +586,11 @@ char* mqtt_json_parse_message(char* message, unsigned int length)
     {
         TRACE_INFO("Resetting ...\r\n");
         hal_system_reset();
+    }
+    else if (!strcmp(jsonMsgType->valuestring, "firmware_update"))
+    {
+        TRACE_INFO("Parse firmware update message\r\n");
+        result = mqtt_json_parse_firmware_update_message(jsonMessage);
     }
     else
         result = MQTT_PARSE_TYPE_ERROR;

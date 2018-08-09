@@ -1642,18 +1642,18 @@
     </debuggerPlugins>
   </configuration>
   <configuration>
-    <name>Release</name>
+    <name>Image</name>
     <toolchain>
       <name>ARM</name>
     </toolchain>
-    <debug>0</debug>
+    <debug>1</debug>
     <settings>
       <name>C-SPY</name>
       <archiveVersion>2</archiveVersion>
       <data>
         <version>28</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>CInput</name>
           <state>1</state>
@@ -1684,7 +1684,7 @@
         </option>
         <option>
           <name>MemFile</name>
-          <state></state>
+          <state>$TOOLKIT_DIR$\CONFIG\debugger\NXP\MK66FN2M0xxx18.ddf</state>
         </option>
         <option>
           <name>RunToEnable</name>
@@ -1724,11 +1724,11 @@
         </option>
         <option>
           <name>OCDynDriverList</name>
-          <state>ARMSIM_ID</state>
+          <state>JLINK_ID</state>
         </option>
         <option>
           <name>OCLastSavedByProductVersion</name>
-          <state></state>
+          <state>7.80.2.11970</state>
         </option>
         <option>
           <name>UseFlashLoader</name>
@@ -1752,7 +1752,7 @@
         </option>
         <option>
           <name>FlashLoadersV3</name>
-          <state></state>
+          <state>$TOOLKIT_DIR$\config\flashloader\NXP\FlashK65Fxxx256K.board</state>
         </option>
         <option>
           <name>OCImagesSuppressCheck1</name>
@@ -1858,7 +1858,7 @@
       <data>
         <version>1</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>OCSimDriverInfo</name>
           <state>1</state>
@@ -1883,7 +1883,7 @@
       <data>
         <version>0</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>CCAngelHeartbeat</name>
           <state>1</state>
@@ -1926,7 +1926,7 @@
       <data>
         <version>0</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>CCadiMemory</name>
           <state>1</state>
@@ -1955,7 +1955,7 @@
       <data>
         <version>4</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>CatchSFERR</name>
           <state>1</state>
@@ -2134,7 +2134,7 @@
       <data>
         <version>0</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>OCDriverInfo</name>
           <state>1</state>
@@ -2171,7 +2171,7 @@
       <data>
         <version>1</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>CRomLogFileCheck</name>
           <state>0</state>
@@ -2202,7 +2202,7 @@
       <data>
         <version>8</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>CatchSFERR</name>
           <state>1</state>
@@ -2432,7 +2432,7 @@
       <data>
         <version>16</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>CCCatchSFERR</name>
           <state>0</state>
@@ -2541,7 +2541,7 @@
         <option>
           <name>CCJLinkResetList</name>
           <version>6</version>
-          <state>5</state>
+          <state>7</state>
         </option>
         <option>
           <name>CCJLinkInterfaceCmdLine</name>
@@ -2632,7 +2632,7 @@
       <data>
         <version>2</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>OCDriverInfo</name>
           <state>1</state>
@@ -2665,7 +2665,7 @@
       <data>
         <version>3</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>jtag</name>
           <version>0</version>
@@ -2754,7 +2754,7 @@
       <data>
         <version>3</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>OCDriverInfo</name>
           <state>1</state>
@@ -2779,7 +2779,7 @@
       <data>
         <version>2</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>CRDIDriverDll</name>
           <state>###Uninitialized###</state>
@@ -2836,7 +2836,7 @@
       <data>
         <version>3</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>OCDriverInfo</name>
           <state>1</state>
@@ -2947,7 +2947,7 @@
       <data>
         <version>0</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>CThirdPartyDriverDll</name>
           <state>###Uninitialized###</state>
@@ -2972,7 +2972,7 @@
       <data>
         <version>1</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>OCDriverInfo</name>
           <state>1</state>
@@ -3043,7 +3043,7 @@
       <data>
         <version>6</version>
         <wantNonLocal>1</wantNonLocal>
-        <debug>0</debug>
+        <debug>1</debug>
         <option>
           <name>OCDriverInfo</name>
           <state>1</state>
@@ -3281,7 +3281,7 @@
     </debuggerPlugins>
   </configuration>
   <configuration>
-    <name>Image</name>
+    <name>Release</name>
     <toolchain>
       <name>ARM</name>
     </toolchain>

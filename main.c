@@ -41,9 +41,13 @@
 #include "mqtt_client/app_mqtt_client.h"
 #endif
 
+#include "ftp.h"
+
 // inclusion for ppp
 #include "modem_Interface.h"
 #include "modem.h"
+
+#define __FIRMWARE_VERSION        "v1.0.6"
 
 /**
 * @brief Main entry point
@@ -76,9 +80,10 @@ int_t main(void)
 #endif
       //Start-up message
     TRACE_INFO("\r\n");
-    TRACE_INFO("**********************************\r\n");
-    TRACE_INFO("*** Site Monitoring Device ***\r\n");
-    TRACE_INFO("**********************************\r\n");
+    TRACE_INFO("***********************************\r\n");
+    TRACE_INFO("***** Site Monitoring Device ******\r\n");
+    TRACE_INFO("***********************************\r\n");
+    TRACE_INFO("Firmware verison %s, build %s %s\r\n\r\n", __FIRMWARE_VERSION, __DATE__, __TIME__);
     TRACE_INFO("\r\n");
     TRACE_INFO("Reset cause SRS0: 0x%02X SRS1: 0x%02X\r\n", RCM->SRS0, RCM->SRS1);
     // Init Led
@@ -135,6 +140,8 @@ int_t main(void)
     else
       TRACE_ERROR("Failed to create SNMP Client!\r\n");
 #endif
+// test ftp task
+    FTP_StartFirmwareUpdate("DAQ_FIRMWARE.bin", "192.168.1.13", 214572);
     // Declare application Task and timer
     UserTaskInit();
     

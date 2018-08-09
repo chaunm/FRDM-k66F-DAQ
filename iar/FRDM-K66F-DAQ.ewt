@@ -3575,6 +3575,12 @@
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_enet.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flash.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flash.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\devices\MK66F18\drivers\fsl_flexbus.c</name>
     </file>
     <file>

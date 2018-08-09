@@ -3,7 +3,7 @@
 #include "core/net.h"
 
 #define FTP_FIRMWARE_MAX_SIZE		983040
-#define FTP_FIRMWARE_BUFFER_SIZE	32768 // firmware buffer size must be even divided by firmware max size
+#define FTP_FIRMWARE_BUFFER_SIZE	1024 // firmware buffer size must be even divided by firmware max size
 
 typedef struct stFtpServerInfo {
 	char* serverIp;

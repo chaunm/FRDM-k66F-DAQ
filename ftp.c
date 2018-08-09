@@ -11,15 +11,20 @@
 
 #include "internal_flash.h"
 #include "hal_system.h"
+#include "snmpConnect_manager.h"
 #include <stdlib.h>
 
 #define FTP_USER		"DAQ_FIRMWARE"
-#define FTP_PSW			"1234@5678"
-#define FIRMWARE_FILE	"DAQ_IMAGE.bin"
+#define FTP_PSW			"12345678"
+#define FTP_SERVER_PORT 21
 #define FIRMWARE_KEY_1	0x55AAAA55
 #define FIRMWARE_KEY_2 	0x2112FEEF
 
+
 uint8_t firmwareBuffer[FTP_FIRMWARE_BUFFER_SIZE];
+uint8_t fwWriteBuffer[FTP_FIRMWARE_BUFFER_SIZE];
+size_t writeBufferOffset;
+
 FtpServerInfo_t firmwareInfo;
 TaskHandle_t ftpFirmwareTask;
 
@@ -35,10 +40,11 @@ void FTP_FirmwareUpdateTask(void* param)
     error_t error;
 	bool imageGetStatus;
     size_t length;   
-	size_t totalRead;
+	size_t totalRead, totalWrite;
 	imageGetStatus = false;
 	uint32_t imageUpdateKey[2] = {FIRMWARE_KEY_1, FIRMWARE_KEY_2};
 	uint32_t flashAddr = IMAGE_START_ADDR;
+    size_t writeBufferFreeCount;
     //Debug message
     TRACE_INFO("\r\n\r\nResolving server name...\r\n");
     error = getHostByName(NULL, serverInfo->serverIp, &ipAddr, 0);
@@ -53,8 +59,9 @@ void FTP_FirmwareUpdateTask(void* param)
     
     //Debug message
     TRACE_INFO("Connecting to FTP server %s\r\n", ipAddrToString(&ipAddr, NULL));
-    //Connect to the FTP server
-    error = ftpConnect(&ftpContext, NULL, &ipAddr, 21, FTP_NO_SECURITY | FTP_PASSIVE_MODE);
+    osDelayTask(10000);
+    //Connect to the FTP server using active interface
+    error = ftpConnect(&ftpContext, interfaceManagerGetActiveInterface(), &ipAddr, FTP_SERVER_PORT, FTP_NO_SECURITY | FTP_PASSIVE_MODE);
     
     if(error)
     {
@@ -72,30 +79,64 @@ void FTP_FirmwareUpdateTask(void* param)
 	IFLASH_Init();
 	IFLASH_Erase(IMAGE_START_ADDR, IMAGE_SIZE);
 	totalRead = 0;
+    totalWrite = 0;
+    writeBufferOffset = 0;
     do
     {
         //Login to the FTP server using the provided username and password
         error = ftpLogin(&ftpContext, FTP_USER, FTP_PSW, "");
-        if(error) break;
+        if(error) 
+            break;
         //Open file
-        error = ftpOpenFile(&ftpContext, FIRMWARE_FILE, FTP_FOR_READING | FTP_BINARY_TYPE);
-        if(error) break;
+        error = ftpOpenFile(&ftpContext, serverInfo->fileName, FTP_FOR_READING | FTP_BINARY_TYPE);
+        if(error) 
+            break;
         
         while(1)
         {
             //Read data
             error = ftpReadFile(&ftpContext, firmwareBuffer, FTP_FIRMWARE_BUFFER_SIZE, &length, 0);
-			totalRead += length;
             //End of file?
             if(error) 
 				break;
-			// data read size must be evenly devided by 4 since 4 is the smallest size can be write to flash
-			if (((length % 4) != 0) && (totalRead != serverInfo->fileSize))
-			{
-				break;
-			}
-			// write image to flash
-			IFLASH_CopyRamToFlash(flashAddr, (uint32_t*)firmwareBuffer, length);
+            totalRead += length;
+            TRACE_INFO("Read %d bytes, total %d bytes of %d bytes\r\n", length, totalRead, serverInfo->fileSize);
+            // data alignment for flash to write is 8 bytes
+            // this code for handle data alignment
+            writeBufferFreeCount = FTP_FIRMWARE_BUFFER_SIZE - writeBufferOffset;
+            if (length <= writeBufferFreeCount)
+            {
+                memcpy(fwWriteBuffer + writeBufferOffset, firmwareBuffer, length);
+                writeBufferOffset += length;
+                if (writeBufferOffset == FTP_FIRMWARE_BUFFER_SIZE)
+                {
+                    IFLASH_CopyRamToFlash(flashAddr, (uint32_t*)fwWriteBuffer, FTP_FIRMWARE_BUFFER_SIZE);
+                    totalWrite += FTP_FIRMWARE_BUFFER_SIZE;
+                    TRACE_INFO("Write %d bytes of %d\r\n", totalWrite, serverInfo->fileSize);
+                    flashAddr += FTP_FIRMWARE_BUFFER_SIZE;               
+                    memset(fwWriteBuffer, 0xFF, sizeof(fwWriteBuffer));
+                }                  
+            }
+            else
+            {
+                memcpy(fwWriteBuffer + writeBufferFreeCount, firmwareBuffer, writeBufferFreeCount);
+                // write buffer is already full, write buffer to flash
+                IFLASH_CopyRamToFlash(flashAddr, (uint32_t*)fwWriteBuffer, FTP_FIRMWARE_BUFFER_SIZE);
+                memset(fwWriteBuffer, 0xFF, sizeof(fwWriteBuffer));
+                totalWrite += FTP_FIRMWARE_BUFFER_SIZE;
+                TRACE_INFO("Write %d bytes of %d\r\n", totalWrite, serverInfo->fileSize);
+                flashAddr += FTP_FIRMWARE_BUFFER_SIZE;
+                // copy remaining read data to write buffer
+                memcpy(fwWriteBuffer, firmwareBuffer + writeBufferFreeCount, length - writeBufferFreeCount);
+                writeBufferOffset = length - writeBufferFreeCount;                
+            }
+            // if read all data from server, write remaining data in writeBuffer to flash
+            if (totalRead == serverInfo->fileSize)
+            {                
+                IFLASH_CopyRamToFlash(flashAddr, (uint32_t*)fwWriteBuffer, FTP_FIRMWARE_BUFFER_SIZE);
+                totalWrite += writeBufferOffset;
+                TRACE_INFO("Write %d bytes of %d\r\n", totalWrite, serverInfo->fileSize);        
+            }
         }
         if (totalRead != serverInfo->fileSize)
 		{
