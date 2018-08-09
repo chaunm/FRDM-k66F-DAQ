@@ -1,0 +1,54 @@
+Giao thức điều khiển thiết bị sử dụng MQTT
+1.MQTT topics 
+Mỗi thiết bị sẽ subscribe vào topic: DAQ/BOX_ID; trong đó, BOX_ID là id của thiết bị (ví dụ BOX0001).
+Khi cần cập nhật thông tin về server, thiết bị sẽ publish gói tin vào các topic sau:
+- DAQ/event: Thiết bị gửi các gói tin cập nhật thông tin như như alarm, các thông số nhiệt độ độ ẩm đo được ...
+- DAQ/response: Thiết bị gửi response sau khi nhận được gói tin configure hoặc control
+2. Giao thức điều khiển
+- Để điều khiển thiết bị, server sẽ publish message vào topic tương ứng của thiết bị (DAQ/BOX_ID).
+- Các gói tin theo định dạng JSON như sau:
+- Config:
+{
+  id: Device box ID
+  message_id: id of the message
+  type: "config"
+  parameter: "id", "card", ...
+  data: configuration data
+}
+sau khi nhận được gói tin thiết bị sẽ phản hồi
+{
+  id: Device box ID
+  message_id: id of the config message
+  resule: succeed/failure
+}
+parameter là thông số cần configue: Ví dụ: box_id, mã thẻ RFID hay các cài đặt khác...
+data: là thông tin để cài đặt
+	parameter			  	data`
+	id						BOX_ID
+	card					{card_position: 1..5; card_id: 6 bytes}
+	temp_threshold_[1..4]	temperature threadhold
+	device_ip				ipv4 in 32bit format
+	subnet_mask				subnet_mask in 32bit format
+	gateway					gateway ip in 32bit format
+	server_ip				ipv4 in 32bit format	
+	...
+- control
+{
+  id: Device box ID
+  message_id: message_id
+  type: "control"
+  parameter: "door", "alarm", ...
+  data: control data
+}
+parameter là loại thiết bị cần điều khiển. Ví dụ: door, alarm
+data: là thông tin để cài đặt
+	parameter			data`
+	door				0 - close; 1 - open
+	alarm				0 - turn off alarm; 1 - turn on alarm
+	...
+Sau khi nhận được thiết bị sẽ phản hồi như sau:
+{
+  id: Device box ID
+  message_id: id of the control message
+  resule: succeed/failure
+}

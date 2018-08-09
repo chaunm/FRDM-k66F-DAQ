@@ -3818,6 +3818,18 @@
       </file>
     </group>
     <group>
+      <name>flash</name>
+      <file>
+        <name>$PROJ_DIR$\..\internal_flash.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\internal_flash.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\partition.h</name>
+      </file>
+    </group>
+    <group>
       <name>ftp</name>
       <file>
         <name>$PROJ_DIR$\..\ftp.c</name>

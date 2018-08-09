@@ -1,0 +1,44 @@
+#ifndef __PARTITION_H__
+#define __PARTITION_H__
+#include "fsl_flash.h"
+#define SECTOR_SIZE         0x1000
+/* BOOTLOADER PARTITION 64KB: 0x00000000 - 0x0000FFFF */
+#define BOOTLOADER_START_ADDR       0x00000000
+#define BOOTLOADER_END_ADDR         0x0000FFFF
+#define BOOTLOADER_SIZE             0x00010000
+#define BOOTLOADER_START_SECTOR     0
+#define BOOTLOADER_END_SECTOR       15
+
+/* APPLICATION SECTOR 960KB: 0x00010000 - 0x000FFFFF */
+#define APPLICATION_START_ADDR      0x00010000
+#define APPLICATION_END_ADDR        0x000FFFFF
+#define APPLICATION_SIZE            0x000F0000
+#define APPLICATION_START_SECTOR    16
+#define APPLICATION_END_SECTOR      255
+
+/* IMAGE SECTOR 960KB: 0x00100000 - 0x001F0000 */
+#define IMAGE_START_ADDR            0x00100000
+#define IMAGE_END_ADDR              0x001EFFFF
+#define IMAGE_SIZE                  0x000F0000
+#define IMAGE_START_SECTOR          256
+#define IMAGE_END_SECTOR            495
+
+/* INFORMATION SECTOR: remaining memory exclude the SWAP indication section */
+#if defined(FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP) && FSL_FEATURE_FLASH_HAS_PFLASH_BLOCK_SWAP
+#define INFORMATION_START_ADDR            0x001F0000
+#define INFORMATION_END_ADDR              0x001FEFFF
+#define INFORMATION_SIZE                  0x0000F000
+#define INFORMATION_START_SECTOR          496
+#define INFORMATION_END_SECTOR            510
+#else
+#define INFORMATION_START_ADDR            0x001F0000
+#define INFORMATION_END_ADDR              0x001FFFFF
+#define INFORMATION_SIZE                  0x00010000
+#define INFORMATION_START_SECTOR          496
+#define INFORMATION_END_SECTOR            511
+#endif
+
+/* Copy buffer size must be divided by IMAGE_SIZE and less than 248KB */
+#define COPY_BUFFER_SIZE    122880
+ 
+#endif
