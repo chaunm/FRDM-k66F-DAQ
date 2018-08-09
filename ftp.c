@@ -142,7 +142,7 @@ void FTP_FirmwareUpdateTask(void* param)
                 TRACE_INFO("Write %d bytes of %d\r\n", totalWrite, serverInfo->fileSize);        
             }
         }
-        if (totalRead != serverInfo->fileSize)
+        if (totalWrite != serverInfo->fileSize)
 		{
 			TRACE_INFO("Read file error \r\n");
 			// erase flash

@@ -141,7 +141,7 @@ int_t main(void)
       TRACE_ERROR("Failed to create SNMP Client!\r\n");
 #endif
 // test ftp task
-    FTP_StartFirmwareUpdate("DAQ_FIRMWARE.bin", "192.168.1.13", 214572);
+//    FTP_StartFirmwareUpdate("DAQ_FIRMWARE.bin", "192.168.1.13", 214572);
     // Declare application Task and timer
     UserTaskInit();
     
