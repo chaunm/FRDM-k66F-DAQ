@@ -34,6 +34,7 @@ cJSON* jsonMessage = NULL;
 cJSON* jsonStatus = NULL;
 cJSON* jsonName = NULL;
 
+TaskHandle_t mqttMsgTask;
 QueueHandle_t mqttRcvQueue;
 QueueHandle_t mqttPubQueue;
 char subscribeTopic[32];
@@ -294,7 +295,7 @@ void mqttClientTask (void *param)
         TRACE_INFO("Can't create publish queue\r\n");
         vTaskDelete(NULL);
     }
-    if (xTaskCreate(mqttMsgHandleTask, "mqtt_handle_receive", MQTT_RECV_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL) != pdPASS)
+    if (xTaskCreate(mqttMsgHandleTask, "mqtt_handle_receive", MQTT_RECV_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, &mqttMsgTask) != pdPASS)
         vTaskDelete(NULL);
     //Endless loop
     while(1)

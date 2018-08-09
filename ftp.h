@@ -11,5 +11,6 @@ typedef struct stFtpServerInfo {
 	size_t fileSize;
 } FtpServerInfo_t;
 
+void FTP_StartFirmwareUpdate(const char* fileName, const char* serverIp, uint32_t fileSize);
 
 #endif

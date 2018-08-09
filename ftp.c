@@ -3,9 +3,15 @@
 #include "ftp/ftp_client.h"
 #include "ftp.h"
 #include "debug.h"
-#include "freeRTOS.h"
+// FreeRTOS inclustions
+#include "os_port_config.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+
 #include "internal_flash.h"
 #include "hal_system.h"
+#include <stdlib.h>
 
 #define FTP_USER		"DAQ_FIRMWARE"
 #define FTP_PSW			"1234@5678"
@@ -14,11 +20,13 @@
 #define FIRMWARE_KEY_2 	0x2112FEEF
 
 uint8_t firmwareBuffer[FTP_FIRMWARE_BUFFER_SIZE];
+FtpServerInfo_t firmwareInfo;
+TaskHandle_t ftpFirmwareTask;
+
 /**
 * @brief FTP client test routine
 * @return Error code
 **/
-
 void FTP_FirmwareUpdateTask(void* param)
 {
 	FtpServerInfo_t* serverInfo = (FtpServerInfo_t*)param;
@@ -38,6 +46,8 @@ void FTP_FirmwareUpdateTask(void* param)
     {
         //Debug message
         TRACE_INFO("Failed to resolve server name!\r\n");
+		free(serverInfo->fileName);
+		free(serverInfo->serverIp);
         vTaskDelete(NULL);
     }
     
@@ -50,6 +60,8 @@ void FTP_FirmwareUpdateTask(void* param)
     {
         //Debug message
         TRACE_INFO("Failed to connect to FTP server!\r\n");
+		free(serverInfo->fileName);
+		free(serverInfo->serverIp);
         //Exit immediately
         vTaskDelete(NULL);
     }
@@ -105,7 +117,9 @@ void FTP_FirmwareUpdateTask(void* param)
     } while(0);
     
     //Close the connection
-    ftpClose(&ftpContext);
+	ftpClose(&ftpContext);
+	free(serverInfo->fileName);
+	free(serverInfo->serverIp);
     //Debug message
     TRACE_INFO("Connection closed...\r\n");
     if (imageGetStatus == true)
@@ -125,4 +139,33 @@ void FTP_FirmwareUpdateTask(void* param)
 	}
     //Return status code
     vTaskDelete(NULL);
+}
+
+void FTP_SetInformation(const char* fileName, const char* serverIp, uint32_t fileSize)
+{
+	char *name;
+	char *server;
+	name = malloc(strlen(fileName) + 1);
+	server = malloc(strlen(serverIp) + 1);
+	memcpy(name, fileName, strlen(fileName));
+	memcpy(server, serverIp, strlen(serverIp));
+	name[strlen(fileName)] = 0;
+	server[strlen(serverIp)] = 0;
+	firmwareInfo.fileSize = fileSize;
+	firmwareInfo.fileName = name;
+	firmwareInfo.serverIp = server;
+}
+
+void FTP_StartFirmwareUpdate(const char* fileName, const char* serverIp, uint32_t fileSize)
+{
+	if ((fileName == NULL) || (serverIp == NULL) || (fileSize == 0) || (fileSize > FTP_FIRMWARE_MAX_SIZE))
+	{
+		TRACE_INFO("Invalid firmware value\r\n");
+		return;
+	}
+	FTP_SetInformation(fileName, serverIp, fileSize);
+	if (xTaskCreate(FTP_FirmwareUpdateTask, "ftp firmware task", 1024, (void*)&firmwareInfo, tskIDLE_PRIORITY + 1, &ftpFirmwareTask) != pdPASS)
+	{
+		TRACE_INFO("Create ftp task failed\r\n");
+	}
 }
