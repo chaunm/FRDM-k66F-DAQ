@@ -111,21 +111,25 @@ void FTP_FirmwareUpdateTask(void* param)
                 if (writeBufferOffset == FTP_FIRMWARE_BUFFER_SIZE)
                 {
                     IFLASH_CopyRamToFlash(flashAddr, (uint32_t*)fwWriteBuffer, FTP_FIRMWARE_BUFFER_SIZE);
+                    memset(fwWriteBuffer, 0xFF, sizeof(fwWriteBuffer));
                     totalWrite += FTP_FIRMWARE_BUFFER_SIZE;
+                    writeBufferOffset  = 0;
                     TRACE_INFO("Write %d bytes of %d\r\n", totalWrite, serverInfo->fileSize);
                     flashAddr += FTP_FIRMWARE_BUFFER_SIZE;               
-                    memset(fwWriteBuffer, 0xFF, sizeof(fwWriteBuffer));
-                }                  
+                    
+                   
+                }                 
             }
             else
             {
-                memcpy(fwWriteBuffer + writeBufferFreeCount, firmwareBuffer, writeBufferFreeCount);
+                memcpy(fwWriteBuffer + writeBufferOffset, firmwareBuffer, writeBufferFreeCount);
                 // write buffer is already full, write buffer to flash
-                IFLASH_CopyRamToFlash(flashAddr, (uint32_t*)fwWriteBuffer, FTP_FIRMWARE_BUFFER_SIZE);
-                memset(fwWriteBuffer, 0xFF, sizeof(fwWriteBuffer));
+                IFLASH_CopyRamToFlash(flashAddr, (uint32_t*)fwWriteBuffer, FTP_FIRMWARE_BUFFER_SIZE);                
+                memset(fwWriteBuffer, 0xFF, sizeof(fwWriteBuffer));                
                 totalWrite += FTP_FIRMWARE_BUFFER_SIZE;
                 TRACE_INFO("Write %d bytes of %d\r\n", totalWrite, serverInfo->fileSize);
                 flashAddr += FTP_FIRMWARE_BUFFER_SIZE;
+                writeBufferOffset  = 0;
                 // copy remaining read data to write buffer
                 memcpy(fwWriteBuffer, firmwareBuffer + writeBufferFreeCount, length - writeBufferFreeCount);
                 writeBufferOffset = length - writeBufferFreeCount;                
