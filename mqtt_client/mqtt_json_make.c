@@ -9,6 +9,7 @@
 #include "mqtt_json_make.h"
 #include "mqtt_json_type.h"
 #include "cJSON.h"
+#include "debug.h"
 
 /* Make online message */
 char* mqtt_json_make_online_message(char* boxID)
@@ -18,7 +19,7 @@ char* mqtt_json_make_online_message(char* boxID)
 	jsonEvent = cJSON_CreateObject();
 	if (jsonEvent == NULL)
 	{
-		printf("Not enough memory to create json response message\r\n");
+		TRACE_INFO("Not enough memory to create json response message\r\n");
 		return NULL;
 	}
 	cJSON_AddStringToObject(jsonEvent, "id", boxID);
@@ -37,7 +38,7 @@ char* mqtt_json_make_response(char* boxID, unsigned int messageID, mqtt_json_res
 	jsonResponse = cJSON_CreateObject();
 	if (jsonResponse == NULL)
 	{
-		printf("Not enough memory to create json response message\r\n");
+		TRACE_INFO("Not enough memory to create json response message\r\n");
 		return NULL;
 	}
 	cJSON_AddStringToObject(jsonResponse, "id", boxID);
@@ -46,4 +47,26 @@ char* mqtt_json_make_response(char* boxID, unsigned int messageID, mqtt_json_res
 	responseMessage = cJSON_Print(jsonResponse);
 	cJSON_Delete(jsonResponse);
 	return responseMessage;
+}
+
+/* Make firmware update report data */
+char* mqtt_json_make_fw_update_result(char* boxID, char* serverIP, char* fileName, int32_t result)
+{
+	cJSON* jsonMessage;
+	char* responseMessage;
+	jsonMessage = cJSON_CreateObject();
+	if (jsonMessage == NULL)
+	{
+		TRACE_INFO("Not enough memory to create json message\r\n");
+		return NULL;
+	}
+	cJSON_AddStringToObject(jsonMessage, "id", boxID);
+	cJSON_AddStringToObject(jsonMessage, "type", "firmware_update");
+	cJSON_AddStringToObject(jsonMessage, "server", serverIP);
+	cJSON_AddStringToObject(jsonMessage, "file", fileName);			
+	cJSON_AddNumberToObject(jsonMessage, "error_code", result);
+	responseMessage = cJSON_Print(jsonMessage);
+	cJSON_Delete(jsonMessage);
+	return responseMessage;
+		
 }
