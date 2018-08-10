@@ -75,8 +75,22 @@ void FTP_FirmwareUpdateTask(void* param)
     }
     
     //Debug message
-    TRACE_INFO("Connecting to FTP server %s\r\n", ipAddrToString(&ipAddr, NULL));
-    osDelayTask(10000);
+    TRACE_INFO("Connecting to FTP server for firmware update%s\r\n", ipAddrToString(&ipAddr, NULL));
+//    osDelayTask(10000);
+	if (interfaceManagerGetActiveInterface() == NULL)
+	{
+		TRACE_INFO("Failed to resolve server name!\r\n");
+		reportMessage = mqtt_json_make_fw_update_result(deviceName, serverInfo->serverIp, serverInfo->fileName, 
+														(int32_t)FW_UPDATE_STATUS_NETWORK_ERROR);
+		mqttPublishMsg(MQTT_EVENT_TOPIC, reportMessage, strlen(reportMessage));
+		free(reportMessage);
+		free(serverInfo->fileName);
+		free(serverInfo->serverIp);
+		serverInfo->fileName = NULL;
+		serverInfo->serverIp = NULL;
+		serverInfo->fileSize = 0;
+        vTaskDelete(NULL);
+	}
     //Connect to the FTP server using active interface
     error = ftpConnect(&ftpContext, interfaceManagerGetActiveInterface(), &ipAddr, FTP_SERVER_PORT, FTP_NO_SECURITY | FTP_PASSIVE_MODE);
     

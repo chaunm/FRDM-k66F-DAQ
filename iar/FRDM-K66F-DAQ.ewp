@@ -1625,7 +1625,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>FRDM-K66F-DAQ-image.bin</state>
+          <state>FRDM-K66F-DAQ.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>

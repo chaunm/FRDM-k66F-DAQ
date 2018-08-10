@@ -47,8 +47,6 @@
 #include "modem_Interface.h"
 #include "modem.h"
 
-#define __FIRMWARE_VERSION        "v1.0.6"
-
 /**
 * @brief Main entry point
 * @return Unused value
