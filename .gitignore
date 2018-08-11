@@ -61,4 +61,7 @@ iar/debug/*
 iar/release/*
 iar/settings
 iar/settings/*
+iar/DEBUG_UART
+iar/Release_uart
+iar/Image_uart
 clock_config_1.*

@@ -33,10 +33,6 @@
 
 #include "clock_config.h"
 #include "fsl_gpio.h"
-#ifndef DEBUG_UART
-#define DEBUG_UART				4
-#endif
-
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -45,10 +41,11 @@
 #define BOARD_NAME "FRDM-K66F"
 
  // CanhLT - 23/12 -- chaunm - disable debug console by undef this 
-//#define DEBUG_CONSOLE_UART4
- 
+#if (SDK_DEBUGCONSOLE)
+    #define DEBUG_CONSOLE_UART4
+#endif
 #ifndef DEBUG_UART
-#define DEBUG_UART 4
+    #define DEBUG_UART 4
 #endif
 /*! @brief The UART to use for debug messages. */
 #if (DEBUG_UART == 0)
