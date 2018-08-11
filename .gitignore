@@ -61,5 +61,4 @@ iar/debug/*
 iar/release/*
 iar/settings
 iar/settings/*
-iar/*.dep
 clock_config_1.*

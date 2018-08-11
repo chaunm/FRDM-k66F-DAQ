@@ -30,6 +30,7 @@
 //Dependencies
 #include <stdio.h>
 #include "os_port.h"
+#include "fsl_debug_console.h"
 
 //Trace level definitions
 #define TRACE_LEVEL_OFF      0
@@ -47,6 +48,7 @@
 //Trace output redirection
 #ifndef TRACE_PRINTF
    #define TRACE_PRINTF(...) osSuspendAllTasks(), fprintf(stderr, __VA_ARGS__), osResumeAllTasks()
+   //#define TRACE_PRINTF(...) osSuspendAllTasks(), PRINTF(__VA_ARGS__), osResumeAllTasks() // chauNM
 #endif
 
 #ifndef TRACE_ARRAY
