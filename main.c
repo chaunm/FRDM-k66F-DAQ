@@ -69,12 +69,8 @@ int_t main(void)
     BOARD_InitIOs();
     BOARD_InitBUTTONs();
     BOARD_InitGPRS();
-#if (USERDEF_DEBUG_USING == ENABLED) 
-    BOARD_InitDebugConsole();
-#else
 #ifdef DEBUG_CONSOLE_UART4
     BOARD_InitDebugConsole();
-#endif
 #endif
       //Start-up message
     TRACE_INFO("\r\n");

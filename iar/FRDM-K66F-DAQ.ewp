@@ -105,7 +105,7 @@
         </option>
         <option>
           <name>GenStdoutInterface</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GeneralMisraRules98</name>
@@ -132,11 +132,11 @@
         </option>
         <option>
           <name>OGUseCmsis</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>OGUseCmsisDspLib</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GRuntimeLibThreads</name>
@@ -191,8 +191,6 @@
           <state>EVAL_LICENSE_TERMS_ACCEPTED</state>
           <state>HAVE_CONFIG_H</state>
           <state>HAVE_STDINT_H</state>
-          <state>DEBUG_CONSOLE_UART4</state>
-          <state>SDK_DEBUGCONSOLE=1</state>
         </option>
         <option>
           <name>CCPreprocFile</name>

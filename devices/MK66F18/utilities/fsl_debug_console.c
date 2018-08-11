@@ -1704,6 +1704,7 @@ static int DbgConsole_ScanfFormattedData(const char *line_ptr, char *format, va_
 #endif /* SDK_DEBUGCONSOLE */
 /*************Code to support toolchain's printf, scanf *******************************/
 /* These function __write and __read is used to support IAR toolchain to printf and scanf*/
+#if defined(SDK_DEBUGCONSOLE) && (SDK_DEBUGCONSOLE)
 #if (defined(__ICCARM__))
 #pragma weak __write
 size_t __write(int handle, const unsigned char *buffer, size_t size)
@@ -1755,6 +1756,7 @@ size_t __read(int handle, unsigned char *buffer, size_t size)
     return size;
 }
 /* These function __write and __read is used to support ARM_GCC, KDS, Atollic toolchains to printf and scanf*/
+
 #elif(defined(__GNUC__))
 int __attribute__((weak)) _write(int handle, char *buffer, int size)
 {
@@ -1845,3 +1847,4 @@ int fgetc(FILE *f)
     return ch;
 }
 #endif /* __ICCARM__ */
+#endif /* defined(SDK_DEBUGCONSOLE) && (SDK_DEBUGCONSOLE) */
