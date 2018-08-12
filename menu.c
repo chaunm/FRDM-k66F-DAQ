@@ -42,7 +42,7 @@ sSetting_Values_Struct		sSetting_Values[NUMBER_OF_SETTING] =          // chaunm 
     {1     ,     0,     255,   12,     0,   192,      0},  //_DEV_IP1
     {1     ,     0,     255,   14,     0,   168,      0},  //_DEV_IP2
     {1     ,     0,     255,   16,     0,     1,      0},  //_DEV_IP3
-    {1     ,     0,     255,   18,     0,   247,      0},  //_DEV_IP4
+    {1     ,     0,     255,   18,     0,   254,      0},  //_DEV_IP4
     {1     ,     0,     255,   20,     0,   255,      0},  //_DEV_SUBNET1
     {1     ,     0,     255,   22,     0,   255,      0},  //_DEV_SUBNET2
     {1     ,     0,     255,   24,     0,   255,      0},  //_DEV_SUBNET3
@@ -52,10 +52,10 @@ sSetting_Values_Struct		sSetting_Values[NUMBER_OF_SETTING] =          // chaunm 
     {1     ,     0,     255,   32,     0,     1,      0},  //_DEV_GATEW3
     {1     ,     0,     255,   34,     0,     1,      0},  //_DEV_GATEW4
     {1     ,     0,   65535,   36,     0,   161,      0},  //_DEV_PORT
-    {1     ,     0,     255,   38,     0,   117,      0},  //_SERVER_IP1
-    {1     ,     0,     255,   40,     0,     0,      0},  //_SERVER_IP2
-    {1     ,     0,     255,   42,     0,   212,      0},  //_SERVER_IP3
-    {1     ,     0,     255,   44,     0,    56,      0},  //_SERVER_IP4
+    {1     ,     0,     255,   38,     0,   192,      0},  //_SERVER_IP1
+    {1     ,     0,     255,   40,     0,   168,      0},  //_SERVER_IP2
+    {1     ,     0,     255,   42,     0,     1,      0},  //_SERVER_IP3
+    {1     ,     0,     255,   44,     0,   206,      0},  //_SERVER_IP4
     {1     ,     0,   65535,   46,     0,   162,      0},  //_SERVER_PORT
     {5     ,     5,    4320,   48,     0,     4,      0},  //_GEN_MAX_RUNTIME	3 days
     {5     ,   100,     500,   50,     0,   130,      0},  //_GEN_UNDER_VOLT
@@ -80,8 +80,8 @@ sSetting_Values_Struct		sSetting_Values[NUMBER_OF_SETTING] =          // chaunm 
     {1     ,     1,      31,    0,     0,     0,      0},  //_DATE
     {1     ,     1,      12,    0,     0,     0,      0},  //_MONTH
     {1     ,     0,      99,    0,     0,     0,      1},  //_YEAR
-    {1     ,     0,     255,   82,     0,   170,      0},   //_DEFAULT_WRITE      
-    {1     ,     0,     255,   84,     0,     7,      0}
+    {1     ,     0,   65535,   82,     0,   170,      0},   //_DEFAULT_WRITE      
+    {1     ,     0,     255,   84,     0,     7,      0}    // NAME_LENGTH
 };
 
 sMenu_Object_Struct		sMenu_Object[19] =
@@ -2663,7 +2663,7 @@ void Init_All_Variable (void)
         // init device name
         deviceNameLength = 7;
         WriteEEPROM_Word(sSetting_Values[_DEV_NAME_LENGTH].addrEEPROM, 7);
-        memcpy(deviceName, "BOX0001", 7);
+        memcpy(deviceName, DEFAULT_BOX_ID, strlen(DEFAULT_BOX_ID));
 		memcpy(macIdString, DEFAULT_APP_MAC_ADDR, DEVICE_MAC_ID_LENGTH);
 		// write default name to eeprom
         for (i = 0; i < 7; i++)

@@ -1,33 +1,52 @@
-<?xml version='1.0' encoding='iso-8859-1'?>
+<?xml version="1.0" encoding="iso-8859-1"?>
+
 <workspace>
-	<batchBuild>
-		<batchDefinition>
-			<name>all</name>
-			<member>
-				<project>FRDM-K66F-DAQ</project>
-				<configuration>Release</configuration>
-			</member>
-			<member>
-				<project>FRDM-K66F-DAQ</project>
-				<configuration>Debug</configuration>
-			</member>
-		</batchDefinition>
-		<batchDefinition>
-			<name>Release</name>
-			<member>
-				<project>FRDM-K66F-DAQ</project>
-				<configuration>Release</configuration>
-			</member>
-		</batchDefinition>
-		<batchDefinition>
-			<name>Debug</name>
-			<member>
-				<project>FRDM-K66F-DAQ</project>
-				<configuration>Debug</configuration>
-			</member>
-		</batchDefinition>
-	</batchBuild>
-	<project>
-		<path>$WS_DIR$/FRDM-K66F-DAQ.ewp</path>
-	</project>
+  <project>
+    <path>$WS_DIR$\FRDM-K66F-DAQ.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>all</name>
+      <member>
+        <project>FRDM-K66F-DAQ</project>
+        <configuration>Release</configuration>
+      </member>
+      <member>
+        <project>FRDM-K66F-DAQ</project>
+        <configuration>Debug</configuration>
+      </member>
+      <member>
+        <project>FRDM-K66F-DAQ</project>
+        <configuration>DEBUG_UART</configuration>
+      </member>
+      <member>
+        <project>FRDM-K66F-DAQ</project>
+        <configuration>Image</configuration>
+      </member>
+      <member>
+        <project>FRDM-K66F-DAQ</project>
+        <configuration>Image_uart</configuration>
+      </member>
+      <member>
+        <project>FRDM-K66F-DAQ</project>
+        <configuration>Release_uart</configuration>
+      </member>
+    </batchDefinition>
+    <batchDefinition>
+      <name>Release</name>
+      <member>
+        <project>FRDM-K66F-DAQ</project>
+        <configuration>Release</configuration>
+      </member>
+    </batchDefinition>
+    <batchDefinition>
+      <name>Debug</name>
+      <member>
+        <project>FRDM-K66F-DAQ</project>
+        <configuration>Debug</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
 </workspace>
+
+
