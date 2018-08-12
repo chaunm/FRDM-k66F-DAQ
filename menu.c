@@ -17,7 +17,7 @@
 #include "task.h"
 #include "i2c_lock.h"
 
-#define EEPROM_WRITE_FLAG   0x55
+#define EEPROM_WRITE_FLAG   0x55AA
 
 uint8_t		mTempVal_u8[16];
 uint16_t    mTempVal_u16[16];
