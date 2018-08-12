@@ -42,7 +42,7 @@ NetInterface* EthernetInit()
   netSetDriver(interface, &mk6xEthDriver);
   netSetPhyDriver(interface, &ksz8081PhyDriver);
   //Set host MAC address
-  macStringToAddr(APP_MAC_ADDR, &macAddr);
+  macStringToAddr(macIdString, &macAddr);
   netSetMacAddr(interface, &macAddr);
   //Initialize network interface
   error = netConfigInterface(interface);

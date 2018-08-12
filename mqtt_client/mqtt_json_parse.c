@@ -17,6 +17,7 @@
 #include "task.h"
 #include "access_control.h"
 #include "core/net.h"
+#include "core/ethernet.h"
 #include "ftp.h"
 
 /***********************************************************************************************************
@@ -25,6 +26,8 @@
 /* parse id set message */
 static mqtt_json_result_t mqtt_json_parse_configure_id(cJSON* jsonMessage)
 {
+	uint8_t nameLength;
+	//char deviceName[DEVICE_NAME_MAX_LENGTH + 1];
 	cJSON* jsonMsgData;
 	jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
 	if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL))
@@ -33,15 +36,15 @@ static mqtt_json_result_t mqtt_json_parse_configure_id(cJSON* jsonMessage)
 		if (strlen(jsonMsgData->valuestring) > DEVICE_NAME_MAX_LENGTH)
 			return MQTT_PARSE_DATA_ERROR;
 		//save to eeprom
-		uint8_t nameLength = strlen(jsonMsgData->valuestring);
-		memset(deviceName, 0, sizeof(deviceName));
-		memcpy(deviceName, jsonMsgData->valuestring, nameLength);
+		nameLength = strlen(jsonMsgData->valuestring);
+		//memset(deviceName, 0, sizeof(deviceName));
+		//memcpy(deviceName, jsonMsgData->valuestring, nameLength);
 		I2C_Get_Lock();
 		vTaskSuspendAll();
 		WriteEEPROM_Word(sSetting_Values[_DEV_NAME_LENGTH].addrEEPROM, nameLength);
 		for (int i = 0;  i < nameLength; i++)
 		{
-			WriteEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i, deviceName[i]);
+			WriteEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i, jsonMsgData->valuestring[i]);
 		}
 		xTaskResumeAll();
 		I2C_Release_Lock();
@@ -298,6 +301,32 @@ static mqtt_json_result_t mqtt_json_parse_config_server(cJSON* jsonMessage)
 		return MQTT_PARSE_DATA_ERROR;
 }
 
+/* Parse mac address message */
+static mqtt_json_result_t mqtt_json_parse_config_mac(cJSON* jsonMessage)
+{
+	MacAddr macAddr;
+	cJSON* jsonMsgData = cJSON_GetObjectItem(jsonMessage, "data");
+	if (cJSON_IsString(jsonMsgData) && (jsonMsgData->valuestring != NULL) && 
+		(strlen(jsonMsgData->valuestring) == DEVICE_MAC_ID_LENGTH))
+	{
+		TRACE_INFO("Configure mac address, value: %s\r\n", jsonMsgData->valuestring);
+		if (macStringToAddr(jsonMsgData->valuestring, &macAddr))
+			return MQTT_PARSE_DATA_ERROR;
+		// save mac address to eeprom
+		I2C_Get_Lock();
+		vTaskSuspendAll();
+		for (int i = 0;  i < DEVICE_MAC_ID_LENGTH; i++)
+		{
+			WriteEEPROM_Byte(DEVICE_MAC_EEPROM_ADDR + i, jsonMsgData->valuestring[i]);
+		}
+		xTaskResumeAll();
+		I2C_Release_Lock();
+		return MQTT_PARSE_SUCCESS;
+	}
+	else
+		return MQTT_PARSE_DATA_ERROR;
+}
+
 /* Parse configuration message */
 static mqtt_json_result_t mqtt_json_parse_configure_message(cJSON* jsonMessage)
 {
@@ -345,6 +374,10 @@ static mqtt_json_result_t mqtt_json_parse_configure_message(cJSON* jsonMessage)
         {
             return mqtt_json_parse_config_server(jsonMessage);
         }
+		else if (!strcmp(jsonParameter->valuestring, "mac_addr"))
+		{
+			return mqtt_json_parse_config_mac(jsonMessage);
+		}
         else
             return MQTT_PARSE_PARAM_ERROR;
     }

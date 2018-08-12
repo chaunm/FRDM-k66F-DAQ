@@ -11,6 +11,7 @@
 #include "core/net.h"
 #include "access_control.h"
 #include "net_config.h"
+#include "app_ethernet.h"
 #include "am2320.h"
 #include "freeRTOS.h"
 #include "task.h"
@@ -23,6 +24,7 @@ uint16_t    mTempVal_u16[16];
 uint32_t	mTempVal_u32[16];
 uint16_t    deviceNameLength;
 char deviceName[DEVICE_NAME_MAX_LENGTH + 1];
+char macIdString[DEVICE_MAC_ID_LENGTH + 1];
 
 sATS_Variable_Struct		sATS_Variable;          
 sAirCon_Variable_Struct     sAirCon_Variable;
@@ -2652,6 +2654,7 @@ void Init_All_Variable (void)
     uint16_t defaultWrite;
     // chaunm - initialize all setting
     memset(deviceName, 0, sizeof(deviceName));
+	memset(macIdString, 0, sizeof(macIdString));
     ReadMemory(_DEFAULT_WRITE, &defaultWrite);
     if (defaultWrite != EEPROM_WRITE_FLAG)
     {
@@ -2661,18 +2664,31 @@ void Init_All_Variable (void)
         deviceNameLength = 7;
         WriteEEPROM_Word(sSetting_Values[_DEV_NAME_LENGTH].addrEEPROM, 7);
         memcpy(deviceName, "BOX0001", 7);
+		memcpy(macIdString, DEFAULT_APP_MAC_ADDR, DEVICE_MAC_ID_LENGTH);
+		// write default name to eeprom
         for (i = 0; i < 7; i++)
         {
             WriteEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i, deviceName[i]);
         }
+		// write default mac address to eeprom
+		for (i = 0; i < DEVICE_MAC_ID_LENGTH; i++)
+		{
+			WriteEEPROM_Byte(DEVICE_MAC_EEPROM_ADDR + i, macIdString[i]);
+		}
     }
     else
     {
+		// read device name
         ReadMemory(_DEV_NAME_LENGTH, &deviceNameLength);
         for (i = 0; i < deviceNameLength; i++)
         {
             deviceName[i] = ReadEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i);
         }
+		// read mac address
+		for (i = 0; i < DEVICE_MAC_ID_LENGTH; i++)
+		{
+			macIdString[i] = ReadEEPROM_Byte(DEVICE_MAC_EEPROM_ADDR + i);
+		}		
     }
     ReadMemory(_AC_LOW,&sMenu_Variable.u16AcThresVolt[0]);
     ReadMemory(_DC_LOW,&sMenu_Variable.u16BattThresVolt[0]);

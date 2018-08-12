@@ -18,6 +18,8 @@
 #define ACTIVE_ALARM_NUMBER         18
 #define DEVICE_NAME_EEPROM_ADDR     86
 #define DEVICE_NAME_MAX_LENGTH      16
+#define DEVICE_MAC_EEPROM_ADDR		102
+#define DEVICE_MAC_ID_LENGTH		17
 
 typedef struct TimeFormat
 {
@@ -257,6 +259,7 @@ extern uint32_t setCount_test;
 extern uint32_t trapStatus_TimePeriod;
 extern uint8_t DigitalInput[10];
 extern char deviceName[DEVICE_NAME_MAX_LENGTH + 1];
+extern char macIdString[DEVICE_MAC_ID_LENGTH + 1];
 
 
 #endif /* SOURCE_VARIABLES_H_ */

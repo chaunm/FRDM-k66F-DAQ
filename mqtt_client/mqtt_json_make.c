@@ -28,7 +28,8 @@ char* mqtt_json_make_online_message(char* boxID)
 	cJSON_AddStringToObject(jsonEvent, "firmware", __FIRMWARE_VERSION);
 	cJSON_AddStringToObject(jsonEvent, "build date", __DATE__);
 	cJSON_AddStringToObject(jsonEvent, "build time", __TIME__);
-	cJSON_AddStringToObject(jsonEvent, "status", "online");
+	cJSON_AddStringToObject(jsonEvent, "MAC", macIdString);
+	cJSON_AddStringToObject(jsonEvent, "status", "online");	
 	eventMsg = cJSON_Print(jsonEvent);
 	cJSON_Delete(jsonEvent);
 	return eventMsg;
