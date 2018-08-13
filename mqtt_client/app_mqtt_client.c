@@ -340,7 +340,6 @@ void mqttClientTask (void *param)
                 //Recovery delay
                 osDelayTask(2000);
             }
-
             else
             {
                 error = NO_ERROR;
@@ -389,6 +388,16 @@ void mqttClientTask (void *param)
                 osDelayTask(3000);
 #endif            
             }
+			// check if network interface changed then close for fast recovery
+			if (mqttClientContext.interface != interfaceManagerGetActiveInterface())
+			{
+				 //Close connection
+                mqttClientClose(&mqttClientContext);
+                //Update connection state
+                mqttConnectionState = APP_STATE_NOT_CONNECTED;
+                //Recovery delay
+				osDelayTask(2000);
+			}			
         }
     }
 }
