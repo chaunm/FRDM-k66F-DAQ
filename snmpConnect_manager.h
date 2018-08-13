@@ -47,6 +47,8 @@ typedef struct
 }SNMPConnectManager;
 
 #define PING_SEND_PERIOD        5
+#define ETH_INTERFACE          (&netInterface[0])
+#define GPRS_INTERFACE         (&netInterface[1])
 
 //=======================================
 //Function declearation

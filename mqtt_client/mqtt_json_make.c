@@ -11,6 +11,7 @@
 #include "cJSON.h"
 #include "debug.h"
 #include "variables.h"
+#include "snmpConnect_manager.h"
 
 /* Make online message */
 char* mqtt_json_make_online_message(char* boxID)
@@ -29,8 +30,12 @@ char* mqtt_json_make_online_message(char* boxID)
 	cJSON_AddStringToObject(jsonEvent, "build date", __DATE__);
 	cJSON_AddStringToObject(jsonEvent, "build time", __TIME__);
 	cJSON_AddStringToObject(jsonEvent, "MAC", macIdString);
-	cJSON_AddStringToObject(jsonEvent, "status", "online");	
-	eventMsg = cJSON_Print(jsonEvent);
+	cJSON_AddStringToObject(jsonEvent, "status", "online");		
+    if (interfaceManagerGetActiveInterface() == ETH_INTERFACE)
+        cJSON_AddStringToObject(jsonEvent, "interface", "ethernet");
+    else if (interfaceManagerGetActiveInterface() == GPRS_INTERFACE)
+        cJSON_AddStringToObject(jsonEvent, "interface", "gprs");
+    eventMsg = cJSON_Print(jsonEvent);
 	cJSON_Delete(jsonEvent);
 	return eventMsg;
 }
