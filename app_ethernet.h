@@ -2,7 +2,7 @@
 #define __APP_ETHERNET_H__
 #include <stdint.h>
 //Ethernet configuration
-#define DEFAULT_APP_MAC_ADDR "00-1F-9A-5C-DD-04"
+#define DEFAULT_APP_MAC_ADDR "00-1F-9A-5C-DD-FE"
 
 #define APP_USE_DHCP DISABLED
 #define APP_IPV4_HOST_ADDR "192.168.1.103"

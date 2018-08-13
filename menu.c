@@ -42,7 +42,7 @@ sSetting_Values_Struct		sSetting_Values[NUMBER_OF_SETTING] =          // chaunm 
     {1     ,     0,     255,   12,     0,   192,      0},  //_DEV_IP1
     {1     ,     0,     255,   14,     0,   168,      0},  //_DEV_IP2
     {1     ,     0,     255,   16,     0,     1,      0},  //_DEV_IP3
-    {1     ,     0,     255,   18,     0,   244,      0},  //_DEV_IP4
+    {1     ,     0,     255,   18,     0,   254,      0},  //_DEV_IP4
     {1     ,     0,     255,   20,     0,   255,      0},  //_DEV_SUBNET1
     {1     ,     0,     255,   22,     0,   255,      0},  //_DEV_SUBNET2
     {1     ,     0,     255,   24,     0,   255,      0},  //_DEV_SUBNET3

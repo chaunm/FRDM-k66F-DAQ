@@ -14,7 +14,7 @@
 #include "menu.h"
 
 #define __FIRMWARE_VERSION          "v1.0.6"
-#define DEFAULT_BOX_ID              "BOX0004"
+#define DEFAULT_BOX_ID              "BOX0255"
 
 #define ACTIVE_ALARM_NUMBER         18
 #define DEVICE_NAME_EEPROM_ADDR     86
