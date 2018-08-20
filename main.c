@@ -10,7 +10,6 @@
 //Dependencies
 #include <stdlib.h>
 #include "mk66f18.h"
-//#include "frdm_k66f.h"
 #include "os_port.h"
 #include "core/net.h"
 #include "core/ping.h"
@@ -134,11 +133,7 @@ int_t main(void)
     else
       TRACE_ERROR("Failed to create SNMP Client!\r\n");
 #endif
-// test ftp task
-//    FTP_StartFirmwareUpdate("DAQ_FIRMWARE.bin", "192.168.1.13", 214572);
-    // Declare application Task and timer
-    UserTaskInit();
-    
+    UserTaskInit();    
     //Start the execution of tasks
     osStartKernel();
     //This function should never return
