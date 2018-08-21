@@ -35,6 +35,7 @@ cJSON* jsonStatus = NULL;
 cJSON* jsonName = NULL;
 
 TaskHandle_t mqttMsgTask;
+TaskHandle_t mqttPeriodicDataTask;
 QueueHandle_t mqttRcvQueue;
 QueueHandle_t mqttPubQueue;
 char subscribeTopic[32];
@@ -139,23 +140,29 @@ void mqttPeriodicUpdateTask(void *param)
 {
 	char* message;
 	while (1)
-	{		
-		osDelayTask(30);
-		message = mqtt_json_make_device_info(deviceName, &privateMibBase);
-		mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
-		free(message);
-		message = mqtt_json_make_ac_phase_info(deviceName, &privateMibBase);
-		mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
-		free(message);
-		message = mqtt_json_make_battery_message(deviceName, &privateMibBase);
-		mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
-		free(message);
-		message = mqtt_json_make_alarm_message(deviceName, &privateMibBase);
-		mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
-		free(message);
-		message = mqtt_json_make_accessory_message(deviceName, &privateMibBase);
-		mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
-		free(message);	
+	{   
+        
+        if (mqttConnectionState == APP_STATE_CONNECTED)
+        {		
+            message = mqtt_json_make_device_info(deviceName, &privateMibBase);
+            mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
+            free(message);
+            message = mqtt_json_make_ac_phase_info(deviceName, &privateMibBase);
+            mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
+            free(message);
+            message = mqtt_json_make_battery_message(deviceName, &privateMibBase);
+            mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
+            free(message);
+            message = mqtt_json_make_alarm_message(deviceName, &privateMibBase);
+            mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
+            free(message);
+            message = mqtt_json_make_accessory_message(deviceName, &privateMibBase);
+            mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
+            free(message);	
+        }
+        /* Check for OS heap memory use */
+        TRACE_INFO("Free heap size: %d\r\n", (uint16_t)xPortGetFreeHeapSize());
+        osDelayTask(30000);
 	}
 }
 
@@ -308,6 +315,7 @@ error_t mqttConnect(NetInterface *interface)
     return error;
 }
 
+/* MQTT CLIENT MAIN TASK */
 void mqttClientTask (void *param)
 {
     error_t error;
@@ -321,6 +329,8 @@ void mqttClientTask (void *param)
         vTaskDelete(NULL);
     }
     if (xTaskCreate(mqttMsgHandleTask, "mqtt_handle_receive", MQTT_RECV_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, &mqttMsgTask) != pdPASS)
+        vTaskDelete(NULL);
+    if (xTaskCreate(mqttPeriodicUpdateTask, "mqtt_periodic_data", MQTT_DATA_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY, &mqttPeriodicDataTask) != pdPASS)
         vTaskDelete(NULL);
     //Endless loop
     while(1)
@@ -368,7 +378,7 @@ void mqttClientTask (void *param)
             else
             {
                 error = NO_ERROR;
-                if (xQueueReceive(mqttPubQueue, &mqttPubBuffer, OS_MS_TO_SYSTICKS(10)) == pdTRUE)
+                if (xQueueReceive(mqttPubQueue, &mqttPubBuffer, OS_MS_TO_SYSTICKS(5)) == pdTRUE)
                 {                    
                     error = mqttClientPublish(&mqttClientContext, mqttPubBuffer.topic,
                                               mqttPubBuffer.message, strlen(mqttPubBuffer.message), MQTT_QOS_LEVEL_1, FALSE, NULL);

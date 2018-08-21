@@ -94,6 +94,7 @@ char* mqtt_json_make_device_info(char* boxID, PrivateMibBase *deviceData)
 		return NULL;
 	}
 	cJSON_AddStringToObject(jsonMessage, "id", boxID);
+    cJSON_AddStringToObject(jsonMessage, "type", "device data");
 	cJSON_AddNumberToObject(jsonMessage, "temp threshold 1", deviceData->siteInfoGroup.siteInfoThresTemp1);
 	cJSON_AddNumberToObject(jsonMessage, "temp threshold 2", deviceData->siteInfoGroup.siteInfoThresTemp2);
 	cJSON_AddNumberToObject(jsonMessage, "temp threshold 3", deviceData->siteInfoGroup.siteInfoThresTemp3);

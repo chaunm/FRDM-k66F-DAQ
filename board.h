@@ -41,7 +41,7 @@
 #define BOARD_NAME "FRDM-K66F"
 
  // CanhLT - 23/12 -- chaunm - disable debug console by undef this 
-#if (SDK_DEBUGCONSOLE)
+#if (defined(SDK_DEBUGCONSOLE) && (SDK_DEBUGCONSOLE))
     #define DEBUG_CONSOLE_UART4
 #endif
 #ifndef DEBUG_UART
