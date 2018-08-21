@@ -134,6 +134,31 @@ void mqttPublishMsg(char* topic, char* message, uint16_t msgSize)
     }
 }
 
+/* periodically update data task */
+void mqttPeriodicUpdateTask(void *param)
+{
+	char* message;
+	while (1)
+	{		
+		osDelayTask(30);
+		message = mqtt_json_make_device_info(deviceName, &privateMibBase);
+		mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
+		free(message);
+		message = mqtt_json_make_ac_phase_info(deviceName, &privateMibBase);
+		mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
+		free(message);
+		message = mqtt_json_make_battery_message(deviceName, &privateMibBase);
+		mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
+		free(message);
+		message = mqtt_json_make_alarm_message(deviceName, &privateMibBase);
+		mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
+		free(message);
+		message = mqtt_json_make_accessory_message(deviceName, &privateMibBase);
+		mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
+		free(message);	
+	}
+}
+
 /* Handle MQTT message on topic DAQ/box_name */
 void mqttMsgHandleTask(void * param)
 {
