@@ -122,7 +122,7 @@ int_t main(void)
 #if (USERDEF_MQTT_CLIENT == ENABLED)
     if (error == NO_ERROR)
     {
-        task = osCreateTask("mqtt_task", mqttClientTask, NULL, 512, OS_TASK_PRIORITY_NORMAL);
+        task = osCreateTask("mqtt_task", mqttClientTask, NULL, MQTT_CLIENT_TASK_STACK_SIZE, OS_TASK_PRIORITY_NORMAL);
       //Failed to create the task?
       if(task == OS_INVALID_HANDLE)
       {

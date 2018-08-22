@@ -20,9 +20,9 @@
 #define MQTT_CLIENT_TOPIC_MAX_SIZE      50
 #define MQTT_CLIENT_MSG_MAX_SIZE        1024
 
-#define MQTT_RECV_TASK_STACK_SIZE       512
+#define MQTT_RECV_TASK_STACK_SIZE       1024
 #define MQTT_DATA_TASK_STACK_SIZE       512
-#define MQTT_CLIENT_TASK_STACK_SIZE     512
+#define MQTT_CLIENT_TASK_STACK_SIZE     1024
 
 typedef struct {
     char message[MQTT_CLIENT_MSG_MAX_SIZE + 1];
