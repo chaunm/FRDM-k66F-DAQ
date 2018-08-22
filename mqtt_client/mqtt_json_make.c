@@ -120,7 +120,6 @@ char* mqtt_json_make_ac_phase_info(char* boxID, PrivateMibBase *deviceData)
 		TRACE_INFO("Not enough memory to create json message\r\n");
 		return NULL;
 	}
-	jsonMessage = cJSON_CreateObject();
 	cJSON_AddStringToObject(jsonMessage, "id", boxID);
 	cJSON_AddStringToObject(jsonMessage, "type", "AC");
 	cJSON_AddNumberToObject(jsonMessage, "phase count", deviceData->acPhaseGroup.acPhaseNumber);

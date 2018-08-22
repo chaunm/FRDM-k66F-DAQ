@@ -20,6 +20,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include "mallocstats.h"
 
 //Connection states
 #define APP_STATE_NOT_CONNECTED 0
@@ -143,25 +144,54 @@ void mqttPeriodicUpdateTask(void *param)
 	{   
         
         if (mqttConnectionState == APP_STATE_CONNECTED)
-        {		
+        {            
+#if (defined(SDK_DEBUGCONSOLE) && (SDK_DEBUGCONSOLE==1))
+            __iar_dlmalloc_stats();
+            TRACE_INFO("Make device info\r\n");
+#endif
             message = mqtt_json_make_device_info(deviceName, &privateMibBase);
             mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
-            free(message);
+            if (message != NULL)
+                free(message);
+#if (defined(SDK_DEBUGCONSOLE) && (SDK_DEBUGCONSOLE==1))
+            __iar_dlmalloc_stats();
+            TRACE_INFO("Make ac phase\r\n");
+#endif
             message = mqtt_json_make_ac_phase_info(deviceName, &privateMibBase);
             mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
-            free(message);
+            if (message != NULL)
+                free(message);         
+#if (defined(SDK_DEBUGCONSOLE) && (SDK_DEBUGCONSOLE==1))
+            __iar_dlmalloc_stats();
+            TRACE_INFO("Make battery\r\n");
+#endif
             message = mqtt_json_make_battery_message(deviceName, &privateMibBase);
             mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
-            free(message);
+            if (message != NULL)
+                free(message);
+#if (defined(SDK_DEBUGCONSOLE) && (SDK_DEBUGCONSOLE==1))            
+            __iar_dlmalloc_stats();
+            TRACE_INFO("Make alarm\r\n");
+#endif
             message = mqtt_json_make_alarm_message(deviceName, &privateMibBase);
             mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
-            free(message);
+            if (message != NULL)
+                free(message);  
+#if (defined(SDK_DEBUGCONSOLE) && (SDK_DEBUGCONSOLE==1))
+            __iar_dlmalloc_stats();
+            TRACE_INFO("Make accessories\r\n");
+#endif
             message = mqtt_json_make_accessory_message(deviceName, &privateMibBase);
             mqttPublishMsg(MQTT_EVENT_TOPIC, message, strlen(message));
-            free(message);	
+            if (message != NULL)
+                free(message);	 
+#if (defined(SDK_DEBUGCONSOLE) && (SDK_DEBUGCONSOLE==1))
+            __iar_dlmalloc_stats();
+            TRACE_INFO("End\r\n");
+#endif
         }
         /* Check for OS heap memory use */
-        TRACE_INFO("Free heap size: %d\r\n", (uint16_t)xPortGetFreeHeapSize());
+        TRACE_INFO("FreeRTOS free heap size: %d\r\n", (uint16_t)xPortGetFreeHeapSize());
         osDelayTask(30000);
 	}
 }
