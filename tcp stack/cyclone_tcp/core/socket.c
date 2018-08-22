@@ -42,11 +42,6 @@
 #include "netbios/nbns_client.h"
 #include "debug.h"
 
-// chaunm - 03/04/2018 - check for send socket
-#if (USERDEF_SNMPCONNECT_MANAGER == ENABLED)
-#include "snmpConnect_manager.h"
-#endif 
-
 //Socket table
 Socket socketTable[SOCKET_MAX_COUNT];
 
