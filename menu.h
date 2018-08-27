@@ -16,11 +16,11 @@
 #define READ_KEY3    GPIO_ReadPinInput(KEY_3_PORT,KEY_3_PIN)
 #define READ_KEY4    GPIO_ReadPinInput(KEY_4_PORT,KEY_4_PIN)
 
-#define USER1_ADDR   90
-#define USER2_ADDR   100
-#define USER3_ADDR   110
-#define USER4_ADDR   120
-#define USER5_ADDR   130
+#define USER1_ADDR   120
+#define USER2_ADDR   130
+#define USER3_ADDR   140
+#define USER4_ADDR   150
+#define USER5_ADDR   160
 
 //typedef enum
 //{

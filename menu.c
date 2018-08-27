@@ -17,7 +17,7 @@
 #include "task.h"
 #include "i2c_lock.h"
 
-#define EEPROM_WRITE_FLAG   0x55AA
+#define EEPROM_WRITE_FLAG   0xAA55
 
 uint8_t		mTempVal_u8[16];
 uint16_t    mTempVal_u16[16];
@@ -2675,6 +2675,11 @@ void Init_All_Variable (void)
 		{
 			WriteEEPROM_Byte(DEVICE_MAC_EEPROM_ADDR + i, macIdString[i]);
 		}
+        // init user ID
+        for (i = 0; i < 50; i++)
+        {
+            WriteEEPROM_Byte(USER1_ADDR + i, 0);
+        }
     }
     else
     {
@@ -2782,20 +2787,17 @@ void Init_All_Variable (void)
     sMenu_Variable.u8UserIDAddr[1] = USER2_ADDR;
     sMenu_Variable.u8UserIDAddr[2] = USER3_ADDR;
     sMenu_Variable.u8UserIDAddr[3] = USER4_ADDR;
-    sMenu_Variable.u8UserIDAddr[4] = USER5_ADDR;  
-    
-    
+    sMenu_Variable.u8UserIDAddr[4] = USER5_ADDR;      
     for(i=0;i<8;i++)
-        sMenu_Variable.u8UserID[0][i] = ReadEEPROM_Byte (USER1_ADDR+i);
+        sMenu_Variable.u8UserID[0][i] = ReadEEPROM_Byte(USER1_ADDR+i);
     for(i=0;i<8;i++)
-        sMenu_Variable.u8UserID[1][i] = ReadEEPROM_Byte (USER2_ADDR+i);
+        sMenu_Variable.u8UserID[1][i] = ReadEEPROM_Byte(USER2_ADDR+i);
     for(i=0;i<8;i++)
-        sMenu_Variable.u8UserID[2][i] = ReadEEPROM_Byte (USER3_ADDR+i);
+        sMenu_Variable.u8UserID[2][i] = ReadEEPROM_Byte(USER3_ADDR+i);
     for(i=0;i<8;i++)
-        sMenu_Variable.u8UserID[3][i] = ReadEEPROM_Byte (USER4_ADDR+i);
+        sMenu_Variable.u8UserID[3][i] = ReadEEPROM_Byte(USER4_ADDR+i);
     for(i=0;i<8;i++)
-        sMenu_Variable.u8UserID[4][i] = ReadEEPROM_Byte (USER5_ADDR+i);
-    
+        sMenu_Variable.u8UserID[4][i] = ReadEEPROM_Byte(USER5_ADDR+i);
 }
 
 void MenuGetDeviceIpv4(uint32_t* ipAddr)
