@@ -2652,6 +2652,8 @@ void Init_All_Variable (void)
 {
     uint8_t i=0;
     uint16_t defaultWrite;
+	MacAddr macAddr;
+	
     // chaunm - initialize all setting
     memset(deviceName, 0, sizeof(deviceName));
 	memset(macIdString, 0, sizeof(macIdString));
@@ -2666,7 +2668,7 @@ void Init_All_Variable (void)
         memcpy(deviceName, DEFAULT_BOX_ID, strlen(DEFAULT_BOX_ID));
 		memcpy(macIdString, DEFAULT_APP_MAC_ADDR, DEVICE_MAC_ID_LENGTH);
 		// write default name to eeprom
-        for (i = 0; i < 7; i++)
+        for (i = 0; i < deviceNameLength; i++)
         {
             WriteEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i, deviceName[i]);
         }
@@ -2685,15 +2687,40 @@ void Init_All_Variable (void)
     {
 		// read device name
         ReadMemory(_DEV_NAME_LENGTH, &deviceNameLength);
-        for (i = 0; i < deviceNameLength; i++)
-        {
-            deviceName[i] = ReadEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i);
-        }
+		if (deviceNameLength > DEVICE_NAME_MAX_LENGTH)
+		{
+			// wrong name parameter, use default name
+			deviceNameLength = 7;
+			WriteEEPROM_Word(sSetting_Values[_DEV_NAME_LENGTH].addrEEPROM, 7);
+			memcpy(deviceName, DEFAULT_BOX_ID, strlen(DEFAULT_BOX_ID));
+			// write default name back to eeprom
+			for (i = 0; i < 7; i++)
+			{
+				WriteEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i, deviceName[i]);
+			}
+		}
+		else
+		{
+			for (i = 0; i < deviceNameLength; i++)
+			{
+				deviceName[i] = ReadEEPROM_Byte(DEVICE_NAME_EEPROM_ADDR + i);
+			}
+		}
 		// read mac address
 		for (i = 0; i < DEVICE_MAC_ID_LENGTH; i++)
 		{
 			macIdString[i] = ReadEEPROM_Byte(DEVICE_MAC_EEPROM_ADDR + i);
-		}		
+		}
+		//in case mac ID is compromised in the EEPROM then need to load the default MAC address to ensure bringing up ethernet module
+		if (macStringToAddr(macIdString, &macAddr))
+		{
+			memcpy(macIdString, DEFAULT_APP_MAC_ADDR, DEVICE_MAC_ID_LENGTH);
+			// write default mac address to eeprom
+			for (i = 0; i < DEVICE_MAC_ID_LENGTH; i++)
+			{
+				WriteEEPROM_Byte(DEVICE_MAC_EEPROM_ADDR + i, macIdString[i]);
+			}
+		}
     }
     ReadMemory(_AC_LOW,&sMenu_Variable.u16AcThresVolt[0]);
     ReadMemory(_DC_LOW,&sMenu_Variable.u16BattThresVolt[0]);
