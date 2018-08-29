@@ -64,5 +64,5 @@ iar/settings/*
 iar/DEBUG_UART
 iar/Release_uart
 iar/Image_uart
-iar/*.dep
+iar/FRDM-K66F-DAQ.dep
 clock_config_1.*

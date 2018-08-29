@@ -2692,6 +2692,7 @@ void Init_All_Variable (void)
 			// wrong name parameter, use default name
 			deviceNameLength = 7;
 			WriteEEPROM_Word(sSetting_Values[_DEV_NAME_LENGTH].addrEEPROM, 7);
+            memset(deviceName, 0, sizeof(deviceName));
 			memcpy(deviceName, DEFAULT_BOX_ID, strlen(DEFAULT_BOX_ID));
 			// write default name back to eeprom
 			for (i = 0; i < 7; i++)
@@ -2714,6 +2715,7 @@ void Init_All_Variable (void)
 		//in case mac ID is compromised in the EEPROM then need to load the default MAC address to ensure bringing up ethernet module
 		if (macStringToAddr(macIdString, &macAddr))
 		{
+            memset(macIdString, 0, sizeof(macIdString));
 			memcpy(macIdString, DEFAULT_APP_MAC_ADDR, DEVICE_MAC_ID_LENGTH);
 			// write default mac address to eeprom
 			for (i = 0; i < DEVICE_MAC_ID_LENGTH; i++)
